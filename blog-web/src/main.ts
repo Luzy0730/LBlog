@@ -10,6 +10,8 @@ import "./assets/css/base.css";
 import "semantic-ui-css/semantic.min.css";
 //阿里icon
 import "./assets/css/icon/iconfont.css";
+//typo.css
+import "./assets/css/typo.css";
 
 const app = createApp(App);
 

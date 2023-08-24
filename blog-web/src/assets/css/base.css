@@ -1,14 +1,14 @@
 html,
 body,
 #app {
-    height: 100%;
-    margin: 0;
-    padding: 0;
-    background-color: #efefef;
-    background-attachment: fixed;
-    background-size: cover;
-    background-position: left top;
-    background-repeat: no-repeat;
+  height: 100%;
+  margin: 0;
+  padding: 0;
+  background-color: #efefef;
+  background-attachment: fixed;
+  background-size: cover;
+  background-position: left top;
+  background-repeat: no-repeat;
 }
 
 body::-webkit-scrollbar {
@@ -31,6 +31,14 @@ body::-webkit-scrollbar-track {
 body::-webkit-scrollbar-track-piece {
   background-color: transparent;
 }
+
+footer {
+  font-family: "Varela Round", "Microsoft YaHei", "Source Sans Pro",
+    "Helvetica Neue", Menlo, Monaco, monospace, "Lucida Console", sans-serif,
+    Helvetica, "Hiragino Sans GB", "Hiragino Sans GB W3",
+    Source Han Sans CN Regular, WenQuanYi Micro Hei, Arial, sans-serif;
+}
+
 /*-----color-----*/
 .m-black {
   color: #333 !important;
@@ -40,7 +48,7 @@ body::-webkit-scrollbar-track-piece {
   color: #48dbfb !important;
 }
 
-.m-transparent{
+.m-transparent {
   background: transparent !important;
 }
 
@@ -62,17 +70,86 @@ body::-webkit-scrollbar-track-piece {
 .m-text-thin {
   font-weight: 300 !important;
 }
+
+.m-text-500 {
+  font-weight: 500 !important;
+}
 .m-text-spaced {
   letter-spacing: 1px !important;
 }
 
+/* margin padding */
+
+.m-margin-small {
+  margin: 3px 10px !important;
+}
+
+.m-margin-lr {
+  margin-left: 0.5em !important;
+  margin-right: 0.5em !important;
+}
+
+.m-margin-top {
+  margin-top: 1em !important;
+}
+
+.m-margin-top-large {
+  margin-top: 1.5em !important;
+}
+
+.m-margin-bottom-big {
+  margin-bottom: 3em !important;
+}
+
+.m-padding-bottom-large {
+  padding-bottom: 2em !important;
+}
+
+.m-padding-left-no {
+  padding-left: 0 !important;
+}
+
+.m-padded-tb-no {
+  padding-top: 0 !important;
+  padding-bottom: 0 !important;
+}
+
+.m-margin-lr-no {
+  margin-left: 0 !important;
+  margin-right: 0 !important;
+}
+
+.m-padded-tb-mini {
+  padding-top: 0.2em !important;
+  padding-bottom: 0.2em !important;
+}
+
+.m-padded-tb-small {
+  padding-top: 0.5em !important;
+  padding-bottom: 0.5em !important;
+}
+
+.m-padded-tb-large {
+  padding-top: 2em !important;
+  padding-bottom: 2em !important;
+}
+
+.m-padded-tb-big {
+  padding-top: 3em !important;
+  padding-bottom: 3em !important;
+}
+
+.m-padded-lr-big {
+  padding-left: 2em !important;
+  padding-right: 2em !important;
+}
 
 @media screen and (max-width: 767px) {
   .m-mobile-hide {
-      display: none !important;
+    display: none !important;
   }
 
   .m-mobile-show {
-      display: block !important;
+    display: block !important;
   }
 }

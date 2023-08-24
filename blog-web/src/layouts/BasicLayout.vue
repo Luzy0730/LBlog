@@ -3,6 +3,8 @@ import { useSystemStore } from "@/stores";
 import { storeToRefs } from "pinia";
 import CommonNav from "@/components/common/CommonNav.vue";
 import CommonFooter from "@/components/common/CommonFooter.vue";
+import CommonIntroduction from "@/components/common/CommonIntroduction.vue";
+import CommonRandomBlog from "@/components/common/CommonRandomBlog.vue";
 import HomeHeader from "@/components/content/HomeHeader.vue";
 
 const systemStore = useSystemStore();
@@ -31,10 +33,31 @@ onMounted(() => {
       <HomeHeader v-if="$route.name === 'home'" />
     </div>
     <div class="main">
-      <router-view></router-view>
+      <div class="m-padded-tb-big">
+        <div class="ui container">
+          <div class="ui grid m-margin-lr">
+            <!--左侧-->
+            <div class="three wide column m-mobile-hide">
+              <CommonIntroduction />
+            </div>
+            <!--中间-->
+            <div class="ten wide column" style="flex-grow: 1">
+              <router-view v-slot="{ Component }">
+                <keep-alive include="Home">
+                  <component :is="Component" />
+                </keep-alive>
+              </router-view>
+            </div>
+            <!--右侧-->
+            <div class="three wide column m-mobile-hide">
+              <CommonRandomBlog />
+            </div>
+          </div>
+        </div>
+      </div>
     </div>
     <!-- 底部footer -->
-    <CommonFooter :site-info="siteInfo"/>
+    <CommonFooter :site-info="siteInfo" />
   </div>
 </template>
 
@@ -43,5 +66,15 @@ onMounted(() => {
   display: flex;
   min-height: 100vh;
   flex-direction: column;
+}
+.main {
+  margin-top: 40px;
+  flex: 1;
+}
+
+.main .ui.container {
+  width: 1400px !important;
+  margin-left: auto !important;
+  margin-right: auto !important;
 }
 </style>
