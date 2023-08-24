@@ -2,6 +2,7 @@
 import { useSystemStore } from "@/stores";
 import { storeToRefs } from "pinia";
 import CommonNav from "@/components/common/CommonNav.vue";
+import CommonFooter from "@/components/common/CommonFooter.vue";
 import HomeHeader from "@/components/content/HomeHeader.vue";
 
 const systemStore = useSystemStore();
@@ -32,6 +33,8 @@ onMounted(() => {
     <div class="main">
       <router-view></router-view>
     </div>
+    <!-- 底部footer -->
+    <CommonFooter :site-info="siteInfo"/>
   </div>
 </template>
 

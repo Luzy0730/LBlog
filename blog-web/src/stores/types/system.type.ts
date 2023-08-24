@@ -3,10 +3,17 @@ export interface ClientSize {
   clientWidth: number;
 }
 
+export interface SiteInfo {
+  blogName: string;
+  copyright: {
+    title: string;
+    siteName: string;
+  };
+  beian: string;
+}
+
 export type State = () => {
   clientSize: ClientSize;
-  siteInfo: {
-    blogName: string;
-  };
+  siteInfo: SiteInfo;
   mobileHide: boolean;
 };

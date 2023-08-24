@@ -6,6 +6,11 @@ const state: State = () => {
     // 站点信息
     siteInfo: {
       blogName: "LL's Blog",
+      copyright: {
+        title: "Copyright © 2023",
+        siteName: "LL'S BLOG",
+      },
+      beian: "浙ICP备2023006413号",
     },
     // 移动端是否隐藏
     mobileHide: true,
