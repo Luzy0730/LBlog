@@ -2,6 +2,7 @@
 import "APlayer/dist/APlayer.min.css";
 import APlayer from "APlayer";
 
+const ap = ref();
 const aplayerRef = ref<HTMLDivElement>();
 const musicOption = reactive({
   audio: [
@@ -29,10 +30,14 @@ const about = ref({
 });
 
 onMounted(() => {
-  new APlayer({
+  ap.value = new APlayer({
     container: aplayerRef.value,
     ...musicOption,
   });
+});
+
+onUnmounted(() => {
+  ap.value.destroy();
 });
 </script>
 
