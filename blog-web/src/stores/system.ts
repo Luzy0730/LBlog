@@ -28,5 +28,8 @@ export const useSystemStore = defineStore("system", {
     save_clientSize(clientSize: ClientSize) {
       this.clientSize = clientSize;
     },
+    save_mobileHide(isHide: boolean) {
+      this.mobileHide = isHide;
+    },
   },
 });

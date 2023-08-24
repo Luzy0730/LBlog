@@ -7,9 +7,19 @@ const { blogName } = defineProps<{
   blogName: string;
 }>();
 
-const { mobileHide, clientSize } = storeToRefs(useSystemStore());
+const systemStore = useSystemStore();
+const { mobileHide, clientSize } = storeToRefs(systemStore);
+
 const route = useRoute();
 const navRef = ref<HTMLDivElement>();
+
+// 路由改变，收齐导航栏
+watch(
+  () => route.path,
+  () => {
+    systemStore.save_mobileHide(true);
+  }
+);
 
 onMounted(() => {
   //监听页面滚动位置，改变导航栏的显示
@@ -23,13 +33,21 @@ onMounted(() => {
       }
     }
   });
+
+  //监听点击事件，收起导航菜单
+  document.addEventListener("click", (e) => {
+    let flag = navRef.value?.contains(e.target as Node);
+    if (!mobileHide.value && !flag) {
+      systemStore.save_mobileHide(true);
+    }
+  });
 });
 </script>
 
 <template>
   <div
     ref="navRef"
-    class="ui fixed inverted menu"
+    class="ui fixed inverted menu stackable"
     :class="{
       'm-transparent': $route.name === 'home' && clientSize.clientWidth > 768,
     }"
@@ -55,6 +73,13 @@ onMounted(() => {
       >
         <i class="info icon"></i>关于我
       </router-link>
+      <button
+        class="ui black button icon m-mobile-show menu m-hide m-ab-tr"
+        @click="systemStore.save_mobileHide(!mobileHide)"
+        style="transform: translateY(5px)"
+      >
+        <i class="icon sidebar"></i>
+      </button>
     </div>
   </div>
 </template>

@@ -144,6 +144,21 @@ footer {
   padding-right: 2em !important;
 }
 
+/* position */
+.m-ab-tr {
+  position: absolute;
+  top: 0;
+  right: 0;
+}
+
+/* display */
+.m-hide {
+  display: none;
+}
+.m-show {
+  display: block;
+}
+
 @media screen and (max-width: 767px) {
   .m-mobile-hide {
     display: none !important;
