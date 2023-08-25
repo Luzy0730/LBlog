@@ -3,6 +3,7 @@ import { createPinia } from "pinia";
 
 import App from "./App.vue";
 import router from "./router";
+import plugin from "./plugin";
 
 // 自定义css
 import "./assets/css/base.css";
@@ -17,5 +18,6 @@ const app = createApp(App);
 
 app.use(createPinia());
 app.use(router);
+app.use(plugin);
 
 app.mount("#app");

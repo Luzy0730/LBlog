@@ -1,3 +1,5 @@
+@import url('./content.css');
+
 html,
 body,
 #app {
@@ -65,6 +67,16 @@ footer {
   opacity: 0.6 !important;
 }
 
+/* transform */
+.m-scaleup {
+  transition: .3s ease !important;
+}
+
+.m-scaleup:hover {
+  transform: scale(1.1) !important;
+}
+
+
 /* box */
 .m-box {
   transition: all 0.25s ease 0s, opacity 0.6s cubic-bezier(0.5, 0, 0, 1) 0s !important;
@@ -97,8 +109,7 @@ footer {
   letter-spacing: 1px !important;
 }
 
-/* margin padding */
-
+/* position */
 .m-margin-small {
   margin: 3px 10px !important;
 }
@@ -163,12 +174,16 @@ footer {
   padding-right: 2em !important;
 }
 
-/* position */
 .m-ab-tr {
   position: absolute;
   top: 0;
   right: 0;
 }
+
+.m-center {
+  margin: auto !important;
+}
+
 
 /* display */
 .m-hide {
