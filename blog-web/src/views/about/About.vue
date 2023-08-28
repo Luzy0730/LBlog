@@ -26,7 +26,7 @@ const musicOption = reactive({
 const about = ref({
   title: "关于LL",
   content:
-    '<h3 id="目前的情况">目前的情况</h3>\n<ul>\n<li>M E：运维转行前端</li>\n<li>目标：少想多做吧</li>\n\n<li>爱好：写Bug、逛B站</li>\n<li>性格：不喜约束、比较自私、偶尔emo</li>\n</ul>\n<h3 id="我--博客">我 &amp; 博客</h3>\n<p>很少对事物起兴趣，属于比较无趣的一类人，很难被他人带动情绪😅</p>\n<p>喜欢安静，但喜欢听得劲的电音，节奏控，coding 时喜欢听嗨歌，有事也喜欢那些美好的歌🎵</p>\n\n<p><a href="https://github.com/Lzy0730/LBlog" target="_blank">🍓LBlog个人博客系统</a>，作为学习过程中的产物，参考很多博客，蠢蠢的缝合怪⭐️</p>\n<p>写博客的起因也很简单，日常知识点太多，用md或word不好看，就想弄个博客了。</p>\n',
+    '<h3 id="目前的情况">目前的情况</h3>\n<ul>\n<li>M E：前端小趴菜</li>\n<li>目标：少想多做吧</li>\n\n<li>爱好：写Bug、逛B站</li>\n<li>性格：喜静、偶尔emo，时刻督促自己变得阳光开朗</li>\n</ul>\n<h3 id="我--博客">我 &amp; 博客</h3>\n<p>很少对事物起兴趣，有时会因考虑太多做出不明智的决定😅</p>\n<p>因为口嗨放了兄弟几次鸽子，被骂的可惨了，反思中...</p>\n<p>喜欢安静，节奏控，coding 时喜欢听婉转美好的歌曲🎵</p>\n\n<p><a href="https://github.com/Lzy0730/LBlog" target="_blank">🍓LBlog个人博客系统</a>，作为学习过程中的产物，参考很多博客，蠢蠢的缝合怪⭐️</p>\n<p>写博客的起因也很简单，日常知识点太多，用md或word不好看，就想弄个博客了。</p>\n',
 });
 
 onMounted(() => {

@@ -8,7 +8,7 @@ const {} = defineProps<{
   <footer class="ui inverted vertical footer segment">
     <div class="ui center aligned container">
       <p class="m-text-thin m-text-spaced m-opacity-mini">
-        世界上一切的不公平，都来自于当事人能力的不足
+        世界上一切的不公平，都来自于当事人能力的不足。
       </p>
       <p class="m-opacity-mini">怀揣希望努力,静待美好降临。</p>
       <div class="ui inverted section divider"></div>
