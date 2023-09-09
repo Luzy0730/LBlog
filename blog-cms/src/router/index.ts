@@ -19,28 +19,35 @@ const router = createRouter({
           },
         },
         {
-          path: "/test",
-          name: "test",
-          component: BlankLayout,
+          path: "/article",
+          name: "article",
+          component: () => import("@/views/article/index.vue"),
           meta: {
-            title: "菜单嵌套测试",
-            icon: "Menu",
+            title: "文章管理",
+            icon: "HomeFilled",
           },
-          children: [
-            {
-              path: "dashboard",
-              name: "testDashboard",
-              component: () => import("@/views/dashboard/index.vue"),
-              meta: {
-                title: "首頁",
-                icon: "Share",
-              },
-            },
-          ],
+        },
+        {
+          path: "/category",
+          name: "category",
+          component: () => import("@/views/category/index.vue"),
+          meta: {
+            title: "分类管理",
+            icon: "HomeFilled",
+          },
+        },
+        {
+          path: "/tag",
+          name: "tag",
+          component: () => import("@/views/tag/index.vue"),
+          meta: {
+            title: "标签管理",
+            icon: "HomeFilled",
+          },
         },
         {
           path: "/404",
-          name: "404 not found",
+          name: "404",
           component: () => import("@/views/exception/404/index.vue"),
           meta: {
             title: "404",
@@ -67,6 +74,11 @@ const router = createRouter({
         },
       ],
     },
+    // {
+    //   path: "/*catchAll(.*)",
+    //   name: "error",
+    //   redirect: "404",
+    // },
   ],
 });
 export default router;
