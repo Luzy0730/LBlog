@@ -5,9 +5,9 @@ import AsideMenuItem from "@/components/common/AsideMenuItem.vue";
 import AsideSubMenu from "@/components/common/AsideSubMenu.vue";
 
 const routerStore = useRouterStore();
-const isCollapse = ref(false);
-
 const router = useRouter();
+
+const isCollapse = ref(false);
 
 const onSelectMenu = (path: string) => {
   router.push(path);
@@ -16,7 +16,7 @@ const onSelectMenu = (path: string) => {
 
 <template>
   <el-menu
-    default-active="2"
+    :default-active="routerStore.currentRoutePath"
     class="el-menu-vertical-demo"
     :collapse="isCollapse"
     @select="onSelectMenu"

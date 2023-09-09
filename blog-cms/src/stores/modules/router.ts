@@ -1,17 +1,18 @@
 import { defineStore } from "pinia";
-import { useRouter } from "vue-router";
+import router from "@/router";
 import type { State } from "../types/router.type";
 const state: State = () => {
   return {
     fullRoutes: [],
     menuRoutes: [],
+    currentRoutePath: "",
   };
 };
 export const useRouterStore = defineStore("router", {
   state,
   actions: {
     init_fullRoutes() {
-      const routes = useRouter().getRoutes();
+      const routes = router.getRoutes();
       this.fullRoutes = routes;
       this.init_menuRoutes();
     },

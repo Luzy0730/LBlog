@@ -1,9 +1,10 @@
-import { useUserStore, useRouterStore } from "@/stores/index";
+import { useRouterStore } from "@/stores/index";
 import router from "@/router";
 router.beforeEach((to, from, next) => {
-  const userStore = useUserStore();
+  const token = localStorage.getItem("token") || "";
   const routerStore = useRouterStore();
-  if (userStore.token || /\S/.test(userStore.token)) {
+  routerStore.currentRoutePath = to.path;
+  if (token || /\S/.test(token)) {
     if (!routerStore.fullRoutes.length) {
       routerStore.init_fullRoutes();
     }
