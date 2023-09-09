@@ -14,6 +14,7 @@ export const useUserStore = defineStore("user", {
     async user_login() {
       const token = "test";
       this.token = token;
+      localStorage.setItem("token", token);
     },
   },
 });
