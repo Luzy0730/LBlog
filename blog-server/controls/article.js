@@ -1,9 +1,13 @@
 const mysql = require("../mysql");
 module.exports = {
   getTags: (req, res) => {
-    mysql("SELECT * FROM `article_tag`", [], (data) => {
-      res.send(data);
-    });
+    mysql(
+      "SELECT id,name,color,is_enable FROM `article_tag` WHERE `is_delete`='0'",
+      [],
+      (data) => {
+        res.send(data);
+      }
+    );
   },
   addTag: (req, res) => {
     const { name, color } = req.body;
