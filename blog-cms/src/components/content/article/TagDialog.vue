@@ -19,8 +19,8 @@ const ruleForm = reactive({
 });
 
 const rules = reactive<FormRules<typeof ruleForm>>({
-  name: [{ required: true, trigger: "blur" }],
-  color: [{ required: true, trigger: "blur" }],
+  name: [{ required: true, trigger: "blur", message: "名称不能为空!" }],
+  color: [{ required: true, trigger: "blur", message: "颜色不能为空!" }],
 });
 
 const create = () => {
@@ -28,33 +28,39 @@ const create = () => {
 };
 
 const update = (tag: any) => {
-  Object.assign(ruleForm, tag);
   dialogVisible.value = true;
+  nextTick(() => {
+    Object.assign(ruleForm, tag);
+  });
 };
 
 const close = () => {
   ruleFormRef.value.resetFields();
 };
 
-const onSubmit = async () => {
-  try {
-    if (ruleForm.id) {
-      await updateArticleTag(ruleForm);
-    } else {
-      await addArticleTag(ruleForm);
+const onSubmit = () => {
+  ruleFormRef.value.validate(async (valid: boolean) => {
+    if (valid) {
+      try {
+        if (ruleForm.id) {
+          await updateArticleTag(ruleForm);
+        } else {
+          await addArticleTag(ruleForm);
+        }
+        instance?.proxy?.$message({
+          type: "success",
+          message: "操作成功",
+        });
+        emit("confirm");
+        dialogVisible.value = false;
+      } catch (error) {
+        instance?.proxy?.$message({
+          type: "error",
+          message: "操作失败",
+        });
+      }
     }
-    instance?.proxy?.$message({
-      type: "success",
-      message: "操作成功",
-    });
-    emit("confirm");
-    dialogVisible.value = false;
-  } catch (error) {
-    instance?.proxy?.$message({
-      type: "error",
-      message: "操作失败",
-    });
-  }
+  });
 };
 
 defineExpose({
