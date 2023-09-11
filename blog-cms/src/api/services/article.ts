@@ -8,6 +8,10 @@ export function updateArticleTag(data: any) {
   return request.post("/article/tag/update", data);
 }
 
+export function enableArticleTag(data: any) {
+  return request.post("/article/tag/enable", data);
+}
+
 export function removeArticleTag(data: any) {
   return request.post("/article/tag/remove", data);
 }

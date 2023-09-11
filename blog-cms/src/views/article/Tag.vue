@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import {
   queryArticleTag,
-  updateArticleTag,
+  enableArticleTag,
   removeArticleTag,
 } from "@/api/services/article";
 
@@ -23,7 +23,7 @@ const onSearchTagList = () => {
 const onChangeArticleTagEnable = async (tag: any) => {
   const { id, is_enable } = tag;
   try {
-    await updateArticleTag({ id, is_enable });
+    await enableArticleTag({ id, is_enable });
     instance?.proxy?.$message({
       type: "success",
       message: "操作成功",
