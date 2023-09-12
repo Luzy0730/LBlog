@@ -20,40 +20,29 @@ const router = createRouter({
         },
         {
           path: "/article",
-          component: BlankLayout,
+          component: () => import("@/views/article/index.vue"),
           meta: {
-            title: "文章",
+            title: "文章管理",
             icon: "HomeFilled",
           },
-          children: [
-            {
-              path: "",
-              name: "article",
-              component: () => import("@/views/article/index.vue"),
-              meta: {
-                title: "内容管理",
-                icon: "HomeFilled",
-              },
-            },
-            {
-              path: "category",
-              name: "article-category",
-              component: () => import("@/views/article/Category.vue"),
-              meta: {
-                title: "分类管理",
-                icon: "HomeFilled",
-              },
-            },
-            {
-              path: "tag",
-              name: "article-tag",
-              component: () => import("@/views/article/Tag.vue"),
-              meta: {
-                title: "标签管理",
-                icon: "HomeFilled",
-              },
-            },
-          ],
+        },
+        {
+          path: "/category",
+          name: "category",
+          component: () => import("@/views/category/index.vue"),
+          meta: {
+            title: "分类管理",
+            icon: "HomeFilled",
+          },
+        },
+        {
+          path: "/tag",
+          name: "tag",
+          component: () => import("@/views/tag/index.vue"),
+          meta: {
+            title: "标签管理",
+            icon: "HomeFilled",
+          },
         },
         {
           path: "/404",

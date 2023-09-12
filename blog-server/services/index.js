@@ -1,5 +1,7 @@
-const articleService = require("./article");
+const tagService = require("./tag");
+const categoryService = require("./category");
 function serviceMount(app) {
-  app.use("/article", articleService);
+  app.use("/tag", tagService);
+  app.use("/category", categoryService);
 }
 module.exports = serviceMount;

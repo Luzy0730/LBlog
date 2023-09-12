@@ -1,7 +1,7 @@
 <script lang="ts" setup>
 import { ref } from "vue";
 import { type FormRules } from "element-plus";
-import { addArticleTag, updateArticleTag } from "@/api/services/article";
+import { createTag, updateTag } from "@/api/services/tag";
 
 const emit = defineEmits<{
   (event: "confirm"): void;
@@ -13,7 +13,7 @@ const dialogVisible = ref(false);
 
 const ruleFormRef = ref();
 
-const title = ref('新增')
+const title = ref("新增");
 const ruleForm = reactive({
   id: -1,
   name: "",
@@ -26,12 +26,12 @@ const rules = reactive<FormRules<typeof ruleForm>>({
 });
 
 const create = () => {
-  title.value = '新增'
+  title.value = "新增";
   dialogVisible.value = true;
 };
 
-const update = (tag: IArticleTag) => {
-  title.value = '编辑'
+const update = (tag: ITag) => {
+  title.value = "编辑";
   dialogVisible.value = true;
   nextTick(() => {
     Object.assign(ruleForm, tag);
@@ -47,9 +47,9 @@ const onSubmit = () => {
     if (valid) {
       try {
         if (ruleForm.id !== -1) {
-          await updateArticleTag(ruleForm);
+          await updateTag(ruleForm);
         } else {
-          await addArticleTag(ruleForm);
+          await createTag(ruleForm);
         }
         instance?.proxy?.$message({
           type: "success",
@@ -75,7 +75,13 @@ defineExpose({
 
 <template>
   <el-dialog v-model="dialogVisible" :title="title" width="30%" @close="close">
-    <el-form ref="ruleFormRef" :model="ruleForm" status-icon :rules="rules" label-width="120px">
+    <el-form
+      ref="ruleFormRef"
+      :model="ruleForm"
+      status-icon
+      :rules="rules"
+      label-width="120px"
+    >
       <el-form-item label="标签名称：" prop="name">
         <el-input v-model="ruleForm.name" />
       </el-form-item>
@@ -91,3 +97,4 @@ defineExpose({
     </template>
   </el-dialog>
 </template>
+@/api/services/tag
