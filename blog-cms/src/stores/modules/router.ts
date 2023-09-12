@@ -1,6 +1,7 @@
 import { defineStore } from "pinia";
 import router from "@/router";
 import type { State } from "../types/router.type";
+import type { RouteRecordNormalized } from "vue-router";
 const state: State = () => {
   return {
     fullRoutes: [],
@@ -20,13 +21,13 @@ export const useRouterStore = defineStore("router", {
       const menuFilter = this.fullRoutes.filter(
         (route) => !["/", "/blank"].includes(route.path) && !route.meta.notMenu
       );
-      const menuRoutes: any[] = [];
+      const menuRoutes: Array<RouteRecordNormalized> = [];
       menuFilter.forEach((menu) => {
         if (!menuRoutes.length) {
           menuRoutes.push(menu);
         } else {
           if (menu.children?.length) {
-            menu.children.forEach((item: any, index: number) => {
+            menu.children.forEach((item, index) => {
               const findIndex = menuRoutes.findIndex(
                 (route) => route.name === item.name
               );

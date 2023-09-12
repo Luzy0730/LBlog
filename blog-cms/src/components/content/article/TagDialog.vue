@@ -27,7 +27,7 @@ const create = () => {
   dialogVisible.value = true;
 };
 
-const update = (tag: any) => {
+const update = (tag: IArticleTag) => {
   dialogVisible.value = true;
   nextTick(() => {
     Object.assign(ruleForm, tag);
@@ -71,13 +71,7 @@ defineExpose({
 
 <template>
   <el-dialog v-model="dialogVisible" title="Tips" width="30%" @close="close">
-    <el-form
-      ref="ruleFormRef"
-      :model="ruleForm"
-      status-icon
-      :rules="rules"
-      label-width="120px"
-    >
+    <el-form ref="ruleFormRef" :model="ruleForm" status-icon :rules="rules" label-width="120px">
       <el-form-item label="标签名称：" prop="name">
         <el-input v-model="ruleForm.name" />
       </el-form-item>

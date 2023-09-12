@@ -1,5 +1,6 @@
+import { type RouteRecordNormalized } from 'vue-router'
 export type State = () => {
-  fullRoutes: Array<any>;
-  menuRoutes: Array<any>;
+  fullRoutes: Array<RouteRecordNormalized>;
+  menuRoutes: Array<RouteRecordNormalized>;
   currentRoutePath: string;
 };
