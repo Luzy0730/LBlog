@@ -1,7 +1,7 @@
 <script lang="ts" setup>
 import { ref } from "vue";
 import { type FormRules } from "element-plus";
-import { createTag, updateTag } from "@/api/services/tag";
+import { createCategory, updateCategory } from "@/api/services/category";
 
 const emit = defineEmits<{
   (event: "confirm"): void;
@@ -18,11 +18,13 @@ const ruleForm = reactive({
   id: -1,
   name: "",
   color: "",
+  icon: "",
 });
 
 const rules = reactive<FormRules<typeof ruleForm>>({
   name: [{ required: true, trigger: "blur", message: "名称不能为空!" }],
   color: [{ required: true, trigger: "blur", message: "颜色不能为空!" }],
+  icon: [{ required: true, trigger: "blur", message: "图标不能为空!" }],
 });
 
 const create = () => {
@@ -30,11 +32,11 @@ const create = () => {
   dialogVisible.value = true;
 };
 
-const update = (tag: ITag) => {
+const update = (category: ICategory) => {
   title.value = "编辑";
   dialogVisible.value = true;
   nextTick(() => {
-    Object.assign(ruleForm, tag);
+    Object.assign(ruleForm, category);
   });
 };
 
@@ -47,9 +49,9 @@ const onSubmit = () => {
     if (valid) {
       try {
         if (ruleForm.id !== -1) {
-          await updateTag(ruleForm);
+          await updateCategory(ruleForm);
         } else {
-          await createTag(ruleForm);
+          await createCategory(ruleForm);
         }
         instance?.proxy?.$message({
           type: "success",
@@ -72,7 +74,6 @@ defineExpose({
   update,
 });
 </script>
-
 <template>
   <el-dialog v-model="dialogVisible" :title="title" width="30%" @close="close">
     <el-form
@@ -82,11 +83,14 @@ defineExpose({
       :rules="rules"
       label-width="120px"
     >
-      <el-form-item label="标签名称：" prop="name">
+      <el-form-item label="分类名称：" prop="name">
         <el-input v-model="ruleForm.name" />
       </el-form-item>
-      <el-form-item label="标签颜色：" prop="color">
+      <el-form-item label="分类颜色：" prop="color">
         <el-input v-model="ruleForm.color" />
+      </el-form-item>
+      <el-form-item label="分类图标：" prop="icon">
+        <el-input v-model="ruleForm.icon" />
       </el-form-item>
     </el-form>
     <template #footer>

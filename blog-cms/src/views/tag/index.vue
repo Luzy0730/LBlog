@@ -9,14 +9,14 @@ const instance = getCurrentInstance();
 const tableData = ref([]);
 
 // 查询标签列表
-const onSearchTagList = () => {
+const onQueryTag = () => {
   queryTag().then((res) => {
     tableData.value = res.data;
   });
 };
 
 // 标签是否启用
-const onChangeArticleTagEnable = async (tag: ITag) => {
+const onEnableTag = async (tag: ITag) => {
   const { id, is_enable } = tag;
   try {
     await enableTag({ id, is_enable });
@@ -30,12 +30,12 @@ const onChangeArticleTagEnable = async (tag: ITag) => {
       message: "操作失败",
     });
   } finally {
-    onSearchTagList();
+    onQueryTag();
   }
 };
 
 // 删除标签
-const onDeleteArticleTag = async (tag: ITag) => {
+const onDeleteTag = async (tag: ITag) => {
   const { id } = tag;
   try {
     await deleteTag({ id });
@@ -49,29 +49,29 @@ const onDeleteArticleTag = async (tag: ITag) => {
       message: "操作失败",
     });
   } finally {
-    onSearchTagList();
+    onQueryTag();
   }
 };
 
 // 修改文章标签
-const onUpdateArticleTag = (tag: ITag) => {
+const onUpdateTag = (tag: ITag) => {
   tagDialogRef.value.update(tag);
 };
 
 // 新增文章标签
-const onCreateArticleTag = () => {
+const onCreateTag = () => {
   tagDialogRef.value.create();
 };
 
 onMounted(() => {
-  onSearchTagList();
+  onQueryTag();
 });
 </script>
 <template>
   <el-row justify="space-between">
     <el-col :span="8"></el-col>
     <el-col :span="8">
-      <el-button type="primary" class="float-right" @click="onCreateArticleTag"
+      <el-button type="primary" class="float-right" @click="onCreateTag"
         >新增</el-button
       >
     </el-col>
@@ -101,16 +101,16 @@ onMounted(() => {
           v-model="row.is_enable"
           :active-value="1"
           :inactive-value="0"
-          @change="onChangeArticleTagEnable(row)"
+          @change="onEnableTag(row)"
         />
       </template>
     </el-table-column>
     <el-table-column prop="" label="操作" width="200" align="center">
       <template #default="{ row }">
-        <el-button type="primary" link @click="onUpdateArticleTag(row)"
+        <el-button type="primary" link @click="onUpdateTag(row)"
           >编辑</el-button
         >
-        <el-popconfirm title="确定删除吗?" @confirm="onDeleteArticleTag(row)">
+        <el-popconfirm title="确定删除吗?" @confirm="onDeleteTag(row)">
           <template #reference>
             <el-button type="primary" link>删除</el-button>
           </template>
@@ -118,6 +118,5 @@ onMounted(() => {
       </template>
     </el-table-column>
   </el-table>
-  <TagDialog ref="tagDialogRef" @confirm="onSearchTagList" />
+  <TagDialog ref="tagDialogRef" @confirm="onQueryTag" />
 </template>
-@/api/services/article @/api/services/tag
