@@ -12,8 +12,10 @@ const instance = getCurrentInstance();
 const dialogVisible = ref(false);
 
 const ruleFormRef = ref();
+
+const title = ref('新增')
 const ruleForm = reactive({
-  id: null,
+  id: -1,
   name: "",
   color: "",
 });
@@ -24,10 +26,12 @@ const rules = reactive<FormRules<typeof ruleForm>>({
 });
 
 const create = () => {
+  title.value = '新增'
   dialogVisible.value = true;
 };
 
 const update = (tag: IArticleTag) => {
+  title.value = '编辑'
   dialogVisible.value = true;
   nextTick(() => {
     Object.assign(ruleForm, tag);
@@ -42,7 +46,7 @@ const onSubmit = () => {
   ruleFormRef.value.validate(async (valid: boolean) => {
     if (valid) {
       try {
-        if (ruleForm.id) {
+        if (ruleForm.id !== -1) {
           await updateArticleTag(ruleForm);
         } else {
           await addArticleTag(ruleForm);
@@ -70,7 +74,7 @@ defineExpose({
 </script>
 
 <template>
-  <el-dialog v-model="dialogVisible" title="Tips" width="30%" @close="close">
+  <el-dialog v-model="dialogVisible" :title="title" width="30%" @close="close">
     <el-form ref="ruleFormRef" :model="ruleForm" status-icon :rules="rules" label-width="120px">
       <el-form-item label="标签名称：" prop="name">
         <el-input v-model="ruleForm.name" />

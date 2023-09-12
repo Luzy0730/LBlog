@@ -16,6 +16,6 @@ export function removeArticleTag(data: Pick<IArticleTag, "id">) {
   return request.post("/article/tag/remove", data);
 }
 
-export function addArticleTag(data: Pick<IArticleTag, "id" | "name" | "color">) {
+export function addArticleTag(data: Pick<IArticleTag, "name" | "color">) {
   return request.post("/article/tag/add", data);
 }
