@@ -2,6 +2,7 @@ const express = require("express");
 const app = express();
 const port = 3000;
 const serviceMount = require("./services");
+const { customSend } = require("./middleware/intercept");
 
 // 解决跨域问题
 app.all("*", function (req, res, next) {
@@ -21,6 +22,9 @@ app.use(express.static("public"));
 
 // 配置解析post参数
 app.use(express.urlencoded({ extended: false }));
+
+// 自定义的响应对象
+app.use(customSend);
 
 serviceMount(app);
 
