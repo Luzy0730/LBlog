@@ -10,6 +10,15 @@ const router = createRouter({
       redirect: "/dashboard",
       children: [
         {
+          path: "/test",
+          name: "test",
+          component: () => import("@/views/test/index.vue"),
+          meta: {
+            title: "测试页",
+            icon: "HomeFilled",
+          },
+        },
+        {
           path: "/dashboard",
           name: "dashboard",
           component: () => import("@/views/dashboard/index.vue"),
