@@ -4,22 +4,25 @@ module.exports = {
   // 文章分类
   createCategory: (req, res) => {
     const { name, color, icon } = req.body;
-    mysql(
-      "INSERT INTO `category` (`name`, `color`,`icon`) VALUES (?, ?, ?)",
-      [name, color, icon],
-      (data) => {
-        res.send(data);
-      }
-    );
+    mysql
+      .query({
+        sql: "INSERT INTO `category` (`name`, `color`,`icon`) VALUES (?, ?, ?)",
+        params: [name, color, icon],
+      })
+      .then(() => {
+        (data) => {
+          res.customSend(data);
+        };
+      });
   },
   queryCategories: (req, res) => {
-    mysql(
-      "SELECT id,name,color,icon, is_enable FROM `category` WHERE `is_delete`='0'",
-      [],
-      (data) => {
-        res.send(data);
-      }
-    );
+    mysql
+      .query({
+        sql: "SELECT id,name,color,icon, is_enable FROM `category` WHERE `is_delete`='0'",
+      })
+      .then((data) => {
+        res.customSend(data);
+      });
   },
   updateCategory: (req, res) => {
     const { id, name, color, icon } = req.body;
