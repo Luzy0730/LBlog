@@ -1,4 +1,6 @@
 import axios from "axios";
+import { ElNotification } from "element-plus";
+
 const instance = axios.create({
   baseURL: "http://127.0.0.1:3000",
   timeout: 60000,
@@ -27,6 +29,11 @@ instance.interceptors.response.use(
   },
   function (error) {
     // 对响应错误做点什么
+    ElNotification({
+      title: "网络请求",
+      type: "error",
+      message: "请求出错"
+    });
     return Promise.reject(error);
   }
 );
