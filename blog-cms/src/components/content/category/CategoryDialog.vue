@@ -2,6 +2,7 @@
 import { ref } from "vue";
 import { type FormRules } from "element-plus";
 import { createCategory, updateCategory } from "@/api/services/category";
+import IconDialog from "@/components/content/icon/IconDialog.vue";
 
 const emit = defineEmits<{
   (event: "confirm"): void;
@@ -90,7 +91,10 @@ defineExpose({
         <el-input v-model="ruleForm.color" />
       </el-form-item>
       <el-form-item label="分类图标：" prop="icon">
-        <el-input v-model="ruleForm.icon" />
+        <div class="flex">
+          <el-input v-model="ruleForm.icon" class="mr-4" />
+          <IconDialog />
+        </div>
       </el-form-item>
     </el-form>
     <template #footer>
