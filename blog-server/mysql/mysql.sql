@@ -11,7 +11,7 @@
  Target Server Version : 50743
  File Encoding         : 65001
 
- Date: 14/09/2023 00:49:02
+ Date: 14/09/2023 17:30:34
 */
 
 SET NAMES utf8mb4;
@@ -40,8 +40,8 @@ CREATE TABLE `article`  (
 -- ----------------------------
 -- Records of article
 -- ----------------------------
-INSERT INTO `article` VALUES (1, '关于LL', 2, '暂无描述', '<h3 id=\"目前的情况\">目前的情况</h3>\\n<ul>\\n<li>M E：前端小趴菜</li>\\n<li>目标：少想多做吧</li>\\n\\n<li>爱好：写Bug、逛B站</li>\\n<li>性格：喜静、偶尔emo，时刻督促自己变得阳光开朗</li>\\n</ul>\\n<h3 id=\"我--博客\">我 &amp; 博客</h3>\\n<p>很少对事物起兴趣，有时会因考虑太多做出不明智的决定😅</p>\\n<p>因为口嗨放了兄弟几次鸽子，被骂的可惨了，反思中...</p>\\n<p>喜欢安静，节奏控，coding 时喜欢听婉转美好的歌曲🎵</p>\\n\\n<p><a href=\"https://github.com/Lzy0730/LBlog\" target=\"_blank\">🍓LBlog个人博客系统</a>，作为学习过程中的产物，参考很多博客，蠢蠢的缝合怪⭐️</p>\\n<p>写博客的起因也很简单，日常知识点太多，用md或word不好看，就想弄个博客了。</p>\\n', 0, 1000, 0, 0, 0, '2023-09-13 21:45:29', '2023-09-13 22:14:29');
-INSERT INTO `article` VALUES (2, '关于LL2', 4, '暂无描述', 'tttt', 111, 213, 0, 0, 0, '2023-09-13 22:42:24', '2023-09-13 22:42:24');
+INSERT INTO `article` VALUES (1, '关于LL', 2, '暂无描述', '\'<h3 id=\"目前的情况\">目前的情况</h3>\\n<ul>\\n<li>M E：前端小趴菜</li>\\n<li>目标：少想多做吧</li>\\n\\n<li>爱好：写Bug、逛B站</li>\\n<li>性格：喜静、偶尔emo，时刻督促自己变得阳光开朗</li>\\n</ul>\\n<h3 id=\"我--博客\">我 &amp; 博客</h3>\\n<p>很少对事物起兴趣，有时会因考虑太多做出不明智的决定😅</p>\\n<p>因为口嗨放了兄弟几次鸽子，被骂的可惨了，反思中...</p>\\n<p>喜欢安静，节奏控，coding 时喜欢听婉转美好的歌曲🎵</p>\\n\\n<p><a href=\"https://github.com/Lzy0730/LBlog\" target=\"_blank\">🍓LBlog个人博客系统</a>，作为学习过程中的产物，参考很多博客，蠢蠢的缝合怪⭐️</p>\\n<p>写博客的起因也很简单，日常知识点太多，用md或word不好看，就想弄个博客了。</p>\\n\'', 0, 1000, 0, 0, 0, '2023-09-13 21:45:29', '2023-09-14 17:27:34');
+INSERT INTO `article` VALUES (2, '关于LL2', 4, '暂无描述', 'tttt', 111, 213, 0, 0, 0, '2023-09-13 22:42:24', '2023-09-14 11:23:57');
 
 -- ----------------------------
 -- Table structure for category
@@ -51,7 +51,7 @@ CREATE TABLE `category`  (
   `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT COMMENT '分类id',
   `name` varchar(16) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL COMMENT '分类名称',
   `color` varchar(16) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL COMMENT '颜色',
-  `icon` varchar(16) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL COMMENT '图标名',
+  `icon` varchar(32) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL COMMENT '图标名',
   `is_enable` tinyint(1) UNSIGNED NOT NULL DEFAULT 0 COMMENT '1: 启用 0: 停用',
   `is_delete` tinyint(1) UNSIGNED NOT NULL DEFAULT 0 COMMENT '1：删除 0：未删除',
   `create_time` datetime(0) NOT NULL DEFAULT CURRENT_TIMESTAMP(0) COMMENT '创建时间',
@@ -63,9 +63,9 @@ CREATE TABLE `category`  (
 -- Records of category
 -- ----------------------------
 INSERT INTO `category` VALUES (1, 'name', 'orange', 'icon', 0, 1, '2023-09-11 23:08:42', '2023-09-11 23:24:18');
-INSERT INTO `category` VALUES (2, 'asd', 'ds', 'amazon-fill', 0, 0, '2023-09-11 23:09:03', '2023-09-13 21:30:05');
-INSERT INTO `category` VALUES (3, 'asd', 'cz', 'asd', 1, 0, '2023-09-12 19:37:43', '2023-09-12 19:40:45');
-INSERT INTO `category` VALUES (4, 'asd', 'asd', 'asd', 0, 0, '2023-09-12 19:40:52', '2023-09-12 19:40:52');
+INSERT INTO `category` VALUES (2, '技术博客', 'orange', 'amazon-fill', 1, 0, '2023-09-11 23:09:03', '2023-09-14 14:22:57');
+INSERT INTO `category` VALUES (3, '随心日志', 'gray', 'apps-line', 0, 0, '2023-09-12 19:37:43', '2023-09-14 14:23:39');
+INSERT INTO `category` VALUES (4, '随心日志', 'green', 'chat-smile-2-line', 1, 0, '2023-09-12 19:40:52', '2023-09-14 14:17:16');
 
 -- ----------------------------
 -- Table structure for tag
@@ -86,17 +86,17 @@ CREATE TABLE `tag`  (
 -- Records of tag
 -- ----------------------------
 INSERT INTO `tag` VALUES (1, 'good', 'orange', 0, 1, '2023-09-10 11:19:24', '2023-09-10 12:13:30');
-INSERT INTO `tag` VALUES (2, 'aaa', 'ggg', 0, 0, '2023-09-10 11:20:29', '2023-09-12 19:14:33');
-INSERT INTO `tag` VALUES (3, 'helloName', 'pink', 1, 0, '2023-09-10 16:37:26', '2023-09-10 23:37:50');
+INSERT INTO `tag` VALUES (2, 'Vue2', 'green', 1, 0, '2023-09-10 11:20:29', '2023-09-14 14:32:32');
+INSERT INTO `tag` VALUES (3, 'HTML', 'blue', 1, 0, '2023-09-10 16:37:26', '2023-09-14 11:13:20');
 INSERT INTO `tag` VALUES (5, 'name', 'orange', 0, 1, '2023-09-10 21:44:40', '2023-09-10 21:49:06');
 INSERT INTO `tag` VALUES (6, 'name', 'orange', 0, 1, '2023-09-10 21:47:08', '2023-09-10 22:18:59');
 INSERT INTO `tag` VALUES (7, 'name', 'orangesz', 0, 1, '2023-09-10 22:15:34', '2023-09-12 19:14:36');
 INSERT INTO `tag` VALUES (8, 'name', 'orange', 1, 1, '2023-09-10 22:16:27', '2023-09-11 19:01:07');
 INSERT INTO `tag` VALUES (9, 'name', 'orange', 0, 1, '2023-09-10 22:16:45', '2023-09-11 19:01:14');
 INSERT INTO `tag` VALUES (10, 'name', 'orange', 1, 0, '2023-09-10 22:16:59', '2023-09-11 23:25:21');
-INSERT INTO `tag` VALUES (11, 'test', 'test', 0, 0, '2023-09-11 23:00:42', '2023-09-11 23:00:42');
-INSERT INTO `tag` VALUES (12, 'aaa', 'sad', 0, 0, '2023-09-11 23:01:58', '2023-09-11 23:01:58');
-INSERT INTO `tag` VALUES (13, 'aaa', 'aaaaa', 0, 0, '2023-09-11 23:41:51', '2023-09-12 19:14:42');
+INSERT INTO `tag` VALUES (11, 'test', 'test', 1, 0, '2023-09-11 23:00:42', '2023-09-14 11:11:28');
+INSERT INTO `tag` VALUES (12, 'aaa', 'sad', 1, 0, '2023-09-11 23:01:58', '2023-09-14 11:11:28');
+INSERT INTO `tag` VALUES (13, 'aaa', 'aaaaa', 1, 0, '2023-09-11 23:41:51', '2023-09-14 11:11:29');
 INSERT INTO `tag` VALUES (14, 'asd', 'asd', 0, 0, '2023-09-12 19:14:39', '2023-09-12 19:14:39');
 
 -- ----------------------------
