@@ -2,6 +2,7 @@ import { createApp } from "vue";
 import { createPinia } from "pinia";
 
 import "@/assets/css/base.css";
+import "@/assets/css/typo.css";
 import "@/assets/icon/remixicon.css"
 
 import App from "./App.vue";

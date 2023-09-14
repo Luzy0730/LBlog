@@ -4,6 +4,10 @@ export function queryTag() {
   return request.get("/tag");
 }
 
+export function queryTagsSimple() {
+  return request.get<Pick<ITag, "id" | "name">[]>("/tag/simple");
+}
+
 export function updateTag(data: Pick<ITag, "id" | "name" | "color">) {
   return request.post("/tag/update", data);
 }

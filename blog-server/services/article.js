@@ -3,5 +3,7 @@ const articleControl = require("../controls/article");
 const route = express.Router();
 
 route.get("/", articleControl.queryArticles);
+route.get("/detail", articleControl.queryArticleDetail);
+route.post("/enable", articleControl.enableArticle);
 
 module.exports = route;

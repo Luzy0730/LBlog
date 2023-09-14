@@ -40,4 +40,13 @@ module.exports = {
       res.customSend(data);
     })
   },
+  queryArticleDetail: (req, res) => {
+    const { id } = req.query;
+    mysqlPool.query({
+      sql: "SELECT `id`,`description`,`content` FROM article WHERE `id` = ?",
+      params: [id]
+    }).then(data => {
+      res.customSend(...data)
+    })
+  }
 };
