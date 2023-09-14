@@ -9,7 +9,7 @@ const categoryDialogRef = ref();
 
 const instance = getCurrentInstance();
 
-const tableData = ref([]);
+const tableData = ref<ICategory[]>([]);
 // 查询分类列表
 const onQueryCategory = () => {
   queryCategory().then((res) => {
@@ -73,51 +73,22 @@ onMounted(() => {
   <el-row justify="space-between">
     <el-col :span="8"></el-col>
     <el-col :span="8">
-      <el-button type="primary" class="float-right" @click="onCreateCategory"
-        >新增</el-button
-      >
+      <el-button type="primary" class="float-right" @click="onCreateCategory">新增</el-button>
     </el-col>
   </el-row>
   <el-table :data="tableData" class="mt-5">
     <el-table-column prop="id" label="分类id" width="150" align="center" />
-    <el-table-column
-      prop="name"
-      label="分类名称"
-      min-width="150"
-      align="center"
-    />
-    <el-table-column
-      prop="color"
-      label="分类颜色"
-      min-width="150"
-      align="center"
-    />
-    <el-table-column
-      prop="icon"
-      label="分类图标"
-      min-width="150"
-      align="center"
-    />
-    <el-table-column
-      prop="is_enable"
-      label="是否启用"
-      min-width="150"
-      align="center"
-    >
+    <el-table-column prop="name" label="分类名称" min-width="150" align="center" />
+    <el-table-column prop="color" label="分类颜色" min-width="150" align="center" />
+    <el-table-column prop="icon" label="分类图标" min-width="150" align="center" />
+    <el-table-column prop="is_enable" label="是否启用" min-width="150" align="center">
       <template #default="{ row }">
-        <el-switch
-          v-model="row.is_enable"
-          :active-value="1"
-          :inactive-value="0"
-          @change="onEnableCategory(row)"
-        />
+        <el-switch v-model="row.is_enable" :active-value="1" :inactive-value="0" @change="onEnableCategory(row)" />
       </template>
     </el-table-column>
     <el-table-column prop="" label="操作" width="200" align="center">
       <template #default="{ row }">
-        <el-button type="primary" link @click="onUpdateCategory(row)"
-          >编辑</el-button
-        >
+        <el-button type="primary" link @click="onUpdateCategory(row)">编辑</el-button>
         <el-popconfirm title="确定删除吗?" @confirm="onDeleteCategory(row)">
           <template #reference>
             <el-button type="primary" link>删除</el-button>

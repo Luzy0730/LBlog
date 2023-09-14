@@ -1,7 +1,11 @@
 import request from "../request";
 
 export function queryCategory() {
-  return request.get("/category");
+  return request.get<ICategory[]>("/category");
+}
+
+export function queryCategorySimple() {
+  return request.get<Pick<ICategory, "id" | "name">[]>("/category/simple");
 }
 
 export function updateCategory(

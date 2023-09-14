@@ -1,4 +1,4 @@
-import axios from "axios";
+import axios, { type AxiosRequestConfig } from "axios";
 import { ElNotification } from "element-plus";
 
 const instance = axios.create({
@@ -38,4 +38,16 @@ instance.interceptors.response.use(
   }
 );
 
-export default instance;
+// 包装的响应数据类型
+type ResponseData<T> = { code: number, msg: string, data: T }
+
+const request = {
+  get<T>(url: string, config?: AxiosRequestConfig): Promise<ResponseData<T>> {
+    return instance.get(url, config) as Promise<ResponseData<T>>
+  },
+  post<T>(url: string, data?: any, config?: AxiosRequestConfig): Promise<ResponseData<T>> {
+    return instance.post(url, data, config) as Promise<ResponseData<T>>
+  },
+}
+
+export default request;
