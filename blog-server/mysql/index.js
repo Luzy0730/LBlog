@@ -9,6 +9,7 @@ class MysqlPool {
       user: "root",
       password: "Lzy@960730",
       database: "blog",
+      charset: "utf8mb4",
     });
   }
 
@@ -22,11 +23,11 @@ class MysqlPool {
     connection.release();
   }
   /**
-   * 
+   *
    * @param {string} sql 查询语句
    * @param {any[]} params 查询占位符参数
    * @param {mysql.PoolConnection} connection 默认整个连接池 可配合connect手动传入指定连接 等所有异步操作如循环查询结束后 再调用release释放链接
-   * @returns 
+   * @returns
    */
   query({ sql, params = [], connection = this.pool }) {
     const asyncQuery = promisify(connection.query).bind(connection);
@@ -51,4 +52,4 @@ class MysqlPool {
   }
 }
 
-module.exports = new MysqlPool()
+module.exports = new MysqlPool();
