@@ -1,36 +1,36 @@
 const mysql = require("mysql");
 const promisify = require("util").promisify;
 
-let connection = null;
+class MysqlPool {
+  constructor() {
+    this.pool = mysql.createPool({
+      connectionLimit: 10,
+      host: "localhost",
+      user: "root",
+      password: "Lzy@960730",
+      database: "blog",
+    });
+  }
 
-const connect = () => {
-  connection = mysql.createConnection({
-    host: "localhost",
-    user: "root",
-    password: "Lzy@960730",
-    database: "blog",
-    port: 3306,
-  });
-  connection.connect((error) => {
-    if (error) throw error;
-  });
-};
-
-const end = () => connection.end();
-
-module.exports = {
+  // 建立连接 返回连接
+  connect() {
+    const getConnection = promisify(this.pool.getConnection).bind(this.pool);
+    return getConnection();
+  }
+  // 解除连接
+  release(connection = this.pool) {
+    connection.release();
+  }
   /**
-   *
-   * @param {string} sql sql语句
-   * @param {Array<any>} params sql占位参数
-   * @param {Boolean} auto 自动链接
-   * @returns
+   * 
+   * @param {string} sql 查询语句
+   * @param {any[]} params 查询占位符参数
+   * @param {mysql.PoolConnection} connection 默认整个连接池 可配合connect手动传入指定连接 等所有异步操作如循环查询结束后 再调用release释放链接
+   * @returns 
    */
-  query: ({ sql, params = [], auto = true }) => {
-    if (auto) connect();
+  query({ sql, params = [], connection = this.pool }) {
     const asyncQuery = promisify(connection.query).bind(connection);
     return asyncQuery(sql, params).then((result) => {
-      if (auto) end();
       let data = null;
       switch (sql.split(" ")[0]) {
         case "SELECT":
@@ -48,7 +48,7 @@ module.exports = {
       }
       return data;
     });
-  },
-  connect,
-  end,
-};
+  }
+}
+
+module.exports = new MysqlPool()

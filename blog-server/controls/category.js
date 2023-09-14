@@ -1,10 +1,10 @@
-const mysql = require("../mysql");
+const mysqlPool = require("../mysql");
 
 module.exports = {
-  // 新建文章
+  // 新建分类
   createCategory: (req, res) => {
     const { name, color, icon } = req.body;
-    mysql
+    mysqlPool
       .query({
         sql: "INSERT INTO `category` (`name`, `color`,`icon`) VALUES (?, ?, ?)",
         params: [name, color, icon],
@@ -15,9 +15,9 @@ module.exports = {
         };
       });
   },
-  // 查询文章
-  queryCategories: (req, res) => {
-    mysql
+  // 查询分类
+  queryCategory: (req, res) => {
+    mysqlPool
       .query({
         sql: "SELECT id,name,color,icon, is_enable FROM `category` WHERE `is_delete`='0'",
       })
@@ -25,10 +25,20 @@ module.exports = {
         res.customSend(data);
       });
   },
-  // 更新文章
+  // 查询分类(简略)
+  queryCategorySimple: (req, res) => {
+    mysqlPool
+    .query({
+      sql: "SELECT id,name FROM `category` WHERE `is_delete`='0' AND `is_enable` = '1'",
+    })
+    .then((data) => {
+      res.customSend(data);
+    });
+  },
+  // 更新分类
   updateCategory: (req, res) => {
     const { id, name, color, icon } = req.body;
-    mysql.query({
+    mysqlPool.query({
       sql: "UPDATE `category` SET `name` = ?, `color` = ?, `icon` = ? WHERE `id` = ?",
       params:
         [name, color, icon, id],
@@ -36,10 +46,10 @@ module.exports = {
       res.customSend(data);
     })
   },
-  // 启用文章
+  // 启用分类
   enableCategory: (req, res) => {
     const { id, is_enable } = req.body;
-    mysql.query({
+    mysqlPool.query({
       sql:
         "UPDATE `category` SET `is_enable` = ?  WHERE `id` = ?",
       params:
@@ -48,10 +58,10 @@ module.exports = {
       res.customSend(data);
     })
   },
-  // 删除文章
+  // 删除分类
   deleteCategory: (req, res) => {
     const { id } = req.body;
-    mysql.query({
+    mysqlPool.query({
       sql:
         "UPDATE `category` SET `is_delete` = '1' WHERE `id` = ?",
       params:

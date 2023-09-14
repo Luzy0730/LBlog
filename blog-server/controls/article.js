@@ -1,30 +1,43 @@
-const mysql = require("../mysql");
+const mysqlPool = require("../mysql");
 
 module.exports = {
   queryArticles: async (req, res) => {
-    mysql.connect();
-    const articles = await mysql.query({
-      sql: "SELECT a.`id`,`title`,`description`,`views`,`words`,c.`id` AS `category_id`,c.`name` AS `ategory_name`,c.`color` AS `category_color`,c.`icon` AS `category_icon` FROM `article` AS a LEFT JOIN category AS c ON a.cateogry_id = c.id",
+    const connection = await mysqlPool.connect()
+    const articles = await mysqlPool.query({
+      sql: "SELECT a.`id`, a.`is_enable`,`title`,`description`,`views`,`words`,c.`id` AS `categoryId`,c.`name` AS `categoryName`,c.`color` AS `categoryColor`,c.`icon` AS `categoryIcon` FROM `article` AS a LEFT JOIN category AS c ON a.cateogry_id = c.id WHERE a.is_delete = 0",
       auto: false,
+      connection
     });
     Promise.all(
       articles.map((article) =>
-        mysql
+        mysqlPool
           .query({
-            sql: "SELECT t.id as tag_id,t.`name` as tag_name,t.color as tag_color from tag_rel_article as t_r_a LEFT JOIN article as a ON t_r_a.article_id = a.id LEFT JOIN tag as t ON t_r_a.tag_id = t.id WHERE a.id = ?",
+            sql: "SELECT t.id as tagId,t.`name` as tagName,t.color as tagColor from tag_rel_article as t_r_a LEFT JOIN article as a ON t_r_a.article_id = a.id LEFT JOIN tag as t ON t_r_a.tag_id = t.id WHERE a.id = ? AND t.is_enable = 1 AND t.is_delete = 0",
             params: [article.id],
-            auto: false,
+            connection
           })
           .then((tags) => {
             article.tags = tags;
           })
       )
     ).then(() => {
-      mysql.end();
+      mysqlPool.release(connection)
       res.customSend({
         list: articles,
         total: articles.length,
       });
     });
+  },
+  // 启用文章
+  enableArticle: (req, res) => {
+    const { id, is_enable } = req.body;
+    mysqlPool.query({
+      sql:
+        "UPDATE `article` SET `is_enable` = ?  WHERE `id` = ?",
+      params:
+        [is_enable, id],
+    }).then((data) => {
+      res.customSend(data);
+    })
   },
 };
