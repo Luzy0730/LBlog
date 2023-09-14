@@ -1,7 +1,7 @@
 const mysql = require("../mysql");
 
 module.exports = {
-  // 文章分类
+  // 新建文章
   createCategory: (req, res) => {
     const { name, color, icon } = req.body;
     mysql
@@ -15,6 +15,7 @@ module.exports = {
         };
       });
   },
+  // 查询文章
   queryCategories: (req, res) => {
     mysql
       .query({
@@ -24,34 +25,39 @@ module.exports = {
         res.customSend(data);
       });
   },
+  // 更新文章
   updateCategory: (req, res) => {
     const { id, name, color, icon } = req.body;
-    mysql(
-      "UPDATE `category` SET `name` = ?, `color` = ?, `icon` = ? WHERE `id` = ?",
-      [name, color, icon, id],
-      (data) => {
-        res.send(data);
-      }
-    );
+    mysql.query({
+      sql: "UPDATE `category` SET `name` = ?, `color` = ?, `icon` = ? WHERE `id` = ?",
+      params:
+        [name, color, icon, id],
+    }).then((data) => {
+      res.customSend(data);
+    })
   },
+  // 启用文章
   enableCategory: (req, res) => {
     const { id, is_enable } = req.body;
-    mysql(
-      "UPDATE `category` SET `is_enable` = ?  WHERE `id` = ?",
-      [is_enable, id],
-      (data) => {
-        res.send(data);
-      }
-    );
+    mysql.query({
+      sql:
+        "UPDATE `category` SET `is_enable` = ?  WHERE `id` = ?",
+      params:
+        [is_enable, id],
+    }).then((data) => {
+      res.customSend(data);
+    })
   },
+  // 删除文章
   deleteCategory: (req, res) => {
     const { id } = req.body;
-    mysql(
-      "UPDATE `category` SET `is_delete` = '1' WHERE `id` = ?",
-      [id],
-      (data) => {
-        res.send(data);
-      }
-    );
+    mysql.query({
+      sql:
+        "UPDATE `category` SET `is_delete` = '1' WHERE `id` = ?",
+      params:
+        [id],
+    }).then(data => {
+      res.customSend(data);
+    })
   },
 };
