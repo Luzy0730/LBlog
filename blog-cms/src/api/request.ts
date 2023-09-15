@@ -5,7 +5,7 @@ const instance = axios.create({
   baseURL: "http://127.0.0.1:3000",
   timeout: 60000,
   headers: {
-    "Content-Type": "application/x-www-form-urlencoded",
+    "Content-Type": "application/x-www-form-urlencoded; charset=UTF-8"
   },
 });
 
@@ -13,6 +13,9 @@ const instance = axios.create({
 instance.interceptors.request.use(
   function (config) {
     // 在发送请求之前做些什么，比如添加请求头等操作
+    if (config.method === 'post') {
+      config.headers["Content-Type"] = "application/json"
+    }
     return config;
   },
   function (error) {
