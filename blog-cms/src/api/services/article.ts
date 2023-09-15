@@ -1,10 +1,10 @@
 import request from "../request";
 
 export function queryArticle() {
-  return request.get<{ list: IArticle[], total: number }>("/article");
+  return request.get<{ list: IArticle[]; total: number }>("/article");
 }
 
-export function queryArticleDetail(params) {
+export function queryArticleDetail(params: { id: number }) {
   return request.get("/article/detail", { params });
 }
 

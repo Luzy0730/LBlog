@@ -4,22 +4,31 @@ module.exports = {
   queryArticles: async (req, res) => {
     const connection = await mysqlPool.connect();
     const articles = await mysqlPool.query({
-      sql: "SELECT a.`id`, a.`is_enable`,`title`,`description`,`views`,`words`,c.`id` AS `categoryId`,c.`name` AS `categoryName`,c.`color` AS `categoryColor`,c.`icon` AS `categoryIcon` FROM `article` AS a LEFT JOIN category AS c ON a.cateogry_id = c.id WHERE a.is_delete = 0",
+      sql: "SELECT a.`id`, a.`is_enable`, a.`tag_ids` as `tags`, `title`,`description`,`views`,`words`,c.`id` AS `categoryId`,c.`name` AS `categoryName`,c.`color` AS `categoryColor`,c.`icon` AS `categoryIcon` FROM `article` AS a LEFT JOIN category AS c ON a.cateogry_id = c.id WHERE a.is_delete = 0",
       auto: false,
       connection,
     });
     Promise.all(
-      articles.map((article) =>
-        mysqlPool
+      articles.map((article) => {
+        article.category = {
+          id: article.categoryId,
+          name: article.categoryName,
+          color: article.categoryColor,
+          icon: article.categoryIcon,
+        };
+        delete article.categoryId;
+        delete article.categoryname;
+        delete article.categoryColor;
+        delete article.categoryIcon;
+        return mysqlPool
           .query({
-            sql: "SELECT t.id as tagId,t.`name` as tagName,t.color as tagColor from tag_rel_article as t_r_a LEFT JOIN article as a ON t_r_a.article_id = a.id LEFT JOIN tag as t ON t_r_a.tag_id = t.id WHERE a.id = ? AND t.is_enable = 1 AND t.is_delete = 0",
-            params: [article.id],
+            sql: `SELECT id,name,color from tag WHERE id IN (${article.tags}) AND is_enable = 1 AND is_delete = 0`,
             connection,
           })
           .then((tags) => {
             article.tags = tags;
-          })
-      )
+          });
+      })
     ).then(() => {
       mysqlPool.release(connection);
       res.customSend({

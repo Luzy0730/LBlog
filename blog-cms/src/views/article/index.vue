@@ -37,7 +37,8 @@ const onEnableArticle = async (category: ICategory) => {
 const onUpdateArticle = (article: IArticle) => {
   articleDialogRef.value.update({
     ...article,
-    tags: article.tags.map((tag) => tag.tagId),
+    tagIds: article.tags.map((tag) => tag.id),
+    categoryId: article.category.id,
   });
 };
 
@@ -78,25 +79,25 @@ onMounted(() => {
       fixed="left"
     />
     <el-table-column
-      prop="categoryId"
+      prop="category"
       label="分类"
       min-width="150"
       align="center"
     >
       <template #default="{ row }">
-        <el-tag :style="{ color: '#fff', backgroundColor: row.categoryColor }">
-          <Icon :name="row.categoryIcon" />
-          {{ row.categoryName }}
+        <el-tag :style="{ color: '#fff', backgroundColor: row.category.color }">
+          <Icon :name="row.category.icon" />
+          {{ row.category.name }}
         </el-tag>
       </template>
     </el-table-column>
     <el-table-column prop="tags" label="标签" min-width="150" align="center">
       <template #default="{ row }">
         <el-tag
-          :style="{ color: '#fff', backgroundColor: tag.tagColor }"
+          :style="{ color: '#fff', backgroundColor: tag.color }"
           v-for="tag in row.tags"
           :key="tag.id"
-          >{{ tag.tagName }}</el-tag
+          >{{ tag.name }}</el-tag
         >
       </template>
     </el-table-column>
