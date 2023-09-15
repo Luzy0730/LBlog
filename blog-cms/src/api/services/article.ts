@@ -11,3 +11,17 @@ export function queryArticleDetail(params: { id: number }) {
 export function enableArticle(data: Pick<IArticle, "id" | "is_enable">) {
   return request.post("/article/enable", data);
 }
+
+export interface IUpdateArticleData {
+  id: number;
+  title: string;
+  description: string;
+  content: string;
+  categoryId?: number;
+  tagIds: string | number[];
+  words: number;
+  [key: string]: any
+}
+export function updateArticle(data: IUpdateArticleData) {
+  return request.post("/article/update", data);
+}

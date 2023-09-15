@@ -4,7 +4,10 @@ import { Editor, Toolbar } from "@wangeditor/editor-for-vue";
 import { type ShallowRef } from "vue";
 
 const emit = defineEmits<{
-  (event: "confirm", html: string): void;
+  (event: "confirm", content: {
+    html: string,
+    length: number
+  }): void;
 }>();
 
 const instance = getCurrentInstance()
@@ -21,7 +24,10 @@ const handleCreated = (editor: ShallowRef<any>) => {
 const onSubmit = () => {
   let content = "";
   if (editorRef.value.getText().trim()) content = valueHtmlPreview.value;
-  emit("confirm", content);
+  emit("confirm", {
+    html: content,
+    length: editorRef.value.getText().length
+  });
   dialogVisible.value = false;
 };
 

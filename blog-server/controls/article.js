@@ -4,7 +4,7 @@ module.exports = {
   queryArticles: async (req, res) => {
     const connection = await mysqlPool.connect();
     const articles = await mysqlPool.query({
-      sql: "SELECT a.`id`, a.`is_enable`, a.`tag_ids` as `tags`, `title`,`description`,`views`,`words`,c.`id` AS `categoryId`,c.`name` AS `categoryName`,c.`color` AS `categoryColor`,c.`icon` AS `categoryIcon` FROM `article` AS a LEFT JOIN category AS c ON a.cateogry_id = c.id WHERE a.is_delete = 0",
+      sql: "SELECT a.`id`, a.`is_enable`, a.`tag_ids` as `tags`, `title`,`description`,`views`,`words`,c.`id` AS `categoryId`,c.`name` AS `categoryName`,c.`color` AS `categoryColor`,c.`icon` AS `categoryIcon` FROM `article` AS a LEFT JOIN category AS c ON a.category_id = c.id WHERE a.is_delete = 0",
       auto: false,
       connection,
     });
@@ -60,4 +60,13 @@ module.exports = {
         res.customSend(...data);
       });
   },
+  updateArticle: (req, res) => {
+    const { id, title, description, content, categoryId, tagIds, words } = req.body;
+    mysqlPool.query({
+      sql: "UPDATE `article` SET `title` = ?, `description` = ?, `content` = ?, `category_id` = ?, `tag_ids` = ?, `words` = ? WHERE `id` = ?",
+      params: [title, description, content, categoryId, tagIds, words, id]
+    }).then(data => {
+      res.customSend(data);
+    })
+  }
 };

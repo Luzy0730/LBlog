@@ -11,7 +11,7 @@
  Target Server Version : 50743
  File Encoding         : 65001
 
- Date: 15/09/2023 16:04:42
+ Date: 15/09/2023 22:00:50
 */
 
 SET NAMES utf8mb4;
@@ -25,7 +25,8 @@ CREATE TABLE `article`  (
   `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT COMMENT '文章id',
   `title` varchar(32) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL COMMENT '文章标题',
   `cateogry_id` int(10) UNSIGNED NOT NULL COMMENT '分类id',
-  `description` varchar(1000) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL DEFAULT '暂无描述' COMMENT '描述',
+  `tag_ids` varchar(64) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL COMMENT '标签ids',
+  `description` varchar(1024) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL DEFAULT '暂无描述' COMMENT '描述',
   `content` text CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL COMMENT '内容',
   `views` int(11) NOT NULL DEFAULT 0 COMMENT '查阅数',
   `words` int(11) NOT NULL COMMENT '字数',
@@ -40,8 +41,8 @@ CREATE TABLE `article`  (
 -- ----------------------------
 -- Records of article
 -- ----------------------------
-INSERT INTO `article` VALUES (1, '关于LL', 2, '暂无描述', '<h3 style=\"text-align: justify;\">目前的情况</h3><ul><li style=\"text-align: justify;\">M E：前端小趴菜</li><li style=\"text-align: justify;\">目标：少想多做吧</li><li style=\"text-align: justify;\">爱好：写Bug、逛B站</li><li style=\"text-align: justify;\">性格：喜静、偶尔emo，时刻督促自己变得阳光开朗</li></ul><pre><code class=\"language-javascript\">console.log(\'ok!\')\nconsole.log(\'hello!\')</code></pre><h3 style=\"text-align: justify;\">我 &amp; 博客</h3><p style=\"text-align: justify;\">很少对事物起兴趣，有时会因考虑太多做出不明智的决定😅</p><p style=\"text-align: justify;\">因为口嗨放了兄弟几次鸽子，被骂的可惨了，反思中...</p><p style=\"text-align: justify;\">喜欢安静，节奏控，coding 时喜欢听婉转美好的歌曲🎵</p><p style=\"text-align: justify;\"><a href=\"https://github.com/Lzy0730/LBlog\" target=\"_blank\">🍓LBlog个人博客系统</a>，作为学习过程中的产物，参考很多博客，蠢蠢的缝合怪⭐️</p><p style=\"text-align: justify;\">写博客的起因也很简单，日常知识点太多，用md或word不好看，就想弄个博客了。</p>', 0, 1000, 0, 0, 0, '2023-09-13 21:45:29', '2023-09-15 16:03:57');
-INSERT INTO `article` VALUES (2, '关于LL2', 4, '暂无描述', '<pre><code class=\"language-javascript\">console.log(\'ok\')</code></pre><p>asdasdasd</p><pre><code class=\"language-javascript\">import \"prismjs/plugins/copy-to-clipboard/prism-copy-to-clipboard.min.js\"\r\nimport \"prismjs/plugins/line-numbers/prism-line-numbers.min.js\"</code></pre><p>asd</p>', 111, 213, 0, 0, 0, '2023-09-13 22:42:24', '2023-09-15 15:29:19');
+INSERT INTO `article` VALUES (1, '关于LL', 2, '2,3', '暂无描述', '<h3 style=\"text-align: justify;\">目前的情况</h3><ul><li style=\"text-align: justify;\">M E：前端小趴菜</li><li style=\"text-align: justify;\">目标：少想多做吧</li><li style=\"text-align: justify;\">爱好：写Bug、逛B站</li><li style=\"text-align: justify;\">性格：喜静、偶尔emo，时刻督促自己变得阳光开朗</li></ul><pre><code class=\"language-javascript\">console.log(\'ok!\')\nconsole.log(\'hello!\')</code></pre><h3 style=\"text-align: justify;\">我 &amp; 博客</h3><p style=\"text-align: justify;\">很少对事物起兴趣，有时会因考虑太多做出不明智的决定😅</p><p style=\"text-align: justify;\">因为口嗨放了兄弟几次鸽子，被骂的可惨了，反思中...</p><p style=\"text-align: justify;\">喜欢安静，节奏控，coding 时喜欢听婉转美好的歌曲🎵</p><p style=\"text-align: justify;\"><a href=\"https://github.com/Lzy0730/LBlog\" target=\"_blank\">🍓LBlog个人博客系统</a>，作为学习过程中的产物，参考很多博客，蠢蠢的缝合怪⭐️</p><p style=\"text-align: justify;\">写博客的起因也很简单，日常知识点太多，用md或word不好看，就想弄个博客了。</p>', 0, 1000, 0, 0, 0, '2023-09-13 21:45:29', '2023-09-15 19:05:33');
+INSERT INTO `article` VALUES (2, '关于LL2', 4, '3,5,6', '暂无描述', '<pre><code class=\"language-javascript\">console.log(\'ok\')</code></pre><p>asdasdasd</p><pre><code class=\"language-javascript\">import \"prismjs/plugins/copy-to-clipboard/prism-copy-to-clipboard.min.js\"\r\nimport \"prismjs/plugins/line-numbers/prism-line-numbers.min.js\"</code></pre><p>asd</p>', 111, 213, 0, 0, 0, '2023-09-13 22:42:24', '2023-09-15 19:05:35');
 
 -- ----------------------------
 -- Table structure for category
@@ -98,23 +99,5 @@ INSERT INTO `tag` VALUES (11, 'test', 'test', 1, 0, '2023-09-11 23:00:42', '2023
 INSERT INTO `tag` VALUES (12, 'aaa', 'sad', 1, 0, '2023-09-11 23:01:58', '2023-09-14 11:11:28');
 INSERT INTO `tag` VALUES (13, 'aaa', 'aaaaa', 1, 0, '2023-09-11 23:41:51', '2023-09-14 11:11:29');
 INSERT INTO `tag` VALUES (14, 'asd', 'asd', 0, 0, '2023-09-12 19:14:39', '2023-09-12 19:14:39');
-
--- ----------------------------
--- Table structure for tag_rel_article
--- ----------------------------
-DROP TABLE IF EXISTS `tag_rel_article`;
-CREATE TABLE `tag_rel_article`  (
-  `tag_id` int(10) UNSIGNED NOT NULL COMMENT '标签id',
-  `article_id` int(10) UNSIGNED NOT NULL COMMENT '文章id'
-) ENGINE = InnoDB CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = Dynamic;
-
--- ----------------------------
--- Records of tag_rel_article
--- ----------------------------
-INSERT INTO `tag_rel_article` VALUES (2, 1);
-INSERT INTO `tag_rel_article` VALUES (3, 1);
-INSERT INTO `tag_rel_article` VALUES (3, 2);
-INSERT INTO `tag_rel_article` VALUES (5, 2);
-INSERT INTO `tag_rel_article` VALUES (6, 2);
 
 SET FOREIGN_KEY_CHECKS = 1;
