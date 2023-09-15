@@ -1,8 +1,14 @@
 <script setup lang="ts">
-import Icon from "@/components/content/icon/index.vue";
-import IconDialog from "@/components/content/icon/IconDialog.vue";
+const html = ref('<pre><code class="language-go">console.log(1)</code></pre><p><br></p>')
+
+const codeRef = ref()
+const instance = getCurrentInstance()
+onMounted(() => {
+  // instance?.proxy?.$prism.highlightElement(codeRef.value)
+})
 </script>
 <template>
-  <IconDialog />
-  <Icon name="arrow-right-down-line" size="48" />
+  <el-card>
+    <div ref="codeRef" class="line-numbers" v-html="html"></div>
+  </el-card>
 </template>

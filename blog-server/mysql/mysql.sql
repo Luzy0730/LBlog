@@ -11,7 +11,7 @@
  Target Server Version : 50743
  File Encoding         : 65001
 
- Date: 14/09/2023 17:30:34
+ Date: 15/09/2023 16:04:42
 */
 
 SET NAMES utf8mb4;
@@ -40,8 +40,8 @@ CREATE TABLE `article`  (
 -- ----------------------------
 -- Records of article
 -- ----------------------------
-INSERT INTO `article` VALUES (1, '关于LL', 2, '暂无描述', '\'<h3 id=\"目前的情况\">目前的情况</h3>\\n<ul>\\n<li>M E：前端小趴菜</li>\\n<li>目标：少想多做吧</li>\\n\\n<li>爱好：写Bug、逛B站</li>\\n<li>性格：喜静、偶尔emo，时刻督促自己变得阳光开朗</li>\\n</ul>\\n<h3 id=\"我--博客\">我 &amp; 博客</h3>\\n<p>很少对事物起兴趣，有时会因考虑太多做出不明智的决定😅</p>\\n<p>因为口嗨放了兄弟几次鸽子，被骂的可惨了，反思中...</p>\\n<p>喜欢安静，节奏控，coding 时喜欢听婉转美好的歌曲🎵</p>\\n\\n<p><a href=\"https://github.com/Lzy0730/LBlog\" target=\"_blank\">🍓LBlog个人博客系统</a>，作为学习过程中的产物，参考很多博客，蠢蠢的缝合怪⭐️</p>\\n<p>写博客的起因也很简单，日常知识点太多，用md或word不好看，就想弄个博客了。</p>\\n\'', 0, 1000, 0, 0, 0, '2023-09-13 21:45:29', '2023-09-14 17:27:34');
-INSERT INTO `article` VALUES (2, '关于LL2', 4, '暂无描述', 'tttt', 111, 213, 0, 0, 0, '2023-09-13 22:42:24', '2023-09-14 11:23:57');
+INSERT INTO `article` VALUES (1, '关于LL', 2, '暂无描述', '<h3 style=\"text-align: justify;\">目前的情况</h3><ul><li style=\"text-align: justify;\">M E：前端小趴菜</li><li style=\"text-align: justify;\">目标：少想多做吧</li><li style=\"text-align: justify;\">爱好：写Bug、逛B站</li><li style=\"text-align: justify;\">性格：喜静、偶尔emo，时刻督促自己变得阳光开朗</li></ul><pre><code class=\"language-javascript\">console.log(\'ok!\')\nconsole.log(\'hello!\')</code></pre><h3 style=\"text-align: justify;\">我 &amp; 博客</h3><p style=\"text-align: justify;\">很少对事物起兴趣，有时会因考虑太多做出不明智的决定😅</p><p style=\"text-align: justify;\">因为口嗨放了兄弟几次鸽子，被骂的可惨了，反思中...</p><p style=\"text-align: justify;\">喜欢安静，节奏控，coding 时喜欢听婉转美好的歌曲🎵</p><p style=\"text-align: justify;\"><a href=\"https://github.com/Lzy0730/LBlog\" target=\"_blank\">🍓LBlog个人博客系统</a>，作为学习过程中的产物，参考很多博客，蠢蠢的缝合怪⭐️</p><p style=\"text-align: justify;\">写博客的起因也很简单，日常知识点太多，用md或word不好看，就想弄个博客了。</p>', 0, 1000, 0, 0, 0, '2023-09-13 21:45:29', '2023-09-15 16:03:57');
+INSERT INTO `article` VALUES (2, '关于LL2', 4, '暂无描述', '<pre><code class=\"language-javascript\">console.log(\'ok\')</code></pre><p>asdasdasd</p><pre><code class=\"language-javascript\">import \"prismjs/plugins/copy-to-clipboard/prism-copy-to-clipboard.min.js\"\r\nimport \"prismjs/plugins/line-numbers/prism-line-numbers.min.js\"</code></pre><p>asd</p>', 111, 213, 0, 0, 0, '2023-09-13 22:42:24', '2023-09-15 15:29:19');
 
 -- ----------------------------
 -- Table structure for category

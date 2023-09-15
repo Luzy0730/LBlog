@@ -11,12 +11,14 @@
   },
   "dependencies": {
     "@element-plus/icons-vue": "^2.1.0",
+    "@types/prismjs": "^1.26.0",
     "@wangeditor/editor": "^5.1.23",
     "@wangeditor/editor-for-vue": "^5.1.12",
     "axios": "^1.5.0",
     "element-plus": "^2.3.12",
     "lodash": "^4.17.21",
     "pinia": "^2.1.6",
+    "prismjs": "^1.29.0",
     "vue": "^3.3.4",
     "vue-router": "^4.2.4"
   },
