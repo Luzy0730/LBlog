@@ -1,6 +1,5 @@
 <script setup lang="ts">
 import ArticleDialog from "@/components/content/article/ArticleDialog.vue";
-import Icon from "@/components/content/icon/index.vue";
 import { queryArticle, enableArticle } from "@/api/services/article";
 
 const articleDialogRef = ref();
