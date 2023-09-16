@@ -1,5 +1,4 @@
 <script lang="ts" setup>
-import { ref } from "vue";
 import { type FormRules } from "element-plus";
 import { createCategory, updateCategory } from "@/api/services/category";
 import IconDialog from "@/components/content/icon/IconDialog.vue";
@@ -77,13 +76,7 @@ defineExpose({
 </script>
 <template>
   <el-dialog v-model="dialogVisible" :title="title" width="30%" @close="close">
-    <el-form
-      ref="ruleFormRef"
-      :model="ruleForm"
-      status-icon
-      :rules="rules"
-      label-width="120px"
-    >
+    <el-form ref="ruleFormRef" :model="ruleForm" status-icon :rules="rules" label-width="120px">
       <el-form-item label="分类名称：" prop="name">
         <el-input v-model="ruleForm.name" />
       </el-form-item>
