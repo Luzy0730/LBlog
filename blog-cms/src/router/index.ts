@@ -10,15 +10,6 @@ const router = createRouter({
       redirect: "/dashboard",
       children: [
         {
-          path: "/test",
-          name: "test",
-          component: () => import("@/views/test/index.vue"),
-          meta: {
-            title: "测试页",
-            icon: "HomeFilled",
-          },
-        },
-        {
           path: "/dashboard",
           name: "dashboard",
           component: () => import("@/views/dashboard/index.vue"),
@@ -54,12 +45,29 @@ const router = createRouter({
           },
         },
         {
+          path: "/config",
+          component: () => import("@/views/config/index.vue"),
+          meta: {
+            title: "其他配置",
+            icon: "HomeFilled",
+          },
+        },
+        {
           path: "/404",
           name: "404",
           component: () => import("@/views/exception/404/index.vue"),
           meta: {
             title: "404",
             notMenu: true,
+          },
+        },
+        {
+          path: "/test",
+          name: "test",
+          component: () => import("@/views/test/index.vue"),
+          meta: {
+            title: "测试页",
+            icon: "HomeFilled",
           },
         },
       ],
@@ -82,11 +90,13 @@ const router = createRouter({
         },
       ],
     },
-    // {
-    //   path: "/*catchAll(.*)",
-    //   name: "error",
-    //   redirect: "404",
-    // },
+    {
+      path: "/:catchAll(.*)",
+      redirect: '/404',
+      meta: {
+        notMenu: true
+      }
+    },
   ],
 });
 export default router;
