@@ -17,6 +17,7 @@ const categoryList = [
 
 const categoryName = ref("empty")
 const AsyncComp = computed(() => defineAsyncComponent(categoryModule.value[categoryName.value]))
+const asyncCompRef = ref()
 </script>
 
 <template>
@@ -29,13 +30,12 @@ const AsyncComp = computed(() => defineAsyncComponent(categoryModule.value[categ
     </el-col>
   </el-row>
   <div v-show="categoryName !== 'empty'">
-    <el-row>
-      <el-col>
-        <el-button @click="categoryName = 'empty'">返回</el-button>
-      </el-col>
+    <el-row class="mb-3">
+      <el-button @click="categoryName = 'empty'">返回</el-button>
+      <el-button type="success" @click="() => asyncCompRef.confirm()">保存</el-button>
     </el-row>
     <Suspense>
-      <AsyncComp />
+      <AsyncComp ref="asyncCompRef" />
     </Suspense>
   </div>
 </template>

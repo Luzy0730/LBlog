@@ -1,3 +1,103 @@
+<script setup lang="ts">
+import { queryConfigAbout } from '@/api/services/config'
+import WangEditor from '../editor/WangEditor.vue';
+
+const audioList = ref([]);
+const audioConfig = ref<{ [key: string]: any }>({})
+const audioConfigSelects = [
+  { name: '吸底模式:', option: 'fixedOption', value: 'fixed' },
+  { name: '折叠歌曲列表:', option: 'listFoldedOption', value: 'listFolded' },
+  { name: '自动播放:', option: 'autoplayOption', value: 'autoplay' },
+  { name: '预加载歌曲:', option: 'preloadOption', value: 'preload' },
+  { name: '播放模式:', option: 'orderOptions', value: 'order' },
+  { name: '循环模式:', option: 'loopOptions', value: 'loop' },
+]
+const audioConfigOptions: { [key: string]: Array<any> } = {
+  fixedOption: [
+    { label: '是', value: true },
+    { label: '否', value: false },
+  ],
+  listFoldedOption: [
+    { label: '是', value: true },
+    { label: '否', value: false },
+  ],
+  autoplayOption: [
+    { label: '是', value: true },
+    { label: '否', value: false },
+  ],
+  preloadOption: [
+    { label: '是', value: 'auto' },
+    { label: '否', value: 'none' },
+  ],
+  loopOptions: [
+    { label: '全部循环', value: 'all' },
+    { label: '单曲循环', value: 'one' },
+    { label: '只播放一次', value: 'none' },
+  ],
+  orderOptions: [
+    { label: '列表播放', value: 'list' },
+    { label: '随机播放', value: 'random' },
+  ]
+}
+
+
+const wangeEditorRef = ref()
+
+onMounted(() => {
+  queryConfigAbout().then(({ data }) => {
+    const aboutAudio = JSON.parse(data.about_audio)
+    const aboutContent = JSON.parse(data.about_content)
+    wangeEditorRef.value.setContent(aboutContent)
+    audioList.value = aboutAudio.list
+    audioConfig.value = aboutAudio.config
+  })
+})
+
+const confirm = () => {
+  const aboutContent = JSON.stringify(wangeEditorRef.value.getContent().html)
+  const aboutAudio = JSON.stringify({
+    list: audioList.value,
+    config: audioConfig.value
+  })
+  const data = { aboutContent, aboutAudio }
+  console.log(data)
+}
+
+defineExpose({
+  confirm
+})
+</script>
+
 <template>
-  <div>关于我</div>
+  <el-tabs type="border-card">
+    <el-tab-pane label="播放器">
+      <el-collapse>
+        <el-collapse-item title="播放器配置">
+          <el-row :gutter="20">
+            <el-col class="mb-3" :span="6" v-for="select in audioConfigSelects" :key="select.name">
+              {{ select.name }}
+              <el-select v-model="audioConfig[select.value]" clearable placeholder="Select">
+                <el-option v-for="item in audioConfigOptions[select.option]" :key="item.value" :label="item.label"
+                  :value="item.value" />
+              </el-select>
+            </el-col>
+          </el-row>
+        </el-collapse-item>
+      </el-collapse>
+      <el-divider />
+      <el-table :data="audioList">
+        <el-table-column prop="cover" label="封面" width="150" align="center">
+          <template #default="{ row }">
+            <el-image :src="row.cover" fit="cover"></el-image>
+          </template>
+        </el-table-column>
+        <el-table-column prop="name" label="专辑名称" width="250" align="center" />
+        <el-table-column prop="artist" label="歌手" width="200" align="center" />
+        <el-table-column prop="url" label="播放地址" min-width="150" align="center" />
+      </el-table>
+    </el-tab-pane>
+    <el-tab-pane label="文章内容">
+      <WangEditor class="mt-3" ref="wangeEditorRef" />
+    </el-tab-pane>
+  </el-tabs>
 </template>
