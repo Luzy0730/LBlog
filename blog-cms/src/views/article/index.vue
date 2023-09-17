@@ -97,6 +97,6 @@ onMounted(() => {
     </el-table-column>
   </el-table>
   <el-pagination background layout="prev, pager, next" v-model:current-page="paginationOption.pageNum"
-    :total="paginationOption.total" :page-size="paginationOption.pageSize" />
+    :total="paginationOption.total" :page-size="paginationOption.pageSize" @current-change="onQueryArticle" />
   <ArticleDialog ref="articleDialogRef" @confirm="onQueryArticle" />
 </template>
