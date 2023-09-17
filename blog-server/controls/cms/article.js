@@ -4,7 +4,10 @@ const { queryArticlesMain } = require('../main/article')
 module.exports = {
   queryArticles: async (req, res) => {
     const { pageNum = 1, pageSize = 10 } = req.query
-    queryArticlesMain(pageNum, pageSize, true).then(data => {
+    queryArticlesMain({
+      pagination: { pageNum, pageSize },
+      where: { isEnable: [0, 1] }
+    }).then(data => {
       res.customLimitSend(data.articles, data.articleTotal);
     })
   },

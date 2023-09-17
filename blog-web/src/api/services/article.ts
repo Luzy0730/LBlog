@@ -1,7 +1,10 @@
 import request from "../request";
 
-export function queryArticle() {
-  return request.get<{ list: BlogItem[]; total: number }>("/article");
+export interface IQueryArticlesParams {
+  pageNum?: number; pageSize?: number; tagId?: number; tagName?: string; categoryName?: string
+}
+export function queryArticles(params: IQueryArticlesParams) {
+  return request.get<{ list: BlogItem[]; total: number }>("/article", { params });
 }
 
 export function queryArticleDetail(params: { id: number }) {

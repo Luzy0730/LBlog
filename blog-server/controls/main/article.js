@@ -4,22 +4,69 @@ module.exports = {
   queryArticlesMain
 }
 
+// 查询文章主体函数
 /**
  * 
- * @param {页码} pageNum 
- * @param {页数} pageSize 
- * @param {是否所有} all 
+ * @param {*} pagination 分页参数
+ * @param {*} select 查询字段
+ * @param {*} where 查询条件
+ * @param {*} connection  链接
  * @returns 
  */
-async function queryArticlesMain(pageNum, pageSize, all = false) {
-  const connection = await mysqlPool.connect();
+async function queryArticlesMain(options) {
+  const { pagination = false, connection, where = {}, select = {} } = options
+  const params = []
+  // SELECT 条件
+  let selectSql = "SELECT a.`id`, a.`is_enable`, a.`tag_ids` as `tags`, `title`, `views`,`words`,c.`id` AS `categoryId`,c.`name` AS `categoryName`,c.`color` AS `categoryColor`,c.`icon` AS `categoryIcon`, a.`create_time` AS `createTime`, a.`update_time` AS `updateTime` "
+  const _select = { description: true, content: false }
+  Object.assign(_select, select)
+  const { description = true, content = false } = _select
+  if (description) {
+    selectSql += ", a.`description`"
+  }
+  if (content) {
+    selectSql += ", a.`content`"
+  }
+  // WHERE 条件
+  let whereSql = "FROM `article` AS a LEFT JOIN category AS c ON a.category_id = c.id"
+  const _where = { isEnable: 1, isDelete: 0, id: null, tagId: null }
+  Object.assign(_where, where)
+  const { isEnable = 1, isDelete = 0, id = null, tagId = null, categoryId } = _where
+  // isDelete
+  const isDeleteSql = Array.isArray(isDelete) ? isDelete.join(',') : isDelete
+  whereSql += ` WHERE a.is_delete IN (${isDeleteSql})`
+  // isEnable
+  const isEnableSql = Array.isArray(isEnable) ? isEnable.join(',') : isEnable
+  whereSql += ` AND a.is_Enable IN (${isEnableSql})`
+  // id
+  if (id) {
+    whereSql += ` AND a.id = ${id}`
+  }
+  // tagId
+  if (tagId) {
+    whereSql += ` AND CONCAT(',', a.tag_ids, ',') LIKE '%,${tagId},%'`
+  }
+  // categoryId
+  if (categoryId) {
+    whereSql += ` AND a.category_id = ${categoryId}`
+  }
+  // LIMIT 条件
+  let paginationSql = ''
+  if (pagination) {
+    const { pageNum = 1, pageSize = 10 } = pagination
+    paginationSql = " LIMIT ? OFFSET ?"
+    params.push(+pageSize, (+pageNum - 1) * +pageSize)
+  }
+  const _connection = connection ? connection : await mysqlPool.connect();
+  // 文章数量查询sql
   const articles = await mysqlPool.query({
-    sql: "SELECT a.`id`, a.`is_enable`, a.`tag_ids` as `tags`, `title`,`description`,`views`,`words`,c.`id` AS `categoryId`,c.`name` AS `categoryName`,c.`color` AS `categoryColor`,c.`icon` AS `categoryIcon`, a.`create_time` AS `createTime`, a.`update_time` AS `updateTime` FROM `article` AS a LEFT JOIN category AS c ON a.category_id = c.id WHERE a.is_delete = 0 " + `${all ? "" : "AND a.`is_enable` = 1"}` + " LIMIT ? OFFSET ?",
-    params: [+pageSize, (+pageNum - 1) * +pageSize],
+    sql: selectSql + whereSql + paginationSql,
+    params,
     connection,
   });
+  const articleCount = "SELECT COUNT(1) "
   const articleTotal = (await mysqlPool.query({
-    sql: "SELECT COUNT(1) FROM `article` AS a LEFT JOIN category AS c ON a.category_id = c.id WHERE a.is_delete = 0 " + `${all ? "" : "AND a.`is_enable` = 1"}`,
+    sql: articleCount + whereSql,
     connection,
   }))[0]['COUNT(1)'];
   return Promise.all(
@@ -31,7 +78,7 @@ async function queryArticlesMain(pageNum, pageSize, all = false) {
         icon: article.categoryIcon,
       };
       delete article.categoryId;
-      delete article.categoryname;
+      delete article.categoryName;
       delete article.categoryColor;
       delete article.categoryIcon;
       return mysqlPool
@@ -44,7 +91,9 @@ async function queryArticlesMain(pageNum, pageSize, all = false) {
         });
     })
   ).then(() => {
-    mysqlPool.release(connection);
+    if (!connection) {
+      mysqlPool.release(_connection);
+    }
     return { articles, articleTotal }
   });
 }
