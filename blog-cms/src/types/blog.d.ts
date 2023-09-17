@@ -19,6 +19,8 @@ declare interface IArticle {
   words: number;
   views: number;
   is_enable: number;
+  createTime: string;
+  updateTime: string;
   category: Pick<ICategory, "id" | "name" | "color" | "icon">;
   tags: Array<Pick<ITag, "id" | "name" | "color">>;
 }

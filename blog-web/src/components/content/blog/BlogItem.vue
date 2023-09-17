@@ -22,26 +22,20 @@ const timeFormat = computed(
         <div class="row m-padded-tb-small">
           <div class="ui horizontal link list m-center">
             <div class="item m-datetime">
-              <i class="small calendar icon"></i
-              ><span>{{ timeFormat(blogItem.updateTime) }}</span>
+              <i class="small calendar icon"></i><span>{{ timeFormat(blogItem.createTime) }}</span>
             </div>
             <div class="item m-views">
               <i class="small eye icon"></i><span>{{ blogItem.views }}</span>
             </div>
             <div class="item m-common-black">
-              <i class="small pencil alternate icon"></i
-              ><span>字数≈{{ blogItem.words }}字</span>
+              <i class="small pencil alternate icon"></i><span>字数≈{{ blogItem.words }}字</span>
             </div>
           </div>
         </div>
         <!--分类-->
-        <router-link
-          to="#"
-          :class="blogItem.category.color"
-          class="ui large ribbon label"
-        >
-          <i class="small icon" :class="blogItem.category.icon"></i
-          ><span class="m-text-500">{{ blogItem.category.name }}</span>
+        <router-link to="#" :class="blogItem.category.color" class="ui large ribbon label">
+          <i class="small icon" :class="blogItem.category.icon"></i><span class="m-text-500">{{ blogItem.category.name
+          }}</span>
         </router-link>
         <!--文章Markdown描述-->
         <div class="typo m-padded-tb-small" v-html="blogItem.description"></div>
@@ -56,14 +50,8 @@ const timeFormat = computed(
         <!--标签-->
         <div class="row m-padded-tb-no">
           <div class="column m-padding-left-no">
-            <router-link
-              to="#"
-              class="ui tag label m-text-500 m-margin-small"
-              :class="tag.color"
-              v-for="tag in blogItem.tags"
-              :key="tag.id"
-              >{{ tag.name }}</router-link
-            >
+            <router-link to="#" class="ui tag label m-text-500 m-margin-small" :class="tag.color"
+              v-for="tag in blogItem.tags" :key="tag.id">{{ tag.name }}</router-link>
           </div>
         </div>
       </div>

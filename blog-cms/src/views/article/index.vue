@@ -80,6 +80,8 @@ onMounted(() => {
         <el-switch v-model="row.is_enable" :active-value="1" :inactive-value="0" @change="onEnableArticle(row)" />
       </template>
     </el-table-column>
+    <el-table-column prop="createTime" label="创建时间" min-width="150" align="center" />
+    <el-table-column prop="updateTime" label="更新时间" min-width="150" align="center" />
     <el-table-column prop="" label="操作" width="110" align="center" fixed="right">
       <template #default="{ row }">
         <el-button type="primary" link @click="onUpdateArticle(row)">编辑</el-button>

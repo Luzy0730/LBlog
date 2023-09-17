@@ -1,21 +1,26 @@
+declare interface ITag {
+  id: number;
+  name: string;
+  color: string;
+  is_enable: number;
+}
+declare interface ICategory {
+  id: number;
+  name: string;
+  color: string;
+  icon: string;
+  is_enable: number;
+}
+
 declare interface BlogItem {
   id: number;
   title: string;
-  category: {
-    id: number;
-    name: string;
-    color: string;
-    icon: string;
-  };
-  tags: Array<{
-    id: number;
-    name: string;
-    color: string;
-  }>;
-  description?: string;
-  createTime: string;
-  updateTime: string;
-  top: boolean;
+  description: string;
   words: number;
   views: number;
+  is_enable?: number;
+  createTime: string;
+  updateTime: string;
+  category: Pick<ICategory, "id" | "name" | "color" | "icon">;
+  tags: Array<Pick<ITag, "id" | "name" | "color">>;
 }
