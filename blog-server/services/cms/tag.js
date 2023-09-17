@@ -1,5 +1,5 @@
 const express = require("express");
-const tagControl = require("../controls/tag");
+const tagControl = require("../../controls/tag");
 const route = express.Router();
 
 route.post("/create", tagControl.createTag);

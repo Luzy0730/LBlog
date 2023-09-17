@@ -1,7 +1,7 @@
 import request from "../request";
 
-export function queryArticle() {
-  return request.get<{ list: IArticle[]; total: number }>("/article");
+export function queryArticle(params: { pageNum: number, pageSize: number }) {
+  return request.get<{ list: IArticle[]; total: number }>("/article", { params });
 }
 
 export function queryArticleDetail(params: { id: number }) {

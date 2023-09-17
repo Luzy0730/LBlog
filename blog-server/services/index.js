@@ -1,12 +1,21 @@
-const tagService = require("./tag");
-const categoryService = require("./category");
-const articleService = require("./article");
-const configService = require("./config");
+const cmsTagService = require("./cms/tag");
+const cmsCategoryService = require("./cms/category");
+const cmsArticleService = require("./cms/article");
+const cmsConfigService = require("./cms/config");
+const webArticleService = require("./web/article");
 
-function serviceMount(app) {
-  app.use("/tag", tagService);
-  app.use("/category", categoryService);
-  app.use("/article", articleService);
-  app.use("/config", configService);
+function cmsServiceMount(app) {
+  app.use("/tag", cmsTagService);
+  app.use("/category", cmsCategoryService);
+  app.use("/article", cmsArticleService);
+  app.use("/config", cmsConfigService);
 }
-module.exports = serviceMount;
+
+function webServiceMount(app) {
+  app.use("/article", webArticleService);
+}
+
+module.exports = {
+  cmsServiceMount,
+  webServiceMount
+};
