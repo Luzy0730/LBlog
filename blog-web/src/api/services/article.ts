@@ -5,5 +5,5 @@ export function queryArticle() {
 }
 
 export function queryArticleDetail(params: { id: number }) {
-  return request.get("/article/detail", { params });
+  return request.get<BlogItem>("/article/detail", { params });
 }

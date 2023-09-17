@@ -1,15 +1,35 @@
 <script setup lang="ts">
-const { blogItem } = defineProps<{
-  blogItem: BlogItem;
+import { useRouter } from 'vue-router';
+const props = defineProps<{
+  blogItem?: BlogItem;
+  isDetail?: Boolean
 }>();
+const blogItem = computed(() => props.blogItem)
+const isDetail = computed(() => props.isDetail)
+
 const instance = getCurrentInstance();
 const timeFormat = computed(
   () => (time: string) => instance?.proxy?.$dayjs(time).format("YYYY-MM-DD")
 );
+
+const router = useRouter()
+const onReadBlog = (id: number) => {
+  router.push(`blog/${id}`)
+}
+
+watch(() => blogItem.value, newVal => {
+  if (newVal) {
+    nextTick(() => {
+      instance?.proxy?.$prism.highlightAll();
+    })
+  }
+}, {
+  immediate: true
+})
 </script>
 
 <template>
-  <div class="ui segment m-box m-padded-tb-large m-margin-bottom-big">
+  <div class="ui segment m-box m-padded-tb-large m-margin-bottom-big" v-if="blogItem">
     <div class="ui middle aligned mobile reversed stackable">
       <div class="ui grid m-margin-lr">
         <!--标题-->
@@ -33,15 +53,16 @@ const timeFormat = computed(
           </div>
         </div>
         <!--分类-->
-        <router-link to="#" :class="blogItem.category.color" class="ui large ribbon label">
+        <router-link :to="`/category/${blogItem.category.name}`" :class="blogItem.category.color"
+          class="ui large ribbon label">
           <i class="small icon" :class="blogItem.category.icon"></i><span class="m-text-500">{{ blogItem.category.name
           }}</span>
         </router-link>
-        <!--文章Markdown描述-->
-        <div class="typo m-padded-tb-small" v-html="blogItem.description"></div>
+        <!--文章Markdown 描述 | 内容-->
+        <div class="typo m-padded-tb-small" v-html="isDetail ? blogItem.content : blogItem.description"></div>
         <!--阅读全文按钮-->
-        <div class="row">
-          <button class="ui inverted secondary button m-center">
+        <div class="row" v-if="!isDetail">
+          <button class="ui inverted secondary button m-center" @click="onReadBlog(blogItem.id)">
             阅读全文
           </button>
         </div>
@@ -50,7 +71,7 @@ const timeFormat = computed(
         <!--标签-->
         <div class="row m-padded-tb-no">
           <div class="column m-padding-left-no">
-            <router-link to="#" class="ui tag label m-text-500 m-margin-small" :class="tag.color"
+            <router-link :to="`/tag/${tag.name}`" class="ui tag label m-text-500 m-margin-small" :class="tag.color"
               v-for="tag in blogItem.tags" :key="tag.id">{{ tag.name }}</router-link>
           </div>
         </div>

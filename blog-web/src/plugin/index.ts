@@ -1,4 +1,5 @@
 import type { App } from "vue";
+import usePrismjs from './prismjs'
 import dayjs from "dayjs";
 
 declare module "vue" {
@@ -10,6 +11,7 @@ declare module "vue" {
 const plugin = {
   install(app: App) {
     app.config.globalProperties.$dayjs = dayjs;
+    app.use(usePrismjs)
   },
 };
 
