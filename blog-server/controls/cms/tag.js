@@ -1,4 +1,4 @@
-const mysqlPool = require("../mysql");
+const mysqlPool = require("../../mysql");
 module.exports = {
   // 查询标签
   queryTags: (req, res) => {

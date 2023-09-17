@@ -1,4 +1,4 @@
-const mysqlPool = require("../mysql");
+const mysqlPool = require("../../mysql");
 
 module.exports = {
   // 新建分类
@@ -28,12 +28,12 @@ module.exports = {
   // 查询分类(简略)
   queryCategorySimple: (req, res) => {
     mysqlPool
-    .query({
-      sql: "SELECT id,name FROM `category` WHERE `is_delete`='0' AND `is_enable` = '1'",
-    })
-    .then((data) => {
-      res.customSend(data);
-    });
+      .query({
+        sql: "SELECT id,name FROM `category` WHERE `is_delete`='0' AND `is_enable` = '1'",
+      })
+      .then((data) => {
+        res.customSend(data);
+      });
   },
   // 更新分类
   updateCategory: (req, res) => {

@@ -1,5 +1,5 @@
 const express = require("express");
-const categoryControl = require("../../controls/category");
+const categoryControl = require("../../controls/cms/category");
 const route = express.Router();
 
 route.post("/create", categoryControl.createCategory);

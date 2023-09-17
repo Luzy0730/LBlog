@@ -1,4 +1,4 @@
-const mysqlPool = require("../mysql");
+const mysqlPool = require("../../mysql");
 
 module.exports = {
     queryAbout: (req, res) => {
