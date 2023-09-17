@@ -2,7 +2,7 @@ const express = require("express");
 const app = express();
 const port = 3000;
 const serviceMount = require("./services");
-const { customSend } = require("./middleware/intercept");
+const middleware = require("./middleware/intercept");
 
 // 解决跨域问题
 app.all("*", function (req, res, next) {
@@ -28,7 +28,7 @@ app.use(express.urlencoded({ extended: false }));
 app.use(express.json())
 
 // 自定义的响应对象
-app.use(customSend);
+middleware(app)
 
 serviceMount(app);
 
