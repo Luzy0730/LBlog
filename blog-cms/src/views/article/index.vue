@@ -4,11 +4,18 @@ import { queryArticle, enableArticle } from "@/api/services/article";
 
 const articleDialogRef = ref();
 
+const paginationOption = ref({
+  pageNum: 1,
+  pageSize: 10,
+  total: 0
+})
+
 const tableData = ref<IArticle[]>([]);
 // 查询文章列表
 const onQueryArticle = () => {
-  queryArticle().then((res) => {
+  queryArticle(paginationOption.value).then((res) => {
     tableData.value = res.data.list;
+    paginationOption.value.total = res.data.total
   });
 };
 
@@ -89,5 +96,7 @@ onMounted(() => {
       </template>
     </el-table-column>
   </el-table>
+  <el-pagination background layout="prev, pager, next" v-model:current-page="paginationOption.pageNum"
+    :total="paginationOption.total" :page-size="paginationOption.pageSize" />
   <ArticleDialog ref="articleDialogRef" @confirm="onQueryArticle" />
 </template>

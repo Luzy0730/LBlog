@@ -29,13 +29,8 @@ function customSend(req, res, next) {
 // 自定义分页封装的中间件函数
 function customLimitSend(req, res, next) {
   // 自定义的响应对象
-  res.customLimitSend = function (data, page, size, code = 200, msg = "success") {
-    const modifiedData = {
-      list: data,
-      page,
-      size,
-      total: data.length
-    }
+  res.customLimitSend = function (list, total, code = 200, msg = "success") {
+    const modifiedData = { list, total }
     customSendMain(res, modifiedData, code = 200, msg = "success");
   };
   next()
