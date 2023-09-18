@@ -1,4 +1,5 @@
 <script setup lang="ts">
+import NotFound from "@/components/content/NotFound.vue";
 import BlogItem from '@/components/content/blog/BlogItem.vue';
 import { useRoute } from 'vue-router'
 import { queryArticleDetail } from '@/api/services/article'
@@ -18,5 +19,6 @@ watch(() => route.params, newVal => {
 
 </script>
 <template>
-  <BlogItem :blog-item="blogInfo" :is-detail="true" />
+  <NotFound v-if="!blogInfo" />
+  <BlogItem v-else :blog-item="blogInfo" :is-detail="true" />
 </template>

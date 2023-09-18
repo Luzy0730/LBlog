@@ -1,4 +1,5 @@
 <script setup lang="ts">
+import NotFound from "@/components/content/NotFound.vue";
 import BlogItem from "./BlogItem.vue";
 import Pagination from "./Pagination.vue";
 const { blogList, pagination } = defineProps<{
@@ -18,5 +19,7 @@ const onCurrentChange = (pageNum: number) => {
   <!--content-->
   <BlogItem v-for="item in blogList" :key="item.id" :blog-item="item" />
   <!--分页-->
-  <Pagination :pagination="pagination" @current-change="onCurrentChange" />
+  <Pagination v-if="blogList.length" :pagination="pagination" @current-change="onCurrentChange" />
+  <!-- 未找到 -->
+  <NotFound v-else />
 </template>

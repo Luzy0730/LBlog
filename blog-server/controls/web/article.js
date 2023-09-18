@@ -17,7 +17,7 @@ module.exports = {
         sql: "SELECT id FROM tag WHERE `name` = ?",
         params: [tagName],
         connection
-      }))[0]['id']
+      }))[0]?.['id'] || -1
       param.where.tagId = tagId
     }
     if (categoryName) {
@@ -25,7 +25,7 @@ module.exports = {
         sql: "SELECT id FROM category WHERE `name` = ?",
         params: [categoryName],
         connection
-      }))[0]['id']
+      }))[0]?.['id'] || -1
       param.where.categoryId = categoryId
     }
     queryArticlesMain(param).then(data => {

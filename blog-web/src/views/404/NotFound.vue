@@ -1,3 +1,6 @@
+<script setup lang="ts">
+import NotFound from "@/components/content/NotFound.vue";
+</script>
 <template>
-  404 not found
+  <NotFound />
 </template>
