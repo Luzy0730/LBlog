@@ -36,8 +36,14 @@ const onCurrentChange = (pageNum: number) => {
 }
 
 watch(() => route.params, newVal => {
+  // 初始化筛选
   pagination.value.pageNum = 1
   pagination.value.total = 0
+  params.value = {
+    tagName: undefined,
+    categoryName: undefined,
+  }
+  // 判断是否为指定类型分类页
   const { type, name } = route.params
   if (!type && !name) {
     onQueryArticles()
