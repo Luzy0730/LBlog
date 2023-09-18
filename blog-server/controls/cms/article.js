@@ -11,6 +11,15 @@ module.exports = {
       res.customLimitSend(data.articles, data.articleTotal);
     })
   },
+  createArticle: (req, res) => {
+    const { title, categoryId, tagIds, description, content, words } = req.body;
+    mysqlPool.query({
+      sql: "INSERT INTO `article`(`title`, `category_id`,`tag_ids`,`description`, `content`, `words`) value(?,?,?,?,?,?)",
+      params: [title, categoryId, tagIds, description, content, words]
+    }).then((data) => {
+      res.customSend(data);
+    });
+  },
   // 启用文章
   enableArticle: (req, res) => {
     const { id, is_enable } = req.body;

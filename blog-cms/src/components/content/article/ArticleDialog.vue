@@ -3,7 +3,7 @@ import { ref } from "vue";
 import { type FormRules } from "element-plus";
 import { queryCategorySimple } from "@/api/services/category";
 import { queryTagsSimple } from "@/api/services/tag";
-import { queryArticleDetail, updateArticle, type IUpdateArticleData } from "@/api/services/article";
+import { queryArticleDetail, createArticle, updateArticle, type IUpdateArticleData } from "@/api/services/article";
 import WangEditorDialog from "@/components/content/editor/WangEditorDialog.vue";
 
 const emit = defineEmits<{
@@ -75,8 +75,9 @@ const update = (category: ICategory) => {
 const onSubmit = () => {
   ruleFormRef.value.validate(async (valid: boolean) => {
     if (valid) {
+      const api = ruleForm.id === -1 ? createArticle : updateArticle
       try {
-        await updateArticle({
+        await api({
           ...ruleForm,
           tagIds: (ruleForm.tagIds as number[]).join(',')
         })

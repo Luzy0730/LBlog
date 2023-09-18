@@ -4,6 +4,10 @@ export function queryArticle(params: { pageNum: number, pageSize: number }) {
   return request.get<{ list: IArticle[]; total: number }>("/article", { params });
 }
 
+export function createArticle(data) {
+  return request.post("/article/create", data);
+}
+
 export function queryArticleDetail(params: { id: number }) {
   return request.get("/article/detail", { params });
 }
