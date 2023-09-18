@@ -8,19 +8,36 @@ const blogList = ref<Array<BlogItem>>([]);
 const route = useRoute()
 const router = useRouter()
 const typeList: string[] = ['tag', 'category']
-const params = ref<IQueryArticlesParams>({
+
+const pagination = ref<IPagination>({
   pageNum: 1,
-  pageSize: 10,
+  pageSize: 5,
+  total: 0
+})
+const params = ref<IQueryArticlesParams>({
+  tagName: undefined,
+  categoryName: undefined,
 })
 
 const onQueryArticles = () => {
-  queryArticles(params.value).then(res => {
+  queryArticles({
+    ...params.value,
+    pageNum: pagination.value.pageNum,
+    pageSize: pagination.value.pageSize,
+  }).then(res => {
     blogList.value = res.data.list
+    pagination.value.total = res.data.total
   })
 }
 
+const onCurrentChange = (pageNum: number) => {
+  pagination.value.pageNum = pageNum
+  onQueryArticles()
+}
+
 watch(() => route.params, newVal => {
-  params.value = { pageNum: 1, pageSize: 10 }
+  pagination.value.pageNum = 1
+  pagination.value.total = 0
   const { type, name } = route.params
   if (!type && !name) {
     onQueryArticles()
@@ -43,5 +60,5 @@ watch(() => route.params, newVal => {
 })
 </script>
 <template>
-  <BlogList :blog-list="blogList" />
+  <BlogList :blog-list="blogList" :pagination="pagination" @current-change="onCurrentChange" />
 </template>

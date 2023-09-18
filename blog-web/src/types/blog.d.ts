@@ -25,3 +25,9 @@ declare interface BlogItem {
   category: Pick<ICategory, "id" | "name" | "color" | "icon">;
   tags: Array<Pick<ITag, "id" | "name" | "color">>;
 }
+
+declare interface IPagination {
+  pageSize: number
+  pageNum: number
+  total: number
+}
