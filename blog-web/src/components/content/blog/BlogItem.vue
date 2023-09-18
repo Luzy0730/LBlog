@@ -14,7 +14,7 @@ const timeFormat = computed(
 
 const router = useRouter()
 const onReadBlog = (id: number) => {
-  router.push(`blog/${id}`)
+  router.push(`/blog/${id}`)
 }
 
 watch(() => blogItem.value, newVal => {
