@@ -10,7 +10,7 @@ module.exports = function generateApp(port, serviceMount) {
 
   // 解决跨域问题
   app.all("*", function (req, res, next) {
-    const allowCORS = ['http://127.0.0.1:5173', 'http://127.0.0.1:5174']
+    const allowCORS = ['121.41.91.118', 'http://lovcc.cn', 'http://127.0.0.1:9999', 'http://127.0.0.1:10000']
     if (allowCORS.includes(req.headers.origin)) {
       // 设置允许跨域的域名,*代表允许任意域名跨域
       res.header("Access-Control-Allow-Origin", req.headers.origin);
