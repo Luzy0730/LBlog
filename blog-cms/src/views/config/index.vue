@@ -18,6 +18,49 @@ const categoryList = [
 const categoryName = ref("empty")
 const AsyncComp = computed(() => defineAsyncComponent(categoryModule.value[categoryName.value]))
 const asyncCompRef = ref()
+
+const instance = getCurrentInstance()
+const saveLoading = ref(false)
+const refreshLoading = ref(false)
+
+const onRefreshConfig = async () => {
+  try {
+    refreshLoading.value = true
+    await asyncCompRef.value.onRefresh()
+    instance?.proxy?.$message({
+      type: "success",
+      message: "操作成功",
+    });
+  } catch (error) {
+    instance?.proxy?.$message({
+      type: "error",
+      message: "操作失败",
+    });
+  } finally {
+    refreshLoading.value = false
+  }
+}
+
+const onSaveConfig = async () => {
+  saveLoading.value = true
+  try {
+    await asyncCompRef.value.onConfirm()
+    const instance = getCurrentInstance();
+    instance?.proxy?.$message({
+      type: "success",
+      message: "操作成功",
+    });
+  } catch (error) {
+    instance?.proxy?.$message({
+      type: "error",
+      message: "操作失败",
+    });
+  } finally {
+    saveLoading.value = false
+    onRefreshConfig()
+  }
+}
+
 </script>
 
 <template>
@@ -32,7 +75,8 @@ const asyncCompRef = ref()
   <div v-show="categoryName !== 'empty'">
     <el-row class="mb-3">
       <el-button @click="categoryName = 'empty'">返回</el-button>
-      <el-button type="success" @click="() => asyncCompRef.confirm()">保存</el-button>
+      <el-button type="primary" @click="onRefreshConfig" :loading="refreshLoading">刷新</el-button>
+      <el-button type="success" @click="onSaveConfig" :loading="saveLoading">保存</el-button>
     </el-row>
     <Suspense>
       <AsyncComp ref="asyncCompRef" />

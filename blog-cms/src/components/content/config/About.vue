@@ -1,5 +1,6 @@
 <script setup lang="ts">
-import { queryConfigAbout } from '@/api/services/config'
+import { queryConfigAbout, updateConfigAbout } from '@/api/services/config'
+import AboutAudioDialog, { type IAudio } from './AboutAudioDialog.vue'
 import WangEditor from '../editor/WangEditor.vue';
 
 const audioList = ref([]);
@@ -43,32 +44,52 @@ const audioConfigOptions: { [key: string]: Array<any> } = {
 
 const wangeEditorRef = ref()
 
-onMounted(() => {
-  queryConfigAbout().then(({ data }) => {
-    const aboutAudio = JSON.parse(data.about_audio)
-    const aboutContent = JSON.parse(data.about_content)
+const onRefresh = async () => {
+  return queryConfigAbout().then(({ data }) => {
+    const aboutAudio = data.about_audio ? JSON.parse(data.about_audio) : {}
+    const aboutContent = data.about_content ? JSON.parse(data.about_content) : {}
     wangeEditorRef.value.setContent(aboutContent)
-    audioList.value = aboutAudio.list
-    audioConfig.value = aboutAudio.config
+    audioList.value = aboutAudio.list || []
+    audioConfig.value = aboutAudio.config || {}
   })
-})
+}
 
-const confirm = () => {
+const aboutAudioDialogRef = ref()
+// 新增
+const onCreate = () => {
+  aboutAudioDialogRef.value.create()
+}
+// 编辑
+const onUpdate = (audio: IAudio) => {
+  aboutAudioDialogRef.value.update(audio)
+}
+// 删除
+const onDelete = (index: number) => {
+  audioList.value.splice(index, 1)
+}
+
+const onConfirm = async () => {
   const aboutContent = JSON.stringify(wangeEditorRef.value.getContent().html)
   const aboutAudio = JSON.stringify({
     list: audioList.value,
     config: audioConfig.value
   })
   const data = { aboutContent, aboutAudio }
-  console.log(data)
+  return updateConfigAbout(data)
 }
 
+onMounted(() => {
+  onRefresh()
+})
+
 defineExpose({
-  confirm
+  onConfirm,
+  onRefresh
 })
 </script>
 
 <template>
+  <AboutAudioDialog ref="aboutAudioDialogRef" />
   <el-tabs type="border-card">
     <el-tab-pane label="播放器">
       <el-collapse>
@@ -85,7 +106,12 @@ defineExpose({
         </el-collapse-item>
       </el-collapse>
       <el-divider />
-      <el-table :data="audioList">
+      <el-row>
+        <el-col :span="24">
+          <el-button class="float-right" @click="onCreate">新增</el-button>
+        </el-col>
+      </el-row>
+      <el-table class="mt-3" border :data="audioList" show-overflow-tooltip>
         <el-table-column prop="cover" label="封面" width="150" align="center">
           <template #default="{ row }">
             <el-image :src="row.cover" fit="cover"></el-image>
@@ -93,7 +119,17 @@ defineExpose({
         </el-table-column>
         <el-table-column prop="name" label="专辑名称" width="250" align="center" />
         <el-table-column prop="artist" label="歌手" width="200" align="center" />
-        <el-table-column prop="url" label="播放地址" min-width="150" align="center" />
+        <el-table-column prop="url" label="播放地址" width="200" align="center" />
+        <el-table-column prop="" label="操作" min-width="120" align="center" fixed="right">
+          <template #default="{ row, $index }">
+            <el-button type="primary" link @click="onUpdate(row)">编辑</el-button>
+            <el-popconfirm title="确定删除吗?" @confirm="() => onDelete($index)">
+              <template #reference>
+                <el-button type="primary" link>删除</el-button>
+              </template>
+            </el-popconfirm>
+          </template>
+        </el-table-column>
       </el-table>
     </el-tab-pane>
     <el-tab-pane label="文章内容">
