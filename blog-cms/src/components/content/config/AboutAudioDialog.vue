@@ -1,13 +1,19 @@
 <script setup lang="ts">
 import { useFormDialog } from '@/hooks/useDialog'
+import { cloneDeep } from 'lodash';
+const emit = defineEmits<{
+  (event: "create", audio: IAudio): void;
+  (event: "update", audio: IAudio): void;
+}>()
 export interface IAudio {
+  id?: number;
   cover: string;
   name: string;
   artist: string;
   url: string
 }
 
-const { dialogVisible, title, ruleFormRef, ruleForm, rules, close, create, update } = useFormDialog<IAudio>({
+const { dialogVisible, title, isEdit, ruleFormRef, ruleForm, rules, close, create, update } = useFormDialog<IAudio>({
   formData: {
     cover: "",
     name: "",
@@ -23,7 +29,12 @@ const { dialogVisible, title, ruleFormRef, ruleForm, rules, close, create, updat
 })
 
 const onSubmit = () => {
-
+  if (isEdit.value) {
+    emit('update', cloneDeep(ruleForm))
+  } else {
+    emit('create', cloneDeep(ruleForm))
+  }
+  close()
 }
 
 defineExpose({

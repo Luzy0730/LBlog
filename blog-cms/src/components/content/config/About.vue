@@ -3,7 +3,7 @@ import { queryConfigAbout, updateConfigAbout } from '@/api/services/config'
 import AboutAudioDialog, { type IAudio } from './AboutAudioDialog.vue'
 import WangEditor from '../editor/WangEditor.vue';
 
-const audioList = ref([]);
+const audioList = ref<IAudio[]>([]);
 const audioConfig = ref<{ [key: string]: any }>({})
 const audioConfigSelects = [
   { name: '吸底模式:', option: 'fixedOption', value: 'fixed' },
@@ -67,11 +67,21 @@ const onUpdate = (audio: IAudio) => {
 const onDelete = (index: number) => {
   audioList.value.splice(index, 1)
 }
+// 弹窗新增和更新事件
+const onCreateAudio = (audio: IAudio) => {
+  audioList.value.push(audio)
+}
+const onUpdateAudio = (audio: IAudio) => {
+  const find = audioList.value.find(audio => audio.id === audio.id)
+  if (find) {
+    Object.assign(find, audio)
+  }
+}
 
 const onConfirm = async () => {
   const aboutContent = JSON.stringify(wangeEditorRef.value.getContent().html)
   const aboutAudio = JSON.stringify({
-    list: audioList.value,
+    list: audioList.value.map((audio, index) => ({ ...audio, id: index + 1 })),
     config: audioConfig.value
   })
   const data = { aboutContent, aboutAudio }
@@ -89,7 +99,7 @@ defineExpose({
 </script>
 
 <template>
-  <AboutAudioDialog ref="aboutAudioDialogRef" />
+  <AboutAudioDialog ref="aboutAudioDialogRef" @create="onCreateAudio" @update="onUpdateAudio" />
   <el-tabs type="border-card">
     <el-tab-pane label="播放器">
       <el-collapse>
@@ -119,8 +129,8 @@ defineExpose({
         </el-table-column>
         <el-table-column prop="name" label="专辑名称" width="250" align="center" />
         <el-table-column prop="artist" label="歌手" width="200" align="center" />
-        <el-table-column prop="url" label="播放地址" width="200" align="center" />
-        <el-table-column prop="" label="操作" min-width="120" align="center" fixed="right">
+        <el-table-column prop="url" label="播放地址" min-width="200" align="center" />
+        <el-table-column prop="" label="操作" width="120" align="center" fixed="right">
           <template #default="{ row, $index }">
             <el-button type="primary" link @click="onUpdate(row)">编辑</el-button>
             <el-popconfirm title="确定删除吗?" @confirm="() => onDelete($index)">

@@ -5,11 +5,12 @@ import type { UnwrapRef } from "vue";
 type UseFormDialogResult<T> = {
   dialogVisible: globalThis.Ref<boolean>;
   title: globalThis.Ref<string>;
+  isEdit: globalThis.Ref<boolean>;
   ruleFormRef: globalThis.Ref<HTMLElement>;
   ruleForm: UnwrapRef<T>;
   rules: UnwrapRef<Partial<Record<any, Arrayable<FormItemRule>>>>
-  open: (cb: Function) => void;
-  close: (cb: Function) => void;
+  open: (cb?: Function) => void;
+  close: (cb?: Function) => void;
   create: () => void;
   update: (data: T) => void;
 }
@@ -19,6 +20,7 @@ export function useFormDialog<T = object>(option: { formData?: T, formRule?: For
 
   const dialogVisible = ref(false);
   const title = ref("新增");
+  const isEdit = ref(false)
 
   const ruleFormRef = ref();
   const ruleForm = reactive<object>((formData as object))
@@ -30,23 +32,26 @@ export function useFormDialog<T = object>(option: { formData?: T, formRule?: For
   }
 
   const close = (cb?: Function) => {
+    dialogVisible.value = false
     ruleFormRef.value.resetFields();
     cb && cb()
   };
 
-  const create = () => {
+  const create = (cb?: Function) => {
     title.value = "新增";
-    open();
+    isEdit.value = false
+    open(cb);
   }
 
-  const update = (data: T) => {
+  const update = (data: T, cb?: Function) => {
     title.value = "编辑";
-    open();
+    isEdit.value = true
+    open(cb);
     nextTick(() => {
       Object.assign((ruleForm as any), data)
     })
   }
 
 
-  return { dialogVisible, title, ruleFormRef, ruleForm, rules, open, close, create, update }
+  return { dialogVisible, title, isEdit, ruleFormRef, ruleForm, rules, open, close, create, update }
 }
