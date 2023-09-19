@@ -43,12 +43,13 @@ const audioConfigOptions: { [key: string]: Array<any> } = {
 
 
 const wangeEditorRef = ref()
-
+const audioContentTitle = ref()
 const onRefresh = async () => {
   return queryConfigAbout().then(({ data }) => {
     const aboutAudio = data.about_audio ? JSON.parse(data.about_audio) : {}
     const aboutContent = data.about_content ? JSON.parse(data.about_content) : {}
-    wangeEditorRef.value.setContent(aboutContent)
+    audioContentTitle.value = aboutContent.title || ""
+    wangeEditorRef.value.setContent(aboutContent.content || "")
     audioList.value = aboutAudio.list || []
     audioConfig.value = aboutAudio.config || {}
   })
@@ -79,7 +80,10 @@ const onUpdateAudio = (audio: IAudio) => {
 }
 
 const onConfirm = async () => {
-  const aboutContent = JSON.stringify(wangeEditorRef.value.getContent().html)
+  const aboutContent = JSON.stringify({
+    title: audioContentTitle.value,
+    content: wangeEditorRef.value.getContent().html
+  })
   const aboutAudio = JSON.stringify({
     list: audioList.value.map((audio, index) => ({ ...audio, id: index + 1 })),
     config: audioConfig.value
@@ -143,6 +147,9 @@ defineExpose({
       </el-table>
     </el-tab-pane>
     <el-tab-pane label="文章内容">
+      <el-card>
+        <el-input v-model="audioContentTitle" placeholder="标题" />
+      </el-card>
       <WangEditor class="mt-3" ref="wangeEditorRef" />
     </el-tab-pane>
   </el-tabs>
