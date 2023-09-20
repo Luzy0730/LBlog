@@ -1,6 +1,6 @@
 <script lang="ts" setup>
 import { ref } from "vue";
-import { type FormRules } from "element-plus";
+import { useFormDialog } from '@/hooks/useDialog'
 import { queryCategorySimple } from "@/api/services/category";
 import { queryTagsSimple } from "@/api/services/tag";
 import { queryArticleDetail, createArticle, updateArticle, type IUpdateArticleData } from "@/api/services/article";
@@ -14,62 +14,41 @@ const wangEditorDialogRef = ref();
 
 const instance = getCurrentInstance();
 
-const dialogVisible = ref(false);
-
-const ruleFormRef = ref();
-
-const title = ref("新增");
-
-const ruleForm = reactive<IUpdateArticleData>({
-  id: -1,
-  title: "",
-  categoryId: undefined,
-  description: "",
-  content: "",
-  tagIds: [],
-  words: 0
-});
-
-const rules = reactive<FormRules<typeof ruleForm>>({
-  title: [{ required: true, trigger: "blur", message: "标题不能为空!" }],
-  categoryId: [{ required: true, trigger: "blur", message: "请选择分类!" }],
-});
-
 const categoryOptions = ref<Pick<ICategory, "id" | "name">[]>([]);
 const tagOptions = ref<Pick<ITag, "id" | "name">[]>([]);
 
-const open = () => {
-  dialogVisible.value = true;
-  queryCategorySimple().then((res) => {
-    categoryOptions.value = res.data;
-  });
-  queryTagsSimple().then((res) => {
-    tagOptions.value = res.data;
-  });
-};
-
-const close = () => {
-  ruleFormRef.value.resetFields();
-};
-
-const create = () => {
-  title.value = "新增";
-  open();
-};
-
-const update = (category: ICategory) => {
-  title.value = "编辑";
-  open();
-  nextTick(() => {
-    Object.assign(ruleForm, category);
+const { dialogVisible, title, ruleFormRef, ruleForm, rules, close, create, update } = useFormDialog<IUpdateArticleData>({
+  formData: {
+    id: -1,
+    title: "",
+    categoryId: undefined,
+    description: "",
+    content: "",
+    tagIds: [],
+    words: 0
+  },
+  formRule: {
+    title: [{ required: true, trigger: "blur", message: "标题不能为空!" }],
+    categoryId: [{ required: true, trigger: "blur", message: "请选择分类!" }],
+  },
+  afterCreated() {
+    queryCategorySimple().then((res) => {
+      categoryOptions.value = res.data;
+    });
+    queryTagsSimple().then((res) => {
+      tagOptions.value = res.data;
+    });
+  },
+  afterUpdated() {
     queryArticleDetail({ id: ruleForm.id }).then((res) => {
       Object.assign(ruleForm, res.data);
       nextTick(() => {
         instance?.proxy?.$prism.highlightAll();
       });
     });
-  });
-};
+  }
+})
+
 
 // 提交
 const onSubmit = () => {
@@ -98,7 +77,7 @@ const onSubmit = () => {
 };
 
 // 修改文本
-let propEditing = "";
+let propEditing: "content" | "description";
 const onEditContent = (prop: "content" | "description") => {
   propEditing = prop;
   wangEditorDialogRef.value.open(ruleForm[propEditing]);

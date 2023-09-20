@@ -4,7 +4,7 @@ export function queryArticle(params: { pageNum: number, pageSize: number }) {
   return request.get<{ list: IArticle[]; total: number }>("/article", { params });
 }
 
-export function createArticle(data) {
+export function createArticle(data: IUpdateArticleData) {
   return request.post("/article/create", data);
 }
 
@@ -24,7 +24,6 @@ export interface IUpdateArticleData {
   categoryId?: number;
   tagIds: string | number[];
   words: number;
-  [key: string]: any
 }
 export function updateArticle(data: IUpdateArticleData) {
   return request.post("/article/update", data);

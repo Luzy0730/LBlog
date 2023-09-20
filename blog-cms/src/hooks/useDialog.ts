@@ -1,22 +1,22 @@
-import { type FormItemRule, type FormRules } from "element-plus";
-import type { Arrayable } from "element-plus/es/utils/typescript.mjs";
 import type { UnwrapRef } from "vue";
-
+import { ElForm, type FormRules, type FormItemRule } from 'element-plus'
 type UseFormDialogResult<T> = {
   dialogVisible: globalThis.Ref<boolean>;
   title: globalThis.Ref<string>;
   isEdit: globalThis.Ref<boolean>;
-  ruleFormRef: globalThis.Ref<HTMLElement>;
+  ruleFormRef: globalThis.Ref<typeof ElForm>;
   ruleForm: UnwrapRef<T>;
-  rules: UnwrapRef<Partial<Record<any, Arrayable<FormItemRule>>>>
+  rules: UnwrapRef<Partial<Record<any, FormItemRule[]>>>
   open: (cb?: Function) => void;
   close: (cb?: Function) => void;
   create: () => void;
   update: (data: T) => void;
 }
 
-export function useFormDialog<T = object>(option: { formData?: T, formRule?: FormRules<T> }): UseFormDialogResult<T> {
-  const { formData, formRule } = option
+export function useFormDialog<T = object>(option: {
+  formData?: T, formRule?: FormRules<T>, afterCreated?: Function, afterUpdated?: Function
+}): UseFormDialogResult<T> {
+  const { formData, formRule, afterCreated, afterUpdated } = option
 
   const dialogVisible = ref(false);
   const title = ref("新增");
@@ -37,18 +37,19 @@ export function useFormDialog<T = object>(option: { formData?: T, formRule?: For
     cb && cb()
   };
 
-  const create = (cb?: Function) => {
+  const create = () => {
     title.value = "新增";
     isEdit.value = false
-    open(cb);
+    open(afterCreated);
   }
 
-  const update = (data: T, cb?: Function) => {
+  const update = (data: T) => {
     title.value = "编辑";
     isEdit.value = true
-    open(cb);
+    open();
     nextTick(() => {
       Object.assign((ruleForm as any), data)
+      afterUpdated && afterUpdated()
     })
   }
 
