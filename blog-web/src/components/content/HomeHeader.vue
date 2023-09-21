@@ -1,5 +1,4 @@
 <script setup lang="ts">
-import defaultSettings from "@/settings";
 import { useSystemStore } from "@/stores";
 import { storeToRefs } from "pinia";
 import { queryCustomBanner } from "@/api/services/custom"
