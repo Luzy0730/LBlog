@@ -2,6 +2,20 @@
 import defaultSettings from "@/settings";
 import { useSystemStore } from "@/stores";
 import { storeToRefs } from "pinia";
+import { queryCustomBanner } from "@/api/services/custom"
+
+interface IBanner {
+  id: number;
+  sort: number;
+  url: string;
+}
+const banner = ref<{
+  list: IBanner[],
+  title: string
+}>({
+  list: [],
+  title: ""
+})
 const { clientSize } = storeToRefs(useSystemStore());
 
 const headerRef = ref<HTMLHeadElement>();
@@ -12,6 +26,11 @@ watch(
 );
 
 onMounted(() => {
+  queryCustomBanner().then(({ data }) => {
+    const b = JSON.parse(data.banner)
+    banner.value.list = b?.list || []
+    banner.value.title = b?.title || ""
+  })
   setHeaderHeight();
   let startingPoint: number;
   headerRef.value?.addEventListener("mouseenter", (e) => {
@@ -40,23 +59,13 @@ const scrollToMain = () => {
 </script>
 
 <template>
-  <header ref="headerRef">
+  <header ref="headerRef" v-show="banner.list.length">
     <div class="view">
-      <div
-        class="bg1"
-        :style="{ backgroundImage: 'url(' + defaultSettings.bg1 + ')' }"
-      ></div>
-      <div
-        class="bg2"
-        :style="{ backgroundImage: 'url(' + defaultSettings.bg2 + ')' }"
-      ></div>
-      <div
-        class="bg3"
-        :style="{ backgroundImage: 'url(' + defaultSettings.bg3 + ')' }"
-      ></div>
+      <div v-for="(b, index) in banner.list" :class="`bg${index + 1}`" :style="{ backgroundImage: 'url(' + b.url + ')' }">
+      </div>
     </div>
-    <div class="text-malfunction" :data-word="defaultSettings.malfunctionText">
-      {{ defaultSettings.malfunctionText }}
+    <div class="text-malfunction" :data-word="banner.title">
+      {{ banner.title }}
       <div class="line"></div>
     </div>
     <div class="wrapper">
@@ -117,6 +126,7 @@ header.moving .bg1,
 header.moving .bg2 {
   transition: none;
 }
+
 .text-malfunction {
   position: absolute;
   padding: 0 4px;
@@ -169,27 +179,35 @@ header.moving .bg2 {
   9% {
     top: 38px;
   }
+
   14% {
     top: 8px;
   }
+
   18% {
     top: 42px;
   }
+
   22% {
     top: 1px;
   }
+
   32% {
     top: 32px;
   }
+
   34% {
     top: 12px;
   }
+
   40% {
     top: 26px;
   }
+
   43% {
     top: 7px;
   }
+
   99% {
     top: 30px;
   }
@@ -200,35 +218,44 @@ header.moving .bg2 {
     top: -0.4px;
     left: -1.1px;
   }
+
   20% {
     top: 0.4px;
     left: -0.2px;
   }
+
   30% {
     left: 0.5px;
   }
+
   40% {
     top: -0.3px;
     left: -0.7px;
   }
+
   50% {
     left: 0.2px;
   }
+
   60% {
     top: 1.8px;
     left: -1.2px;
   }
+
   70% {
     top: -1px;
     left: 0.1px;
   }
+
   80% {
     top: -0.4px;
     left: -0.9px;
   }
+
   90% {
     left: 1.2px;
   }
+
   100% {
     left: -1.2px;
   }
@@ -266,6 +293,7 @@ header.moving .bg2 {
     top: 65px;
   }
 }
+
 .wave1,
 .wave2 {
   position: absolute;

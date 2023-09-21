@@ -73,7 +73,7 @@ const onCreateAudio = (audio: IAudio) => {
   audioList.value.push(audio)
 }
 const onUpdateAudio = (audio: IAudio) => {
-  const find = audioList.value.find(audio => audio.id === audio.id)
+  const find = audioList.value.find(item => item.id === audio.id)
   if (find) {
     Object.assign(find, audio)
   }

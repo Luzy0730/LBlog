@@ -1,5 +1,5 @@
 const mysqlPool = require("../../mysql");
-const { queryAboutMain } = require('../main/custom')
+const { queryAboutMain, queryBannerMain } = require('../main/custom')
 
 module.exports = {
 	queryAbout: (req, res) => {
@@ -12,6 +12,20 @@ module.exports = {
 		mysqlPool.query({
 			sql: 'UPDATE `custom` SET `about_audio` = ?, `about_content` = ?',
 			params: [aboutAudio, aboutContent]
+		}).then(data => {
+			res.customSend(data);
+		})
+	},
+	queryBanner: (req, res) => {
+		queryBannerMain().then(data => {
+			res.customSend(...data);
+		})
+	},
+	updateBanner: (req, res) => {
+		const { banner } = req.body
+		mysqlPool.query({
+			sql: 'UPDATE `custom` SET `banner` = ?',
+			params: [banner]
 		}).then(data => {
 			res.customSend(data);
 		})
