@@ -3,13 +3,14 @@ import { useFormDialog } from '@/hooks/useDialog'
 import { cloneDeep } from 'lodash';
 const emit = defineEmits<{
   (event: "update", banner: IBanner): void;
+  (event: "create", banner: IBanner): void;
 }>()
 export interface IBanner {
   id: number;
   sort: number;
   url: string;
 }
-const { dialogVisible, title, ruleFormRef, ruleForm, rules, close, update } = useFormDialog<IBanner>({
+const { dialogVisible, title, ruleFormRef, ruleForm, rules, close, isEdit, update, create } = useFormDialog<IBanner>({
   formData: {
     id: -1,
     sort: -1,
@@ -22,12 +23,17 @@ const { dialogVisible, title, ruleFormRef, ruleForm, rules, close, update } = us
 })
 
 const onSubmit = () => {
-  emit('update', cloneDeep(ruleForm))
+  if (isEdit.value) {
+    emit('update', cloneDeep(ruleForm))
+  } else {
+    emit('create', cloneDeep(ruleForm))
+  }
   close()
 }
 
 defineExpose({
-  update
+  update,
+  create
 })
 
 </script>
