@@ -1,4 +1,4 @@
-
+import useTitle from '@/hooks/useTitle'
 import { useSystemStore } from "@/stores/system";
 import router from "@/router";
 router.beforeEach(async (to, from, next) => {
@@ -6,6 +6,6 @@ router.beforeEach(async (to, from, next) => {
   if (!systemStore.siteInfo.blogName) {
     await systemStore.update_siteInfo()
   }
-  document.title = `${to.meta?.title}-LL's Blog`
+  useTitle(to.meta.title as string)
   next()
 })

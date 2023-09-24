@@ -2,6 +2,7 @@
 import { queryArticles, type IQueryArticlesParams } from '@/api/services/article'
 import BlogList from "@/components/content/blog/BlogList.vue";
 import { useRoute, useRouter } from 'vue-router'
+import useTitle from '@/hooks/useTitle'
 
 const blogList = ref<Array<BlogItem>>([]);
 
@@ -52,11 +53,14 @@ watch(() => route.params, newVal => {
     if (!typeList.includes(type as string)) {
       router.replace('/404')
     } else {
+      console.log(type)
       if (type === 'tag') {
         params.value.tagName = (name as string)
+        useTitle("标签")
       }
       if (type === 'category') {
         params.value.categoryName = (name as string)
+        useTitle("分类")
       }
       onQueryArticles()
     }

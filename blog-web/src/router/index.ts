@@ -37,7 +37,6 @@ const router = createRouter({
           path: '/:type/:name',
           name: 'type',
           component: () => import('@/views/home/Home.vue'),
-          meta: { title: '分类' }
         },
         {
           path: "/:catchAll(.*)",

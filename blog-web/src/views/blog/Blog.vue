@@ -3,6 +3,7 @@ import NotFound from "@/components/content/NotFound.vue";
 import BlogItem from '@/components/content/blog/BlogItem.vue';
 import { useRoute } from 'vue-router'
 import { queryArticleDetail } from '@/api/services/article'
+import useTitle from '@/hooks/useTitle'
 const route = useRoute()
 
 const blogInfo = ref<BlogItem>()
@@ -11,6 +12,7 @@ watch(() => route.params, newVal => {
   if (id) {
     queryArticleDetail({ id: +id }).then(res => {
       blogInfo.value = res.data
+      useTitle(blogInfo.value ? blogInfo.value.title : "未找到页面")
     })
   }
 }, {
