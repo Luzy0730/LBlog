@@ -8,3 +8,7 @@ export function queryCustomAbout() {
 export function queryCustomBanner() {
   return request.get<{ banner: string; }>("/custom/banner");
 }
+
+export function queryCustomSiteInfo() {
+  return request.get<{ site_info: string; }>("/custom/siteInfo");
+}

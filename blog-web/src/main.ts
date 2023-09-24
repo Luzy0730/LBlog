@@ -14,6 +14,8 @@ import "./assets/css/icon/iconfont.css";
 //typo.css
 import "./assets/css/typo.css";
 
+import './permission.ts'
+
 const app = createApp(App);
 
 app.use(createPinia());

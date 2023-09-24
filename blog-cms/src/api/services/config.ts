@@ -15,3 +15,11 @@ export function queryConfigBanner() {
 export function updateConfigBanner(data: { banner: string }) {
   return request.post("/config/banner/update", data);
 }
+
+export function queryConfigSitInfo() {
+  return request.get<{ site_info: string; }>("/config/siteInfo");
+}
+
+export function updateConfigSitInfo(data: { siteInfo: string }) {
+  return request.post("/config/siteInfo/update", data);
+}
