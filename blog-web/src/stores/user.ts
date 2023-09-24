@@ -4,7 +4,7 @@ const state = () => {
   return {
     // 个人介绍
     introduction: {
-      avatar: new URL("/img/avatar.jpg", import.meta.url).href,
+      avatar: "https://lblog-aliyun.oss-cn-beijing.aliyuncs.com/avatar.jpg",
       name: "LL",
       github: "https://github.com/Lzy0730",
       bilibili: "https://space.bilibili.com/2192338",
