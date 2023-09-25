@@ -11,7 +11,7 @@
  Target Server Version : 50743
  File Encoding         : 65001
 
- Date: 17/09/2023 22:28:49
+ Date: 25/09/2023 22:14:05
 */
 
 SET NAMES utf8mb4;
@@ -36,7 +36,7 @@ CREATE TABLE `article`  (
   `create_time` datetime(0) NOT NULL DEFAULT CURRENT_TIMESTAMP(0) COMMENT '创建时间',
   `update_time` datetime(0) NOT NULL DEFAULT CURRENT_TIMESTAMP(0) ON UPDATE CURRENT_TIMESTAMP(0) COMMENT '更新时间',
   PRIMARY KEY (`id`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 6 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB AUTO_INCREMENT = 7 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = Dynamic;
 
 -- ----------------------------
 -- Records of article
@@ -46,6 +46,7 @@ INSERT INTO `article` VALUES (2, '关于LL2', 4, '2,3,10', '暂无描述', '<pre
 INSERT INTO `article` VALUES (3, 'test', 3, '2', '暂无描述', 'test', 0, 4, 0, 1, 0, '2023-09-17 21:33:39', '2023-09-17 21:39:31');
 INSERT INTO `article` VALUES (4, 'test2', 2, '2,3', 'tt', 'aaa', 0, 3, 0, 1, 0, '2023-09-17 21:33:58', '2023-09-17 21:34:36');
 INSERT INTO `article` VALUES (5, 'test3', 2, '3', '暂无aa述', 'zzz', 0, 3, 0, 1, 0, '2023-09-17 21:34:14', '2023-09-17 21:34:36');
+INSERT INTO `article` VALUES (6, 'test', 2, '2', '', '<p>zzz</p>', 0, 3, 0, 0, 0, '2023-09-18 20:57:28', '2023-09-18 20:57:28');
 
 -- ----------------------------
 -- Table structure for category
@@ -86,7 +87,7 @@ CREATE TABLE `custom`  (
 -- ----------------------------
 -- Records of custom
 -- ----------------------------
-INSERT INTO `custom` VALUES ('{\"list\":[{\"name\":\"Miss You\",\"artist\":\"塞壬唱片-MSR\",\"url\":\"https://lblog-aliyun.oss-cn-beijing.aliyuncs.com/music/Miss%20You.mp3\",\"cover\":\"https://lblog-aliyun.oss-cn-beijing.aliyuncs.com/music/Miss%20You.webp\"}],\"config\":{\"fixed\":false,\"listFolded\":true,\"autoplay\":true,\"preload\":\"auto\",\"loop\":\"all\",\"order\":\"list\"}}', '\"<h3 style=\\\"text-align: justify;\\\">目前的情况</h3><ul><li style=\\\"text-align: justify;\\\">M E：前端小趴菜</li><li style=\\\"text-align: justify;\\\">目标：少想多做吧</li><li style=\\\"text-align: justify;\\\">爱好：写Bug、逛B站</li><li style=\\\"text-align: justify;\\\">性格：喜静、偶尔emo，时刻督促自己变得阳光开朗</li></ul><h3 style=\\\"text-align: justify;\\\">我 &amp; 博客</h3><p style=\\\"text-align: justify;\\\">很少对事物起兴趣，有时会因考虑太多做出不明智的决定😅</p><p style=\\\"text-align: justify;\\\">因为口嗨的习惯，造成了很多不可挽回的错误，在改正。</p><p style=\\\"text-align: justify;\\\">喜欢安静，节奏控，coding 时喜欢听婉转美好的歌曲🎵</p><p style=\\\"text-align: justify;\\\"><a href=\\\"https://github.com/Lzy0730/LBlog\\\" target=\\\"_blank\\\">🍓LBlog个人博客系统</a>，作为学习过程中的产物，参考很多博客，蠢蠢的缝合怪⭐️</p><p style=\\\"text-align: justify;\\\">写博客的起因也很简单，日常知识点太多，用md或word不好看，就想弄个博客了。</p>\"', '{\"bg1\":\"https://lblog-aliyun.oss-cn-beijing.aliyuncs.com/bg1.jpg\",\"bg2\":\"https://lblog-aliyun.oss-cn-beijing.aliyuncs.com/bg2.png\",\"bg3\":\"https://lblog-aliyun.oss-cn-beijing.aliyuncs.com/bg3.jpg\",\"malfunctionText\":\"LL\'s Blog\"}', '{\"blogName\":\"LL\'s Blog\",\"copyright\":{\"title\":\"Copyright © 2023\",\"siteName\":\"LL\'S BLOG\"},\"beian\":\"浙ICP备2023006413号\"}', '{\"name\":\"LL\",\"github\":\"https://github.com/Lzy0730\",\"bilibili\":\"https://space.bilibili.com/2192338\",\"netease\":\"https://music.163.com/#/user/home?id=433024891\",\"rollText\":\"个人简介：我是真菜\",\"avatar\":\"http://lovcc.cn/img/avatar.jpg\"}');
+INSERT INTO `custom` VALUES ('{\"list\":[{\"name\":\"Miss You\",\"artist\":\"塞壬唱片-MSR\",\"url\":\"https://lblog-aliyun.oss-cn-beijing.aliyuncs.com/music/Miss%20You.mp3\",\"cover\":\"https://lblog-aliyun.oss-cn-beijing.aliyuncs.com/music/Miss%20You.webp\",\"id\":1}],\"config\":{\"fixed\":false,\"listFolded\":true,\"autoplay\":false,\"preload\":\"auto\",\"loop\":\"all\",\"order\":\"list\"}}', '{\"title\":\"关于LL\",\"content\":\"<h3 style=\\\"text-align: justify;\\\">目前的情况</h3><ul><li style=\\\"text-align: justify;\\\">M E：前端小趴菜</li><li style=\\\"text-align: justify;\\\">目标：少想多做吧</li><li style=\\\"text-align: justify;\\\">爱好：写Bug、逛B站</li><li style=\\\"text-align: justify;\\\">性格：喜静、偶尔emo，时刻督促自己变得阳光开朗</li></ul><h3 style=\\\"text-align: justify;\\\">我 &amp; 博客</h3><p style=\\\"text-align: justify;\\\">很少对事物起兴趣，有时会因考虑太多做出不明智的决定😅</p><p style=\\\"text-align: justify;\\\">喜欢安静，节奏控，coding 时喜欢听婉转美好的歌曲🎵</p><p style=\\\"text-align: justify;\\\"><a href=\\\"https://github.com/Lzy0730/LBlog\\\" target=\\\"_blank\\\">🍓LBlog个人博客系统</a>，作为学习过程中的产物，参考很多博客，蠢蠢的缝合怪⭐️</p><p style=\\\"text-align: justify;\\\">写博客的起因也很简单，日常知识点太多，用md或word不好看，就想弄个博客了。</p>\"}', '{\"title\":\"LL\'s Blog\",\"list\":[{\"sort\":1,\"id\":1,\"url\":\"https://lblog-aliyun.oss-cn-beijing.aliyuncs.com/bg1.jpg\"},{\"sort\":\"2\",\"id\":2,\"url\":\"https://lblog-aliyun.oss-cn-beijing.aliyuncs.com/bg2.png\"},{\"sort\":3,\"id\":3,\"url\":\"https://lblog-aliyun.oss-cn-beijing.aliyuncs.com/bg3.jpg\"}]}', '{\"blogName\":\"LL\'s Blog\",\"copyright\":{\"title\":\"Copyright © 2023\",\"siteName\":\"LL\'S BLOG\"},\"beian\":\"浙ICP备2023006413号\"}', '{\"name\":\"LL\",\"github\":\"https://github.com/Lzy0730\",\"bilibili\":\"https://space.bilibili.com/2192338\",\"netease\":\"https://music.163.com/#/user/home?id=433024891\",\"rollText\":\"个人简介：我是真菜\",\"avatar\":\"http://lovcc.cn/img/avatar.jpg\"}');
 
 -- ----------------------------
 -- Table structure for tag
