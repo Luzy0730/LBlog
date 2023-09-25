@@ -44,20 +44,17 @@ const onRefreshConfig = async () => {
 const onSaveConfig = async () => {
   saveLoading.value = true
   try {
-    await asyncCompRef.value.onConfirm()
-    const instance = getCurrentInstance();
-    instance?.proxy?.$message({
-      type: "success",
-      message: "操作成功",
-    });
-  } catch (error) {
-    instance?.proxy?.$message({
-      type: "error",
-      message: "操作失败",
-    });
+    asyncCompRef.value.onConfirm().then((valid?: boolean) => {
+      if (!valid) return
+      const instance = getCurrentInstance();
+      instance?.proxy?.$message({
+        type: "success",
+        message: "操作成功",
+      });
+      onRefreshConfig()
+    })
   } finally {
     saveLoading.value = false
-    onRefreshConfig()
   }
 }
 

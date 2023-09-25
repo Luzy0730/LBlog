@@ -34,9 +34,14 @@ const onRefresh = async () => {
 }
 
 const onConfirm = async () => {
-  const siteInfo = JSON.stringify(ruleForm)
-  const data = { siteInfo }
-  return updateConfigSitInfo(data)
+
+  return ruleFormRef.value.validate(async (valid: boolean) => {
+    if (valid) {
+      const siteInfo = JSON.stringify(ruleForm)
+      const data = { siteInfo }
+      await updateConfigSitInfo(data)
+    }
+  })
 }
 
 onMounted(() => {
