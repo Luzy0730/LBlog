@@ -34,13 +34,13 @@ const onRefresh = async () => {
 }
 
 const onConfirm = async () => {
-
-  return ruleFormRef.value.validate(async (valid: boolean) => {
+  return ruleFormRef.value.validate().then(async (valid: boolean) => {
     if (valid) {
       const siteInfo = JSON.stringify(ruleForm)
       const data = { siteInfo }
       await updateConfigSitInfo(data)
     }
+    return valid
   })
 }
 

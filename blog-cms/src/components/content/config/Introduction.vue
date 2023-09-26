@@ -1,4 +1,6 @@
 <script setup lang="ts">
+import { queryConfigIntroduction, updateConfigIntroduction } from '@/api/services/config'
+import { type UploadFile } from 'element-plus'
 import useForm from '@/hooks/useForm'
 interface IIntroduction {
   avatar: string;
@@ -10,12 +12,12 @@ interface IIntroduction {
 }
 const { ruleForm, ruleFormRef, rules } = useForm<IIntroduction>({
   formData: {
-    avatar: "https://lblog-aliyun.oss-cn-beijing.aliyuncs.com/avatar.jpg",
-    name: "LL",
-    github: "https://github.com/Lzy0730",
-    bilibili: "https://space.bilibili.com/2192338",
-    netease: "https://music.163.com/#/user/home?id=433024891",
-    rollText: "个人简介：我是真菜",
+    avatar: "",
+    name: "",
+    github: "",
+    bilibili: "",
+    netease: "",
+    rollText: "",
   },
   formRule: {
     avatar: [{ required: true, trigger: "blur", message: "头像不能为空!" }],
@@ -23,11 +25,49 @@ const { ruleForm, ruleFormRef, rules } = useForm<IIntroduction>({
     rollText: [{ required: true, trigger: "blur", message: "签名不能为空!" }],
   }
 })
+
+const onChange = (uploadFile: UploadFile) => {
+  const fileReader = new FileReader();
+  fileReader.onload = () => {
+    const srcData = fileReader.result as string;
+    ruleForm.avatar = srcData
+  }
+  fileReader.readAsDataURL(uploadFile.raw as File)
+}
+
+const onRefresh = async () => {
+  return queryConfigIntroduction().then(({ data }) => {
+    const introduction = data ? JSON.parse(data.introduction) : {}
+    Object.assign(ruleForm, introduction)
+  })
+}
+
+const onConfirm = async () => {
+  return ruleFormRef.value.validate().then(async (valid: boolean) => {
+    if (valid) {
+      const introduction = JSON.stringify(ruleForm)
+      const data = { introduction }
+      await updateConfigIntroduction(data)
+    }
+    return valid
+  })
+}
+
+onMounted(() => {
+  onRefresh()
+})
+
+defineExpose({
+  onConfirm,
+  onRefresh
+})
+
 </script>
 <template>
   <el-form ref="ruleFormRef" :model="ruleForm" status-icon :rules="rules" label-width="120px">
     <el-form-item label="头像" prop="avatar">
-      <el-upload action="" :auto-upload="false" class="w-[150px] h-[150px] block" :show-file-list="false">
+      <el-upload action="" :auto-upload="false" class="w-[150px] h-[150px] block" :show-file-list="false"
+        :on-change="onChange">
         <img v-if="ruleForm.avatar" :src="ruleForm.avatar" />
         <el-icon v-else class="avatar-uploader-icon">
           <Plus />

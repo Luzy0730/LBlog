@@ -1,4 +1,4 @@
-const { queryAboutMain, queryBannerMain, querySiteInfoMain } = require('../main/custom')
+const { queryAboutMain, queryBannerMain, querySiteInfoMain,queryIntroductionMain } = require('../main/custom')
 
 module.exports = {
   queryAbout: (req, res) => {
@@ -16,4 +16,9 @@ module.exports = {
       res.customSend(...data);
     })
   },
+  queryIntroduction: (req, res) => {
+		queryIntroductionMain().then(data => {
+			res.customSend(...data);
+		})
+	},
 }

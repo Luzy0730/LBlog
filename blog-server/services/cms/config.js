@@ -8,4 +8,6 @@ route.get('/banner', configControl.queryBanner);
 route.post('/banner/update', configControl.updateBanner);
 route.get('/siteInfo', configControl.querySiteInfo);
 route.post('/siteInfo/update', configControl.updateSiteInfo);
+route.get('/introduction', configControl.queryIntroduction);
+route.post('/introduction/update', configControl.updateIntroduction);
 module.exports = route

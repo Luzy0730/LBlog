@@ -1,10 +1,15 @@
 import useTitle from '@/hooks/useTitle'
-import { useSystemStore } from "@/stores/system";
+import { storeToRefs } from 'pinia'
+import { useSystemStore, useUserStore } from "@/stores/index";
 import router from "@/router";
-router.beforeEach(async (to, from, next) => {
+router.beforeEach((to, from, next) => {
   const systemStore = useSystemStore();
+  const useStore = useUserStore();
   if (!systemStore.siteInfo.blogName) {
-    await systemStore.update_siteInfo()
+    systemStore.update_siteInfo()
+  }
+  if (!useStore.introduction.name) {
+    useStore.update_introduction()
   }
   useTitle(to.meta.title as string)
   next()

@@ -12,3 +12,7 @@ export function queryCustomBanner() {
 export function queryCustomSiteInfo() {
   return request.get<{ site_info: string; }>("/custom/siteInfo");
 }
+
+export function queryConfigIntroduction() {
+  return request.get<{ introduction: string; }>("/custom/introduction");
+}

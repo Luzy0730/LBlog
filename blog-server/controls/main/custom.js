@@ -3,7 +3,8 @@ const mysqlPool = require("../../mysql");
 module.exports = {
 	queryAboutMain,
 	queryBannerMain,
-	querySiteInfoMain
+	querySiteInfoMain,
+	queryIntroductionMain
 }
 
 async function queryAboutMain() {
@@ -21,5 +22,11 @@ async function queryBannerMain() {
 async function querySiteInfoMain() {
 	return mysqlPool.query({
 		sql: 'SELECT `site_info` FROM custom'
+	})
+}
+
+async function queryIntroductionMain() {
+	return mysqlPool.query({
+		sql: 'SELECT `introduction` FROM custom'
 	})
 }

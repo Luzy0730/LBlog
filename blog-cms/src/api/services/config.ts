@@ -23,3 +23,11 @@ export function queryConfigSitInfo() {
 export function updateConfigSitInfo(data: { siteInfo: string }) {
   return request.post("/config/siteInfo/update", data);
 }
+
+export function queryConfigIntroduction() {
+  return request.get<{ introduction: string; }>("/config/introduction");
+}
+
+export function updateConfigIntroduction(data: { introduction: string }) {
+  return request.post("/config/introduction/update", data);
+}
