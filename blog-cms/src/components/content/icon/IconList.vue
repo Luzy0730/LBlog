@@ -75,7 +75,7 @@ const onSelectIcon = (icon: string) => {
     </el-form>
     <el-button class="ml-3" @click="onFilterIcon">查询</el-button>
   </el-row>
-  <el-row :gutter="20">
+  <el-row :gutter="20" class="my-3">
     <el-col :span="2" v-for="(icon, index) in currentPageIcons" :key="index" class="mb-3">
       <el-card shadow="hover" class="flex justify-center cursor-pointer" @click="onSelectIcon(icon)">
         <Icon :name="icon" size="24" />
