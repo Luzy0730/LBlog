@@ -10,47 +10,77 @@ const router = createRouter({
       redirect: "/dashboard",
       children: [
         {
-          path: "/dashboard",
-          name: "dashboard",
-          component: () => import("@/views/dashboard/index.vue"),
+          path: "/blog",
+          name: "blog",
+          component: BlankLayout,
           meta: {
-            title: "首頁",
-            icon: "HomeFilled",
+            title: "博客",
+            icon: "file-copy-2-line",
           },
+          children: [
+            {
+              path: "/blog/article",
+              name: "article",
+              component: () => import("@/views/article/index.vue"),
+              meta: {
+                title: "博客管理",
+              },
+            },
+            {
+              path: "/blog/category",
+              name: "category",
+              component: () => import("@/views/category/index.vue"),
+              meta: {
+                title: "分类管理",
+              },
+            },
+            {
+              path: "/blog/tag",
+              name: "tag",
+              component: () => import("@/views/tag/index.vue"),
+              meta: {
+                title: "标签管理",
+              },
+            },
+          ]
         },
         {
-          path: "/article",
-          component: () => import("@/views/article/index.vue"),
+          path: "/tools",
+          name: "tools",
+          component: BlankLayout,
           meta: {
-            title: "文章管理",
-            icon: "HomeFilled",
+            title: "工具",
+            icon: "tools-fill",
           },
+          children: [
+            {
+              path: "/tools/icon",
+              name: "icon",
+              component: () => import("@/views/tools/icon/index.vue"),
+              meta: {
+                title: "清新小图标",
+              },
+            },
+          ]
         },
         {
-          path: "/category",
-          name: "category",
-          component: () => import("@/views/category/index.vue"),
+          path: "/setting",
+          name: "setting",
+          component: BlankLayout,
           meta: {
-            title: "分类管理",
-            icon: "HomeFilled",
+            title: "设置",
+            icon: "settings-4-line",
           },
-        },
-        {
-          path: "/tag",
-          name: "tag",
-          component: () => import("@/views/tag/index.vue"),
-          meta: {
-            title: "标签管理",
-            icon: "HomeFilled",
-          },
-        },
-        {
-          path: "/config",
-          component: () => import("@/views/config/index.vue"),
-          meta: {
-            title: "其他配置",
-            icon: "HomeFilled",
-          },
+          children: [
+            {
+              path: "/setting/config",
+              name: "config",
+              component: () => import("@/views/config/index.vue"),
+              meta: {
+                title: "系统设置",
+              },
+            },
+          ]
         },
         {
           path: "/404",

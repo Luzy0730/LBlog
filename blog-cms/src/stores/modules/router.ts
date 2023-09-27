@@ -23,23 +23,22 @@ export const useRouterStore = defineStore("router", {
       );
       const menuRoutes: Array<RouteRecordNormalized> = [];
       menuFilter.forEach((menu) => {
-        if (!menuRoutes.length) {
-          menuRoutes.push(menu);
-        } else {
-          if (menu.children?.length) {
-            menu.children.forEach((item, index) => {
-              const findIndex = menuRoutes.findIndex(
-                (route) => route.name === item.name
-              );
-              if (findIndex > -1) {
-                menu.children[index] = menuRoutes[findIndex];
-                menuRoutes.splice(findIndex, 1);
-              }
-            });
-          }
-          menuRoutes.push(menu);
+        if (menu.children?.length) {
+          menu.children.forEach((item, index) => {
+            if (!item.name) {
+              throw console.error(`路由${item.path}缺少识别name`);
+            }
+            const findIndex = menuRoutes.findIndex(
+              (route) => route.name === item.name
+            );
+            if (findIndex > -1) {
+              menu.children[index] = menuRoutes[findIndex];
+              menuRoutes.splice(findIndex, 1);
+            }
+          });
         }
-      });
+        menuRoutes.push(menu);
+      })
       this.menuRoutes = menuRoutes;
     },
   },

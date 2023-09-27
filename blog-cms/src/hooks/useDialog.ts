@@ -12,7 +12,6 @@ export function useFormDialog<T extends object>(option: {
     closed: () => useFormResult.ruleFormRef.value.resetFields(),
     updated: (data: T) => nextTick(() => {
       Object.assign((useFormResult.ruleForm as any), data)
-      afterUpdated && afterUpdated()
     }),
     afterCreated, afterUpdated
   })
@@ -52,7 +51,10 @@ export function useDialog<T = object>(option: {
     title.value = _title;
     isEdit.value = false
     created && created()
-    open(afterCreated);
+    open();
+    nextTick(() => {
+      afterCreated && afterCreated()
+    })
   }
 
   const update = (data: T, _title: string = "编辑") => {
@@ -60,7 +62,9 @@ export function useDialog<T = object>(option: {
     isEdit.value = true
     open();
     updated && updated(data)
-    afterUpdated && afterUpdated()
+    nextTick(() => {
+      afterUpdated && afterUpdated()
+    })
   }
   return { dialogVisible, title, isEdit, open, close, create, update }
 }

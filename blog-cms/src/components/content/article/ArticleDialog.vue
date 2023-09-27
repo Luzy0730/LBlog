@@ -16,7 +16,14 @@ const instance = getCurrentInstance();
 
 const categoryOptions = ref<Pick<ICategory, "id" | "name">[]>([]);
 const tagOptions = ref<Pick<ITag, "id" | "name">[]>([]);
-
+const requestOptions = () => {
+  queryCategorySimple().then((res) => {
+    categoryOptions.value = res.data;
+  });
+  queryTagsSimple().then((res) => {
+    tagOptions.value = res.data;
+  });
+}
 const { dialogVisible, title, ruleFormRef, ruleForm, rules, close, create, update } = useFormDialog<IUpdateArticleData>({
   formData: {
     id: -1,
@@ -32,14 +39,10 @@ const { dialogVisible, title, ruleFormRef, ruleForm, rules, close, create, updat
     categoryId: [{ required: true, trigger: "blur", message: "请选择分类!" }],
   },
   afterCreated() {
-    queryCategorySimple().then((res) => {
-      categoryOptions.value = res.data;
-    });
-    queryTagsSimple().then((res) => {
-      tagOptions.value = res.data;
-    });
+    requestOptions()
   },
   afterUpdated() {
+    requestOptions()
     queryArticleDetail({ id: ruleForm.id }).then((res) => {
       Object.assign(ruleForm, res.data);
       nextTick(() => {
@@ -48,7 +51,6 @@ const { dialogVisible, title, ruleFormRef, ruleForm, rules, close, create, updat
     });
   }
 })
-
 
 // 提交
 const onSubmit = () => {

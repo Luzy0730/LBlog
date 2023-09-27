@@ -20,6 +20,9 @@ const onQueryArticle = () => {
 };
 
 const instance = getCurrentInstance();
+
+const timeFormat = computed(() => (time: string) => instance?.proxy?.$dayjs(time).format('YYYY-MM-DD HH:mm:ss'))
+
 // 文章是否上线
 const onEnableArticle = async (category: ICategory) => {
   const { id, is_enable } = category;
@@ -67,28 +70,38 @@ onMounted(() => {
   </el-row>
   <el-table :data="tableData" class="mt-5">
     <el-table-column prop="id" label="文章id" min-width="100" align="center" fixed="left" />
-    <el-table-column prop="title" label="文章标题" min-width="150" align="center" fixed="left" />
-    <el-table-column prop="category" label="分类" min-width="150" align="center">
+    <el-table-column label="文章信息" width="350" fixed="left">
       <template #default="{ row }">
-        <el-tag :style="{ color: '#fff', backgroundColor: row.category.color }">
-          <Icon :name="row.category.icon" />
-          {{ row.category.name }}
-        </el-tag>
+        <div class="flex flex-col">
+          <div>标题：{{ row.title }}</div>
+          <div class="flex">
+            <span>分类：</span>
+            <el-tag :style="{ color: '#fff', backgroundColor: row.category.color }">
+              <Icon :name="row.category.icon" />
+              {{ row.category.name }}
+            </el-tag>
+          </div>
+          <div class="flex">
+            <span>标签：</span>
+            <el-tag :style="{ color: '#fff', backgroundColor: tag.color }" v-for="tag in row.tags" :key="tag.id">{{
+              tag.name }}</el-tag>
+          </div>
+        </div>
       </template>
     </el-table-column>
-    <el-table-column prop="tags" label="标签" min-width="150" align="center">
-      <template #default="{ row }">
-        <el-tag :style="{ color: '#fff', backgroundColor: tag.color }" v-for="tag in row.tags" :key="tag.id">{{ tag.name
-        }}</el-tag>
-      </template>
-    </el-table-column>
-    <el-table-column prop="is_enable" label="上线" min-width="150" align="center">
+    <el-table-column prop="is_enable" label="发布" min-width="150" align="center">
       <template #default="{ row }">
         <el-switch v-model="row.is_enable" :active-value="1" :inactive-value="0" @change="onEnableArticle(row)" />
       </template>
     </el-table-column>
-    <el-table-column prop="createTime" label="创建时间" min-width="150" align="center" />
-    <el-table-column prop="updateTime" label="更新时间" min-width="150" align="center" />
+    <el-table-column label="时间" min-width="250" align="center">
+      <template #default="{ row }">
+        <div class="flex flex-col">
+          <div>创建时间：{{ timeFormat(row.createTime) }}</div>
+          <div>更新时间：{{ timeFormat(row.updateTime) }}</div>
+        </div>
+      </template>
+    </el-table-column>
     <el-table-column prop="" label="操作" width="110" align="center" fixed="right">
       <template #default="{ row }">
         <el-button type="primary" link @click="onUpdateArticle(row)">编辑</el-button>
