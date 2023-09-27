@@ -16,6 +16,10 @@ export function enableArticle(data: Pick<IArticle, "id" | "is_enable">) {
   return request.post("/article/enable", data);
 }
 
+export function deleteArticle(data: { id: number }) {
+  return request.post("/article/delete", data);
+}
+
 export interface IUpdateArticleData {
   id: number;
   title: string;

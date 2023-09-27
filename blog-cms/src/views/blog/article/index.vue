@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import ArticleDialog from "@/components/content/article/ArticleDialog.vue";
-import { queryArticle, enableArticle } from "@/api/services/article";
+import { queryArticle, enableArticle, deleteArticle } from "@/api/services/article";
 
 const articleDialogRef = ref();
 
@@ -56,6 +56,25 @@ const onCreateArticle = () => {
   articleDialogRef.value.create();
 };
 
+// 删除文章
+const onDeleteArticle = async (article: IArticle) => {
+  const { id } = article;
+  try {
+    await deleteArticle({ id });
+    instance?.proxy?.$message({
+      type: "success",
+      message: "操作成功",
+    });
+  } catch (error) {
+    instance?.proxy?.$message({
+      type: "error",
+      message: "操作失败",
+    });
+  } finally {
+    onQueryArticle();
+  }
+}
+
 onMounted(() => {
   onQueryArticle();
 });
@@ -76,15 +95,16 @@ onMounted(() => {
           <div>标题：{{ row.title }}</div>
           <div class="flex">
             <span>分类：</span>
-            <el-tag :style="{ color: '#fff', backgroundColor: row.category.color }">
+            <el-tag disable-transitions :style="{ color: '#fff', backgroundColor: row.category.color }">
               <Icon :name="row.category.icon" />
               {{ row.category.name }}
             </el-tag>
           </div>
           <div class="flex">
             <span>标签：</span>
-            <el-tag :style="{ color: '#fff', backgroundColor: tag.color }" v-for="tag in row.tags" :key="tag.id">{{
-              tag.name }}</el-tag>
+            <el-tag disable-transitions :style="{ color: '#fff', backgroundColor: tag.color }" v-for="tag in row.tags"
+              :key="tag.id">{{
+                tag.name }}</el-tag>
           </div>
         </div>
       </template>
@@ -105,7 +125,11 @@ onMounted(() => {
     <el-table-column prop="" label="操作" width="110" align="center" fixed="right">
       <template #default="{ row }">
         <el-button type="primary" link @click="onUpdateArticle(row)">编辑</el-button>
-        <el-button type="primary" link>删除</el-button>
+        <el-popconfirm title="确定删除吗?" @confirm="onDeleteArticle(row)">
+          <template #reference>
+            <el-button type="primary" link>删除</el-button>
+          </template>
+        </el-popconfirm>
       </template>
     </el-table-column>
   </el-table>

@@ -7,5 +7,6 @@ route.get("/detail", articleControl.queryArticleDetail);
 route.post("/enable", articleControl.enableArticle);
 route.post("/update", articleControl.updateArticle);
 route.post("/create", articleControl.createArticle);
+route.post("/delete", articleControl.deleteArticle);
 
 module.exports = route;

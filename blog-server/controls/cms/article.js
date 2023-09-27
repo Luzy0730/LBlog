@@ -51,5 +51,17 @@ module.exports = {
     }).then(data => {
       res.customSend(data);
     })
-  }
+  },
+  // 删除文章
+  deleteArticle: (req, res) => {
+    const { id } = req.body;
+    mysqlPool.query({
+      sql:
+        "UPDATE `article` SET `is_delete` = '1' WHERE `id` = ?",
+      params:
+        [id],
+    }).then(data => {
+      res.customSend(data);
+    })
+  },
 }
