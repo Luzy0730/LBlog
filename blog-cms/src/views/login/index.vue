@@ -14,15 +14,20 @@ const { ruleForm, ruleFormRef, rules } = useForm<ILogin>({
   }
 })
 const { redirect } = defineProps<{
-  redirect: string;
+  redirect?: string;
 }>();
 const userStore = useUserStore();
 const router = useRouter();
 
 const onLogin = () => {
-  userStore.user_login(ruleForm).then(() => {
-    router.push(redirect ? { path: redirect } : { path: "/" });
-  });
+  ruleFormRef.value.validate().then(async (valid: boolean) => {
+    if (valid) {
+      userStore.user_login(ruleForm).then(() => {
+        router.push(redirect ? { path: redirect } : { path: "/" });
+      });
+    }
+  })
+
 };
 </script>
 <template>
@@ -33,12 +38,13 @@ const onLogin = () => {
         <h1 class="text-5xl mb-3">hello！</h1>
         <p class="text-xl">欢迎来到博客cms管理系统！</p>
         <p class="text-xl">基于vue3.3 + element-plus开发</p>
-        <el-form class="mt-3" ref="ruleFormRef" :model="ruleForm" status-icon :rules="rules">
-          <el-form-item prop="blogName">
+        <el-form class="mt-4" ref="ruleFormRef" :model="ruleForm" status-icon :rules="rules">
+          <el-form-item prop="username">
             <el-input class="h-10" prefix-icon="User" placeholder="请输入用户名" v-model="ruleForm.username" />
           </el-form-item>
-          <el-form-item prop="blogName">
-            <el-input class="h-10" prefix-icon="Lock" type="password" placeholder="请输入密码" v-model="ruleForm.password" />
+          <el-form-item prop="password" class="">
+            <el-input class="h-10" prefix-icon="Lock" type="password" placeholder="请输入密码" v-model="ruleForm.password"
+              @keydown.enter="onLogin" />
           </el-form-item>
         </el-form>
         <el-button type="primary" @click="onLogin" class="w-60 h-12">登录</el-button>

@@ -11,17 +11,21 @@ module.exports = {
     })
   },
   login: async (req, res) => {
-    const { username = "", password = "" } = req.body
-    const user = (await queryUsersMain({
-      where: { username, password }
-    }))[0]
-    if (user) {
-      res.customSend({
-        userInfo: user,
-        token: res.app.locals.jwt.encode({ id: user.id, username: user.username })
-      });
+    const { username, password } = req.body
+    if (!username || !password) {
+      res.customSend(null, 400, "无效的参数");
     } else {
-      res.customSend(null, 403, "用户名或密码错误");
+      const user = (await queryUsersMain({
+        where: { username, password }
+      }))[0]
+      if (user) {
+        res.customSend({
+          userInfo: user,
+          token: res.app.locals.jwt.encode({ id: user.id, username: user.username })
+        });
+      } else {
+        res.customSend(null, 403, "用户名或密码错误");
+      }
     }
   },
   validateUser: async (req, res) => {
