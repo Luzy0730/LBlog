@@ -25,6 +25,12 @@ declare interface IArticle {
   tags: Array<Pick<ITag, "id" | "name" | "color">>;
 }
 
+declare interface IPagination {
+  pageNum: number;
+  pageSize: number;
+  total: number;
+}
+
 declare interface IUser {
   id: number;
   nickname: string;
