@@ -62,12 +62,12 @@ async function queryArticlesMain(options) {
   const articles = await mysqlPool.query({
     sql: selectSql + whereSql + paginationSql,
     params,
-    connection,
+    connection: _connection,
   });
   const articleCount = "SELECT COUNT(1) "
   const articleTotal = (await mysqlPool.query({
     sql: articleCount + whereSql,
-    connection,
+    connection: _connection,
   }))[0]['COUNT(1)'];
   return Promise.all(
     articles.map((article) => {
@@ -84,7 +84,7 @@ async function queryArticlesMain(options) {
       return mysqlPool
         .query({
           sql: `SELECT id,name,color from tag WHERE id IN (${article.tags}) AND is_enable = 1 AND is_delete = 0`,
-          connection,
+          connection: _connection,
         })
         .then((tags) => {
           article.tags = tags;
