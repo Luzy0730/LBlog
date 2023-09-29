@@ -36,7 +36,7 @@ const onLogin = () => {
       <el-col :lg="14" :sm="0"></el-col>
       <el-col :lg="6" :sm="24" class="pt-[30vh] px-10">
         <h1 class="text-5xl mb-3">hello！</h1>
-        <p class="text-xl">欢迎来到博客cms管理系统！</p>
+        <p class="text-xl">欢迎来到博客后台管理系统！</p>
         <p class="text-xl">基于vue3.3 + element-plus开发</p>
         <el-form class="mt-4" ref="ruleFormRef" :model="ruleForm" status-icon :rules="rules">
           <el-form-item prop="username">
