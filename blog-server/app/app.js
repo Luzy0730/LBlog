@@ -6,7 +6,7 @@
 module.exports = function generateApp(port, serviceMount, allowCORS) {
   const express = require("express");
   const app = express();
-  const middleware = require("../middleware/intercept");
+  const middleware = require("../middleware");
 
   // 解决跨域问题
   app.all("*", function (req, res, next) {
@@ -14,7 +14,7 @@ module.exports = function generateApp(port, serviceMount, allowCORS) {
       // 设置允许跨域的域名,*代表允许任意域名跨域
       res.header("Access-Control-Allow-Origin", req.headers.origin);
       // 允许的header类型
-      res.header("Access-Control-Allow-Headers", "Content-Type");
+      res.header("Access-Control-Allow-Headers", "Content-Type, Authorization");
       // 跨域允许的请求方式
       res.header("Access-Control-Allow-Methods", "POST,GET,OPTIONS");
     }

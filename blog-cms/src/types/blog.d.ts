@@ -24,3 +24,18 @@ declare interface IArticle {
   category: Pick<ICategory, "id" | "name" | "color" | "icon">;
   tags: Array<Pick<ITag, "id" | "name" | "color">>;
 }
+
+declare interface IUser {
+  id: number;
+  nickname: string;
+  username: string;
+  avatar: string;
+  isAdmin: number;
+  isEnable: number;
+  createTime: string;
+}
+
+declare interface ILogin {
+  username: string;
+  password: string;
+}

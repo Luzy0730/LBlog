@@ -8,6 +8,9 @@ dependencies:
   express:
     specifier: ^4.18.2
     version: 4.18.2
+  jwt-simple:
+    specifier: ^0.5.6
+    version: 0.5.6
   mysql:
     specifier: ^2.18.1
     version: 2.18.1
@@ -249,6 +252,11 @@ packages:
 
   /isarray@1.0.0:
     resolution: {integrity: sha512-VLghIWNM6ELQzo7zwmcg0NmTVyWKYjvIeM83yjp0wRDTmUnrM678fQbcKBo6n2CJEF0szoG//ytg+TKla89ALQ==}
+    dev: false
+
+  /jwt-simple@0.5.6:
+    resolution: {integrity: sha512-40aUybvhH9t2h71ncA1/1SbtTNCVZHgsTsTgqPUxGWDmUDrXyDf2wMNQKEbdBjbf4AI+fQhbECNTV6lWxQKUzg==}
+    engines: {node: '>= 0.4.0'}
     dev: false
 
   /media-typer@0.3.0:

@@ -1,11 +1,15 @@
-import { useRouterStore } from "@/stores/index";
+import { useRouterStore, useUserStore } from "@/stores/index";
 import useTitle from '@/hooks/useTitle'
 import router from "@/router";
-router.beforeEach((to, from, next) => {
+router.beforeEach(async (to, from, next) => {
   const token = localStorage.getItem("token") || "";
   const routerStore = useRouterStore();
   routerStore.currentRoutePath = to.path;
   if (token || /\S/.test(token)) {
+    const userStore = useUserStore();
+    if (userStore.userInfo.id === -1) {
+      await userStore.user_validate();
+    }
     if (!routerStore.fullRoutes.length) {
       routerStore.init_fullRoutes();
     }

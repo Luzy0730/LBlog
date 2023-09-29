@@ -1,9 +1,5 @@
-// 自定义封装的中间件函数
-module.exports = middleware;
-
-function middleware(app) {
-  app.use(customSend)
-  app.use(customLimitSend)
+module.exports = {
+  customSend, customLimitSend
 }
 
 // 自定义主体
