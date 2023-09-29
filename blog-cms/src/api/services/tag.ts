@@ -1,7 +1,7 @@
 import request from "../request";
 
 export function queryTag() {
-  return request.get("/tag");
+  return request.get<ITag[]>("/tag");
 }
 
 export function queryTagsSimple() {

@@ -24,10 +24,12 @@ const instance = getCurrentInstance();
 const timeFormat = computed(() => (time: string) => instance?.proxy?.$dayjs(time).format('YYYY-MM-DD HH:mm:ss'))
 
 // 文章是否上线
-const onEnableArticle = async (category: ICategory) => {
-  const { id, is_enable } = category;
+const onEnableArticle = async (article: IArticle) => {
   try {
-    await enableArticle({ id, is_enable });
+    await enableArticle({
+      id: article.id,
+      is_enable: article.is_enable === 1 ? 0 : 1
+    });
     instance?.proxy?.$message({
       type: "success",
       message: "操作成功",
@@ -109,9 +111,10 @@ onMounted(() => {
         </div>
       </template>
     </el-table-column>
-    <el-table-column prop="is_enable" label="发布" min-width="150" align="center">
+    <el-table-column label="状态" min-width="150" align="center">
       <template #default="{ row }">
-        <el-switch v-model="row.is_enable" :active-value="1" :inactive-value="0" @change="onEnableArticle(row)" />
+        <el-text class="mx-1" :type="row.is_enable === 1 ? 'success' : 'danger'">{{ row.is_enable === 1 ? "已发布" :
+          "已下架" }}</el-text>
       </template>
     </el-table-column>
     <el-table-column label="时间" min-width="250" align="center">
@@ -122,9 +125,10 @@ onMounted(() => {
         </div>
       </template>
     </el-table-column>
-    <el-table-column prop="" label="操作" width="110" align="center" fixed="right">
+    <el-table-column prop="" label="操作" width="250" align="center" fixed="right">
       <template #default="{ row }">
-        <el-button type="primary" link @click="onUpdateArticle(row)">编辑</el-button>
+        <el-button type="primary" link @click="onUpdateArticle(row)">修改</el-button>
+        <el-button type="primary" link @click="onEnableArticle(row)">{{ row.is_enable === 1 ? "下架" : "发布" }}</el-button>
         <el-popconfirm title="确定删除吗?" @confirm="onDeleteArticle(row)">
           <template #reference>
             <el-button type="primary" link>删除</el-button>

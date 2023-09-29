@@ -19,9 +19,11 @@ const onQueryCategory = () => {
 
 // 分类是否启用
 const onEnableCategory = async (category: ICategory) => {
-  const { id, is_enable } = category;
   try {
-    await enableCategory({ id, is_enable });
+    await enableCategory({
+      id: category.id,
+      is_enable: category.is_enable === 1 ? 0 : 1
+    });
     instance?.proxy?.$message({
       type: "success",
       message: "操作成功",
@@ -83,12 +85,14 @@ onMounted(() => {
     <el-table-column prop="icon" label="分类图标" min-width="150" align="center" />
     <el-table-column prop="is_enable" label="是否启用" min-width="150" align="center">
       <template #default="{ row }">
-        <el-switch v-model="row.is_enable" :active-value="1" :inactive-value="0" @change="onEnableCategory(row)" />
+        <el-text class="mx-1" :type="row.is_enable === 1 ? 'success' : 'danger'">{{ row.is_enable === 1 ? "已启用" :
+          "已废弃" }}</el-text>
       </template>
     </el-table-column>
     <el-table-column prop="" label="操作" width="200" align="center">
       <template #default="{ row }">
-        <el-button type="primary" link @click="onUpdateCategory(row)">编辑</el-button>
+        <el-button type="primary" link @click="onUpdateCategory(row)">修改</el-button>
+        <el-button type="primary" link @click="onEnableCategory(row)">{{ row.is_enable === 1 ? "废弃" : "启用" }}</el-button>
         <el-popconfirm title="确定删除吗?" @confirm="onDeleteCategory(row)">
           <template #reference>
             <el-button type="primary" link>删除</el-button>
