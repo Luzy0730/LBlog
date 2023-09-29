@@ -15,17 +15,9 @@ const onSelectMenu = (path: string) => {
 </script>
 
 <template>
-  <el-menu
-    :default-active="routerStore.currentRoutePath"
-    class="el-menu-vertical-demo"
-    :collapse="isCollapse"
-    @select="onSelectMenu"
-  >
-    <component
-      :is="menu.children?.length ? AsideSubMenu : AsideMenuItem"
-      v-for="menu in routerStore.menuRoutes"
-      :key="menu.path"
-      :menu="menu"
-    ></component>
+  <el-menu :default-active="routerStore.currentRoutePath" class="el-menu-vertical-demo" :collapse="isCollapse"
+    @select="onSelectMenu">
+    <component :is="menu.children?.length ? AsideSubMenu : AsideMenuItem" v-for="menu in routerStore.menuRoutes"
+      :key="menu.path" :menu="menu"></component>
   </el-menu>
 </template>

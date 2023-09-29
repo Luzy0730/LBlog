@@ -7,7 +7,6 @@ const router = createRouter({
       path: "/",
       name: "root-basic",
       component: BasicLayout,
-      redirect: "/dashboard",
       children: [
         {
           path: "/blog",
@@ -21,7 +20,7 @@ const router = createRouter({
             {
               path: "/blog/article",
               name: "article",
-              component: () => import("@/views/article/index.vue"),
+              component: () => import("@/views/blog/article/index.vue"),
               meta: {
                 title: "博客管理",
               },
@@ -29,7 +28,7 @@ const router = createRouter({
             {
               path: "/blog/category",
               name: "category",
-              component: () => import("@/views/category/index.vue"),
+              component: () => import("@/views/blog/category/index.vue"),
               meta: {
                 title: "分类管理",
               },
@@ -37,7 +36,7 @@ const router = createRouter({
             {
               path: "/blog/tag",
               name: "tag",
-              component: () => import("@/views/tag/index.vue"),
+              component: () => import("@/views/blog/tag/index.vue"),
               meta: {
                 title: "标签管理",
               },
@@ -73,9 +72,17 @@ const router = createRouter({
           },
           children: [
             {
+              path: "/setting/member",
+              name: "member",
+              component: () => import("@/views/setting/member/index.vue"),
+              meta: {
+                title: "博客成员",
+              },
+            },
+            {
               path: "/setting/config",
               name: "config",
-              component: () => import("@/views/config/index.vue"),
+              component: () => import("@/views/setting/config/index.vue"),
               meta: {
                 title: "系统设置",
               },
