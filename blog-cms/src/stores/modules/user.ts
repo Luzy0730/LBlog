@@ -1,5 +1,6 @@
 import { defineStore } from "pinia";
 import { login, validateUser } from '@/api/services/user'
+import router from '@/router'
 import type { State } from "../types/user.type";
 
 const state: State = () => {
@@ -7,7 +8,6 @@ const state: State = () => {
     token: "",
     userInfo: {
       id: -1,
-      name: "",
       avatar: "",
       createTime: "",
       isAdmin: 0,
@@ -29,10 +29,16 @@ export const useUserStore = defineStore("user", {
     async user_logout() {
       this.$reset()
       localStorage.removeItem("token");
+      router.push('/login')
     },
     async user_validate() {
-      const { data: userInfo } = await validateUser()
-      Object.assign(this.userInfo, userInfo)
+      try {
+        const { data: userInfo } = await validateUser()
+        Object.assign(this.userInfo, userInfo)
+      } catch (error) {
+        this.user_logout()
+        throw error
+      }
     }
   },
 });

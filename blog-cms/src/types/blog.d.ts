@@ -28,7 +28,7 @@ declare interface IArticle {
 declare interface IPagination {
   pageNum: number;
   pageSize: number;
-  total: number;
+  total?: number;
 }
 
 declare interface IUser {
