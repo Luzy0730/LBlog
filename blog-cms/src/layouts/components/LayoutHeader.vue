@@ -7,9 +7,7 @@ const router = useRouter()
 
 const onCommand = (command: string) => {
   if (command === 'logout') {
-    userStore.user_logout().then(() => {
-      router.push('/login')
-    })
+    userStore.user_logout()
   }
 }
 </script>

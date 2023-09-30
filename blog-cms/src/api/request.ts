@@ -1,4 +1,5 @@
 import axios, { type AxiosRequestConfig } from "axios";
+import { useUserStore } from '@/stores/index'
 import { ElNotification } from "element-plus";
 
 const instance = axios.create({
@@ -29,15 +30,19 @@ instance.interceptors.request.use(
 // 添加响应拦截器
 instance.interceptors.response.use(
   function (response) {
-    if (response.data?.code === 200) {
-      return response.data;
-    } else {
-      ElNotification({
-        title: "网络请求",
-        type: "error",
-        message: response.data?.msg
-      });
-      return Promise.reject();
+    switch (response.data?.code) {
+      case 200:
+        return response.data;
+      case 401:
+        const userStore = useUserStore()
+        userStore.user_logout()
+      default:
+        ElNotification({
+          title: "网络请求",
+          type: "error",
+          message: response.data?.msg
+        });
+        return Promise.reject();
     }
   },
   function (error) {
