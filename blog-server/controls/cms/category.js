@@ -9,10 +9,8 @@ module.exports = {
         sql: "INSERT INTO `category` (`name`, `color`,`icon`) VALUES (?, ?, ?)",
         params: [name, color, icon],
       })
-      .then(() => {
-        (data) => {
-          res.customSend(data);
-        };
+      .then((data) => {
+        res.customSend(data)
       });
   },
   // 查询分类
