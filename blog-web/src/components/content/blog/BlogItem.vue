@@ -55,7 +55,7 @@ watch(() => blogItem.value, newVal => {
         <!--分类-->
         <router-link :to="`/category/${blogItem.category.name}`" :class="blogItem.category.color"
           class="ui large ribbon label">
-          <i class="small icon" :class="blogItem.category.icon"></i><span class="m-text-500">{{ blogItem.category.name
+          <icon :name="blogItem.category.icon" /><span class="m-text-500 m-margin-lr">{{ blogItem.category.name
           }}</span>
         </router-link>
         <!--文章Markdown 描述 | 内容-->

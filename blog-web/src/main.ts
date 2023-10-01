@@ -11,6 +11,9 @@ import "./assets/css/base.css";
 import "semantic-ui-css/semantic.min.css";
 //阿里icon
 import "./assets/css/icon/iconfont.css";
+// remixicon
+import "@/assets/icon/remixicon.css"
+import Icon from './components/content/icon.vue'
 //typo.css
 import "./assets/css/typo.css";
 
@@ -21,5 +24,6 @@ const app = createApp(App);
 app.use(createPinia());
 app.use(router);
 app.use(plugin);
+app.component('icon', Icon)
 
 app.mount("#app");
