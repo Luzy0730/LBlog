@@ -1,7 +1,7 @@
 <script lang="ts" setup>
 import { ref } from "vue";
 import { useFormDialog } from '@/hooks/useDialog'
-import { queryCategorySimple } from "@/api/services/category";
+import { queryCategoriesSimple } from "@/api/services/category";
 import { queryTagsSimple } from "@/api/services/tag";
 import { queryArticleDetail, createArticle, updateArticle, type IUpdateArticleData } from "@/api/services/article";
 import WangEditorDialog from "@/components/content/editor/WangEditorDialog.vue";
@@ -17,14 +17,14 @@ const instance = getCurrentInstance();
 const categoryOptions = ref<Pick<ICategory, "id" | "name">[]>([]);
 const tagOptions = ref<Pick<ITag, "id" | "name">[]>([]);
 const requestOptions = () => {
-  queryCategorySimple().then((res) => {
+  queryCategoriesSimple().then((res) => {
     categoryOptions.value = res.data;
   });
   queryTagsSimple().then((res) => {
     tagOptions.value = res.data;
   });
 }
-const { dialogVisible, title, ruleFormRef, ruleForm, rules, close, create, update } = useFormDialog<IUpdateArticleData>({
+const { dialogVisible, title, ruleFormRef, isEdit, ruleForm, rules, close, create, update } = useFormDialog<IUpdateArticleData>({
   formData: {
     id: -1,
     title: "",
@@ -56,7 +56,7 @@ const { dialogVisible, title, ruleFormRef, ruleForm, rules, close, create, updat
 const onSubmit = () => {
   ruleFormRef.value.validate(async (valid: boolean) => {
     if (valid) {
-      const api = ruleForm.id === -1 ? createArticle : updateArticle
+      const api = isEdit.value ? updateArticle : createArticle
       try {
         await api({
           ...ruleForm,

@@ -1,56 +1,36 @@
 <script lang="ts" setup>
-import { ref } from "vue";
-import { type FormRules } from "element-plus";
+import { useFormDialog } from '@/hooks/useDialog'
 import { createTag, updateTag } from "@/api/services/tag";
 
 const emit = defineEmits<{
   (event: "confirm"): void;
 }>();
 
+const { dialogVisible, title, ruleFormRef, isEdit, ruleForm, rules, close, create, update } = useFormDialog<{
+  id: number;
+  name: string;
+  color: string;
+}>({
+  formData: {
+    id: -1,
+    name: "",
+    color: "",
+  },
+  formRule: {
+    name: [{ required: true, trigger: "blur", message: "名称不能为空!" }],
+    color: [{ required: true, trigger: "blur", message: "颜色不能为空!" }],
+  },
+})
+
 const instance = getCurrentInstance();
 
-const dialogVisible = ref(false);
-
-const ruleFormRef = ref();
-
-const title = ref("新增");
-const ruleForm = reactive({
-  id: -1,
-  name: "",
-  color: "",
-});
-
-const rules = reactive<FormRules<typeof ruleForm>>({
-  name: [{ required: true, trigger: "blur", message: "名称不能为空!" }],
-  color: [{ required: true, trigger: "blur", message: "颜色不能为空!" }],
-});
-
-const create = () => {
-  title.value = "新增";
-  dialogVisible.value = true;
-};
-
-const update = (tag: ITag) => {
-  title.value = "编辑";
-  dialogVisible.value = true;
-  nextTick(() => {
-    Object.assign(ruleForm, tag);
-  });
-};
-
-const close = () => {
-  ruleFormRef.value.resetFields();
-};
 
 const onSubmit = () => {
   ruleFormRef.value.validate(async (valid: boolean) => {
     if (valid) {
       try {
-        if (ruleForm.id !== -1) {
-          await updateTag(ruleForm);
-        } else {
-          await createTag(ruleForm);
-        }
+        const api = isEdit.value ? updateTag : createTag
+        await api(ruleForm)
         instance?.proxy?.$message({
           type: "success",
           message: "操作成功",
@@ -75,13 +55,7 @@ defineExpose({
 
 <template>
   <el-dialog v-model="dialogVisible" :title="title" width="30%" @close="close">
-    <el-form
-      ref="ruleFormRef"
-      :model="ruleForm"
-      status-icon
-      :rules="rules"
-      label-width="120px"
-    >
+    <el-form ref="ruleFormRef" :model="ruleForm" status-icon :rules="rules" label-width="120px">
       <el-form-item label="标签名称：" prop="name">
         <el-input v-model="ruleForm.name" />
       </el-form-item>
