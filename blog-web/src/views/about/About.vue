@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { queryCustomAbout } from '@/api/services/custom'
+import { queryConfigAbout } from '@/api/services/config'
 import "APlayer/dist/APlayer.min.css";
 import APlayer from "APlayer";
 
@@ -20,7 +20,7 @@ const about = ref({
 });
 
 onMounted(async () => {
-  const { data } = await queryCustomAbout()
+  const { data } = await queryConfigAbout()
   const aboutAudio = data.about_audio ? JSON.parse(data.about_audio) : {}
   const aboutContent = data.about_content ? JSON.parse(data.about_content) : {}
   about.value.title = aboutContent.title || ""

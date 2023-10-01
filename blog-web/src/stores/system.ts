@@ -1,6 +1,6 @@
 import { defineStore } from "pinia";
 import type { State, ClientSize } from "./types/system.type";
-import { queryCustomSiteInfo } from '@/api/services/custom'
+import { queryConfigSiteInfo } from '@/api/services/config'
 
 const state: State = () => {
   return {
@@ -33,7 +33,7 @@ export const useSystemStore = defineStore("system", {
       this.mobileHide = isHide;
     },
     async update_siteInfo() {
-      const { data } = await queryCustomSiteInfo()
+      const { data } = await queryConfigSiteInfo()
       const siteInfo = data ? JSON.parse(data.site_info) : {}
       Object.assign(this.siteInfo, siteInfo)
     }

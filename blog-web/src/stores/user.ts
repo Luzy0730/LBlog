@@ -1,5 +1,5 @@
 import { defineStore } from "pinia";
-import { queryConfigIntroduction } from '@/api/services/custom'
+import { queryConfigIntroduction } from '@/api/services/config'
 
 const state = () => {
   return {

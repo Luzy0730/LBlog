@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { useSystemStore } from "@/stores";
 import { storeToRefs } from "pinia";
-import { queryCustomBanner } from "@/api/services/custom"
+import { queryConfigBanner } from "@/api/services/config"
 
 interface IBanner {
   id: number;
@@ -25,7 +25,7 @@ watch(
 );
 
 onMounted(() => {
-  queryCustomBanner().then(({ data }) => {
+  queryConfigBanner().then(({ data }) => {
     const b = JSON.parse(data.banner)
     banner.value.list = b?.list || []
     banner.value.title = b?.title || ""
