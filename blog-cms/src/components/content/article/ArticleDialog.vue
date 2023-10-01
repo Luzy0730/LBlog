@@ -91,6 +91,9 @@ const onGetHtml = (content: { html: string, length: number }) => {
   if (propEditing === 'content') {
     ruleForm.words = content.length
   }
+  nextTick(() => {
+    instance?.proxy?.$prism.highlightAll();
+  });
 };
 
 defineExpose({
