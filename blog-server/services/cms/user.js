@@ -6,7 +6,7 @@ const route = express.Router();
 module.exports = (app) => {
   const { validateToken } = app.locals
   route.get("/", validateToken, userSchema.queryUsers, userControl.queryUsers);
-  route.post("/login", userControl.login);
+  route.post("/login", userSchema.login, userControl.login);
   route.post("/validate", validateToken, userControl.validateUser);
   route.post("/update", validateToken, userSchema.updateUser, userControl.updateUser);
   route.post("/update/pwd", validateToken, userSchema.updatePassword, userControl.updatePassword);

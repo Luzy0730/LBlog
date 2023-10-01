@@ -1,5 +1,6 @@
 const { customSend, customLimitSend } = require('./intercept')
 const { validateToken, jwt } = require('./validate')
+
 function middleware(app) {
   app.use(customSend)
   app.use(customLimitSend)

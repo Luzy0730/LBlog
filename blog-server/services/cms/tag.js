@@ -1,12 +1,15 @@
 const express = require("express");
 const tagControl = require("../../controls/cms/tag");
+const tagSchema = require("../../schema/cms/tag");
 const route = express.Router();
 
-route.post("/create", tagControl.createTag);
-route.post("/delete", tagControl.deleteTag);
-route.post("/update", tagControl.updateTag);
-route.post("/enable", tagControl.enableTag);
-route.get("/", tagControl.queryTags);
-route.get("/simple", tagControl.queryTagsSimple);
-
-module.exports = route;
+module.exports = (app) => {
+  const { validateToken } = app.locals
+  route.post("/create", validateToken, tagSchema.createTag, tagControl.createTag);
+  route.post("/delete", validateToken, tagSchema.deleteTag, tagControl.deleteTag);
+  route.post("/update", validateToken, tagSchema.updateTag, tagControl.updateTag);
+  route.post("/enable", validateToken, tagSchema.enableTag, tagControl.enableTag);
+  route.get("/", tagSchema.queryTags, tagControl.queryTags);
+  route.get("/simple", tagControl.queryTagsSimple);
+  return route
+}

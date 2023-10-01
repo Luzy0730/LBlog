@@ -14,24 +14,24 @@ module.exports = {
  * @returns 
  */
 async function queryArticlesMain(options) {
-  const { pagination = false, connection, where = {}, select = {} } = options
-  const params = []
-  // SELECT 条件
   let selectSql = "SELECT a.`id`, a.`is_enable`, a.`tag_ids` as `tags`, `title`, `views`,`words`,c.`id` AS `categoryId`,c.`name` AS `categoryName`,c.`color` AS `categoryColor`,c.`icon` AS `categoryIcon`, a.`create_time` AS `createTime`, a.`update_time` AS `updateTime` "
+  let whereSql = "FROM `article` AS a LEFT JOIN category AS c ON a.category_id = c.id AND c.is_delete=0"
+  let paginationSql = ''
+  const { pagination = false, connection, where = {}, select = {} } = options
+  const _connection = connection ? connection : await mysqlPool.connect();
+  const _where = { isEnable: 1, isDelete: 0, id: null, tagId: null }
+  Object.assign(_where, where)
+  const { isEnable = 1, isDelete = 0, id = null, tagId = null, categoryId } = _where
   const _select = { description: true, content: false }
   Object.assign(_select, select)
   const { description = true, content = false } = _select
+  // SELECT 条件
   if (description) {
     selectSql += ", a.`description`"
   }
   if (content) {
     selectSql += ", a.`content`"
   }
-  // WHERE 条件
-  let whereSql = "FROM `article` AS a LEFT JOIN category AS c ON a.category_id = c.id"
-  const _where = { isEnable: 1, isDelete: 0, id: null, tagId: null }
-  Object.assign(_where, where)
-  const { isEnable = 1, isDelete = 0, id = null, tagId = null, categoryId } = _where
   // isDelete
   const isDeleteSql = Array.isArray(isDelete) ? isDelete.join(',') : isDelete
   whereSql += ` WHERE a.is_delete IN (${isDeleteSql})`
@@ -50,23 +50,19 @@ async function queryArticlesMain(options) {
   if (categoryId) {
     whereSql += ` AND a.category_id = ${categoryId}`
   }
-  // LIMIT 条件
-  let paginationSql = ''
+  // 分页
   if (pagination) {
     const { pageNum = 1, pageSize = 10 } = pagination
-    paginationSql = " LIMIT ? OFFSET ?"
-    params.push(+pageSize, (+pageNum - 1) * +pageSize)
+    paginationSql = ` LIMIT ${+pageSize} OFFSET ${(+pageNum - 1) * +pageSize}`
   }
-  const _connection = connection ? connection : await mysqlPool.connect();
-  // 文章数量查询sql
+  // 查询
   const articles = await mysqlPool.query({
     sql: selectSql + whereSql + paginationSql,
-    params,
     connection: _connection,
   });
-  const articleCount = "SELECT COUNT(1) "
-  const articleTotal = (await mysqlPool.query({
-    sql: articleCount + whereSql,
+  // 总数
+  const articleTotal = pagination && (await mysqlPool.query({
+    sql: "SELECT COUNT(1) " + whereSql,
     connection: _connection,
   }))[0]['COUNT(1)'];
   return Promise.all(
@@ -83,7 +79,7 @@ async function queryArticlesMain(options) {
       delete article.categoryIcon;
       return mysqlPool
         .query({
-          sql: `SELECT id,name,color from tag WHERE id IN (${article.tags}) AND is_enable = 1 AND is_delete = 0`,
+          sql: `SELECT id,name,color from tag WHERE id IN (${article.tags || -1}) AND is_enable = 1 AND is_delete = 0`,
           connection: _connection,
         })
         .then((tags) => {

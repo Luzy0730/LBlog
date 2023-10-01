@@ -1,5 +1,5 @@
 const mysqlPool = require("../../mysql");
-const { queryAboutMain, queryBannerMain, querySiteInfoMain,queryIntroductionMain } = require('../main/custom')
+const { queryAboutMain, queryBannerMain, querySiteInfoMain, queryIntroductionMain } = require('../main/config')
 
 module.exports = {
 	queryAbout: (req, res) => {

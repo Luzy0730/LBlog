@@ -1,26 +1,15 @@
 const Joi = require('joi');
+
 const id = Joi.number().required()
-const isEnable = Joi.number().valid(0, 1).required()
-const nickname = Joi.string().required()
-const avatar = Joi.string().required()
-const username = Joi.string().required()
-const password = Joi.string().required()
-const newPassword = Joi.string().required()
+const name = Joi.string().required()
+const color = Joi.string().required()
+const is_enable = Joi.number().required().valid(0, 1)
 const pageNum = Joi.number().required()
 const pageSize = Joi.number().required()
 
 module.exports = {
-  login: (req, res, next) => {
-    const schema = Joi.object({ username, password })
-    const { error } = schema.validate(req.body);
-    if (error) {
-      return res.customSend(null, 400, error.details[0].message);
-    } else {
-      next()
-    }
-  },
-  queryUsers: (req, res, next) => {
-    const schema = Joi.object({ pageNum, pageSize })
+  queryTags: (req, res, next) => {
+    const schema = Joi.object({ pageNum, pageSize }).unknown()
     const { error } = schema.validate(req.query);
     if (error) {
       return res.customSend(null, 400, error.details[0].message);
@@ -28,8 +17,8 @@ module.exports = {
       next()
     }
   },
-  updateUser: (req, res, next) => {
-    const schema = Joi.object({ id, nickname, avatar }).unknown()
+  createTag: (req, res, next) => {
+    const schema = Joi.object({ name, color }).unknown()
     const { error } = schema.validate(req.body);
     if (error) {
       return res.customSend(null, 400, error.details[0].message);
@@ -37,25 +26,7 @@ module.exports = {
       next()
     }
   },
-  updatePassword: (req, res, next) => {
-    const schema = Joi.object({ id, newPassword, password }).unknown()
-    const { error } = schema.validate(req.body);
-    if (error) {
-      return res.customSend(null, 400, error.details[0].message);
-    } else {
-      next()
-    }
-  },
-  enableUser: (req, res, next) => {
-    const schema = Joi.object({ id, isEnable }).unknown()
-    const { error } = schema.validate(req.body);
-    if (error) {
-      return res.customSend(null, 400, error.details[0].message);
-    } else {
-      next()
-    }
-  },
-  deleteUser: (req, res, next) => {
+  deleteTag: (req, res, next) => {
     const schema = Joi.object({ id }).unknown()
     const { error } = schema.validate(req.body);
     if (error) {
@@ -63,6 +34,23 @@ module.exports = {
     } else {
       next()
     }
-  }
+  },
+  updateTag: (req, res, next) => {
+    const schema = Joi.object({ id, name, color }).unknown()
+    const { error } = schema.validate(req.body);
+    if (error) {
+      return res.customSend(null, 400, error.details[0].message);
+    } else {
+      next()
+    }
+  },
+  enableTag: (req, res, next) => {
+    const schema = Joi.object({ id, is_enable }).unknown()
+    const { error } = schema.validate(req.body);
+    if (error) {
+      return res.customSend(null, 400, error.details[0].message);
+    } else {
+      next()
+    }
+  },
 }
-

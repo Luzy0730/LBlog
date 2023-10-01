@@ -31,15 +31,18 @@ async function queryUsersMain(options) {
     params,
     connection: _connection
   });
+  // 总数
+  const userTotal = pagination && (await mysqlPool.query({
+    sql: "SELECT COUNT(1) " + whereSql,
+    connection: _connection,
+  }))[0]['COUNT(1)']
+  // 释放
   if (!connection) {
     mysqlPool.release(_connection);
   }
   return pagination ? {
     users,
-    userTotal: (await mysqlPool.query({
-      sql: "SELECT COUNT(1) " + whereSql,
-      connection: _connection,
-    }))[0]['COUNT(1)']
+    userTotal
   } : users
 }
 
