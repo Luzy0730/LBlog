@@ -1,5 +1,5 @@
 const mysqlPool = require("../../mysql");
-
+const { queryCategoriesMain } = require('../main/category')
 module.exports = {
   // 新建分类
   createCategory: (req, res) => {
@@ -16,24 +16,20 @@ module.exports = {
       });
   },
   // 查询分类
-  queryCategory: (req, res) => {
-    mysqlPool
-      .query({
-        sql: "SELECT id,name,color,icon, is_enable FROM `category` WHERE `is_delete`='0'",
-      })
-      .then((data) => {
-        res.customSend(data);
-      });
+  queryCategories: (req, res) => {
+    const { pageNum, pageSize } = req.query
+    queryCategoriesMain({
+      pagination: { pageNum, pageSize },
+      simple: false
+    }).then(data => {
+      res.customLimitSend(data.categories, data.categoriesTotal);
+    })
   },
   // 查询分类(简略)
-  queryCategorySimple: (req, res) => {
-    mysqlPool
-      .query({
-        sql: "SELECT id,name FROM `category` WHERE `is_delete`='0' AND `is_enable` = '1'",
-      })
-      .then((data) => {
-        res.customSend(data);
-      });
+  queryCategoriesSimple: (req, res) => {
+    queryCategoriesMain().then(data => {
+      res.customSend(data);
+    })
   },
   // 更新分类
   updateCategory: (req, res) => {

@@ -1,17 +1,20 @@
 const mysqlPool = require("../../mysql");
+const { queryTagsMain } = require('../main/tag')
 module.exports = {
   // 查询标签
   queryTags: (req, res) => {
-    mysqlPool.query({
-      sql: "SELECT id,name,color,is_enable FROM `tag` WHERE `is_delete`='0'",
+    const { pageNum, pageSize } = req.query
+    queryTagsMain({
+      pagination: { pageNum, pageSize },
+      simple: false
     }).then(data => {
-      res.customSend(data);
+      res.customLimitSend(data.tags, data.tagsTotal);
     })
   },
   // 查询标签(简略)
   queryTagsSimple: (req, res) => {
-    mysqlPool.query({
-      sql: "SELECT id,name FROM `tag` WHERE `is_delete`='0' AND `is_enable`=1",
+    queryTagsMain({
+      where: { isEnable: 1 }
     }).then(data => {
       res.customSend(data);
     })

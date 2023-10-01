@@ -1,10 +1,10 @@
 import request from "../request";
 
-export function queryCategory() {
-  return request.get<ICategory[]>("/category");
+export function queryCategories(pagination: IPagination) {
+  return request.get<{ list: ICategory[], total: number }>("/category", { params: pagination });
 }
 
-export function queryCategorySimple() {
+export function queryCategoriesSimple() {
   return request.get<Pick<ICategory, "id" | "name">[]>("/category/simple");
 }
 

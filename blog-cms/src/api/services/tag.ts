@@ -1,7 +1,7 @@
 import request from "../request";
 
-export function queryTag() {
-  return request.get<ITag[]>("/tag");
+export function queryTags(pagination: IPagination) {
+  return request.get<{ list: ITag[], total: number }>("/tag", { params: pagination });
 }
 
 export function queryTagsSimple() {
