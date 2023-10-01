@@ -47,13 +47,14 @@ watch(() => route.params, newVal => {
   // 判断是否为指定类型分类页
   const { type, name } = route.params
   if (!type && !name) {
-    onQueryArticles()
+    if (route.name === 'home') {
+      onQueryArticles()
+    }
   } else {
     // 当匹配type不属于type列表 跳转404
     if (!typeList.includes(type as string)) {
       router.replace('/404')
     } else {
-      console.log(type)
       if (type === 'tag') {
         params.value.tagName = (name as string)
         useTitle("标签")
