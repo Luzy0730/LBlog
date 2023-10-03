@@ -1,14 +1,18 @@
 <script setup lang="ts">
-const html = ref('<pre><code class="language-go">console.log(1)</code></pre><p><br></p>')
+import Search, { type SearchItem } from '@/components/content/element/Search.vue';
 
-const codeRef = ref()
-const instance = getCurrentInstance()
-onMounted(() => {
-  // instance?.proxy?.$prism.highlightElement(codeRef.value)
+const searchForm = reactive<{ [key: string]: any }>({
+  user: '',
+  region: '',
+  date: '',
 })
+
+const searchList = reactive<SearchItem[]>([
+  { label: 'text', type: 'input', filed: 'user', props: { placeholder: 'fuck' } },
+  { type: 'button', value: '搜索', events: { click: () => console.log(searchForm) } }
+])
+
 </script>
 <template>
-  <el-card>
-    <div ref="codeRef" class="line-numbers" v-html="html"></div>
-  </el-card>
+  <Search :searchForm="searchForm" :searchList="searchList" />
 </template>
