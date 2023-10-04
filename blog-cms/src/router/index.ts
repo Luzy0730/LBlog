@@ -90,6 +90,15 @@ const router = createRouter({
           ]
         },
         {
+          path: "/oss",
+          name: "oss",
+          component: () => import("@/views/oss/index.vue"),
+          meta: {
+            title: "OSS",
+            icon: "upload-cloud-2-line",
+          },
+        },
+        {
           path: "/404",
           name: "404",
           component: () => import("@/views/exception/404/index.vue"),

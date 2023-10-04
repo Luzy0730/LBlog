@@ -1,4 +1,4 @@
-import axios, { type AxiosRequestConfig } from "axios";
+import axios, { type AxiosRequestConfig, type InternalAxiosRequestConfig } from "axios";
 import { useUserStore } from '@/stores/index'
 import { ElNotification } from "element-plus";
 
@@ -13,11 +13,14 @@ const instance = axios.create({
 
 // 添加请求拦截器
 instance.interceptors.request.use(
-  function (config) {
+  function (config: InternalAxiosRequestConfig<any> & { type?: 'upload' }) {
     const token = localStorage.getItem("token") || "";
     config.headers['Authorization'] = `Bearer ${token}`;
     if (config.method === 'post') {
       config.headers["Content-Type"] = "application/json"
+      if (config.type === 'upload') {
+        config.headers["Content-Type"] = "multipart/form-data"
+      }
     }
     return config;
   },
@@ -30,6 +33,10 @@ instance.interceptors.request.use(
 // 添加响应拦截器
 instance.interceptors.response.use(
   function (response) {
+    // 下载
+    if (response.headers["content-type"] === "application/octet-stream") {
+      return response.data;
+    }
     switch (response.data?.code) {
       case 200:
         return response.data;
@@ -63,7 +70,13 @@ const request = {
   get<T>(url: string, config?: AxiosRequestConfig): Promise<ResponseData<T>> {
     return instance.get(url, config) as Promise<ResponseData<T>>
   },
+  download(url: string, config: { responseType: 'blob' } & AxiosRequestConfig): Promise<Blob> {
+    return instance.get(url, config) as Promise<Blob>
+  },
   post<T>(url: string, data?: any, config?: AxiosRequestConfig): Promise<ResponseData<T>> {
+    return instance.post(url, data, config) as Promise<ResponseData<T>>
+  },
+  upload<T>(url: string, data: any, config: { type: 'upload' } & AxiosRequestConfig): Promise<ResponseData<T>> {
     return instance.post(url, data, config) as Promise<ResponseData<T>>
   },
 }
