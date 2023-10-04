@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { ElInput, ElButton } from 'element-plus'
+import { ElInput, ElButton, ElUpload } from 'element-plus'
 const emit = defineEmits<{
   (event: "update:value", searchForm: any): void;
 }>();
@@ -10,19 +10,20 @@ export interface SearchItem {
   filed?: string;
   value?: string;
   props?: { [key: string]: any };
-  events?: { [key: string]: Function }
+  events?: { [key: string]: Function };
+  children?: SearchItem[];
 }
 
 const props = withDefaults(defineProps<{
   searchList: Array<SearchItem>,
-  searchForm: { [key: string]: any },
+  searchForm?: { [key: string]: any },
 }>(), {
   searchList: () => [],
 })
 
 const innerForm = computed({
   get() {
-    return props.searchForm;
+    return props.searchForm || {};
   },
   set(val) {
     emit('update:value', val);
@@ -36,6 +37,8 @@ const renderComp = computed(() => (type: string) => {
       return ElInput
     case 'button':
       return ElButton
+    case 'upload':
+      return ElUpload
   }
 })
 
@@ -47,7 +50,10 @@ const renderComp = computed(() => (type: string) => {
     <el-form-item v-for="(searchItem, index) in searchList" :key="index" :label="searchItem.label">
       <component :is="renderComp(searchItem.type)" v-model="innerForm[`${searchItem.filed}`]" v-bind="searchItem?.props"
         v-on="searchItem.events || {}">
-        {{ searchItem?.value }}</component>
+        {{ searchItem?.value }}
+        <component v-for="elem in searchItem.children" :is="renderComp(elem.type)" v-model="innerForm[`${elem.filed}`]"
+          v-bind="elem?.props" v-on="elem.events || {}">{{ elem?.value }}</component>
+      </component>
     </el-form-item>
   </el-form>
 </template>
