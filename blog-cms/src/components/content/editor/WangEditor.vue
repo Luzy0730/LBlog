@@ -1,14 +1,32 @@
 <script setup lang="ts">
 import "@wangeditor/editor/dist/css/style.css"; // 引入 css
 import { Editor, Toolbar } from "@wangeditor/editor-for-vue";
+import { type IEditorConfig } from '@wangeditor/editor'
 import { type ShallowRef } from "vue";
+import { uploadOSS } from '@/api/services/oss'
 
 const instance = getCurrentInstance()
 const editorRef = shallowRef();
 const toolbarConfig = {};
 const valueHtml = ref("");
 const valueHtmlPreview = ref("")
-const editorConfig = { placeholder: "请输入内容..." };
+// 初始化 MENU_CONF 属性
+type InsertFnType = (url: string, alt: string, href: string) => void
+const editorConfig: Partial<IEditorConfig> = {
+  MENU_CONF: {
+    uploadImage: {
+      async customUpload(file: File, insertFn: InsertFnType) {  // TS 语法
+        const { data: url } = await uploadOSS({
+          name: `image/${file.name}-${new Date().getTime()}`,
+          file
+        })
+        insertFn(url, url, url)
+      }
+    },
+  },
+  placeholder: "请输入内容..."
+}
+
 const handleCreated = (editor: ShallowRef<any>) => {
   editorRef.value = editor; // 记录 editor 实例，重要！
 };

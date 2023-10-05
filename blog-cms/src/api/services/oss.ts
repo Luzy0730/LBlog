@@ -29,7 +29,7 @@ export function downloadOSSFile(params: { name: string }) {
 }
 
 export function uploadOSS(data: { name: string, file: File }) {
-  return request.upload("/oss/upload", data, { type: 'upload' });
+  return request.upload<string>("/oss/upload", data, { type: 'upload' });
 }
 
 export function deleteOSS(data: { name?: string, prefix?: string }) {

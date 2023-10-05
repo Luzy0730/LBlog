@@ -63,10 +63,10 @@ module.exports = {
     const buffer = req.file?.buffer
     getOSSClient().then(async client => {
       try {
-        await client.put(name, buffer, {
+        const result = await client.put(name, buffer, {
           headers: { "x-oss-forbid-overwrite": "true" }
         });
-        res.customSend(null);
+        res.customSend(result.url);
       } catch (error) {
         res.customSend(null, 409, "上传失败,存在同名文件！");
       }
