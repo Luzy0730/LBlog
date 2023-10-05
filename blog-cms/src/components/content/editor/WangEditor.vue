@@ -70,7 +70,7 @@ defineExpose({
     </el-col>
     <el-col :span="12">
       <el-card class="overflow-y-auto">
-        <div class="typo h-[500px]" v-html="valueHtmlPreview"></div>
+        <div class="typo h-[500px] line-numbers" v-html="valueHtmlPreview"></div>
       </el-card></el-col>
   </el-row>
 </template>

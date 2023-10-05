@@ -59,7 +59,8 @@ watch(() => blogItem.value, newVal => {
           }}</span>
         </router-link>
         <!--文章Markdown 描述 | 内容-->
-        <div class="typo m-padded-tb-small" v-html="isDetail ? blogItem.content : blogItem.description"></div>
+        <div class="typo m-padded-tb-small line-numbers" v-html="isDetail ? blogItem.content : blogItem.description">
+        </div>
         <!--阅读全文按钮-->
         <div class="row">
           <button class="ui inverted secondary button m-center" @click="onReadBlog(blogItem.id)" v-if="!isDetail">

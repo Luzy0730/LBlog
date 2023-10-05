@@ -112,13 +112,14 @@ defineExpose({
       <el-form-item label="文章内容" prop="content">
         <div class="cursor-pointer max-w-full" @click="onEditContent('content')">
           <el-button type="primary" v-if="!ruleForm.content">新建</el-button>
-          <el-card v-else class="typo p-2 overflow-y-auto max-h-[600px] max-w-full" v-html="ruleForm.content"></el-card>
+          <el-card v-else class="typo p-2 overflow-y-auto max-h-[600px] max-w-full line-numbers"
+            v-html="ruleForm.content"></el-card>
         </div>
       </el-form-item>
       <el-form-item label="文章描述" prop="description">
         <div class="cursor-pointer max-w-full" @click="onEditContent('description')">
           <el-button type="primary" v-if="!ruleForm.description">新建</el-button>
-          <el-card v-else class="typo p-2 overflow-y-auto max-h-[300px] max-w-full"
+          <el-card v-else class="typo p-2 overflow-y-auto max-h-[300px] max-w-full line-numbers"
             v-html="ruleForm.description"></el-card>
         </div>
       </el-form-item>
