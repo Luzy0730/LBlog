@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import { useRouter } from 'vue-router';
+import { useBlogStore } from '@/stores/index'
 const props = defineProps<{
   blogItem?: BlogItem;
   isDetail?: Boolean
@@ -17,10 +18,15 @@ const onReadBlog = (id: number) => {
   router.push(`/blog/${id}`)
 }
 
+const docRef = ref()
+const blogStore = useBlogStore()
 watch(() => blogItem.value, newVal => {
   if (newVal) {
     nextTick(() => {
+      // 代码块高亮
       instance?.proxy?.$prism.highlightAll();
+      // 生成目录树
+      blogStore.init_tocList(docRef.value)
     })
   }
 }, {
@@ -59,7 +65,8 @@ watch(() => blogItem.value, newVal => {
           }}</span>
         </router-link>
         <!--文章Markdown 描述 | 内容-->
-        <div class="typo m-padded-tb-small line-numbers" v-html="isDetail ? blogItem.content : blogItem.description">
+        <div class="typo m-padded-tb-small line-numbers" ref="docRef"
+          v-html="isDetail ? blogItem.content : blogItem.description">
         </div>
         <!--阅读全文按钮-->
         <div class="row">
