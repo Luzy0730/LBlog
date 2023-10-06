@@ -1,4 +1,7 @@
 /* blog */
+.m-hover-dark:hover {
+  filter: brightness(0.95);
+}
 .m-datetime {
   color: #00a7e0 !important;
 }

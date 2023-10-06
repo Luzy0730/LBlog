@@ -16,6 +16,7 @@ module.exports = {
 async function queryArticlesMain(options) {
   let selectSql = "SELECT a.`id`, a.`is_enable`, a.`tag_ids` as `tags`, `title`, `views`,`words`,c.`id` AS `categoryId`,c.`name` AS `categoryName`,c.`color` AS `categoryColor`,c.`icon` AS `categoryIcon`, a.`create_time` AS `createTime`, a.`update_time` AS `updateTime` "
   let whereSql = "FROM `article` AS a LEFT JOIN category AS c ON a.category_id = c.id AND c.is_delete=0"
+  let orderSql = " ORDER BY a.`create_time` DESC "
   let paginationSql = ''
   const { pagination = false, connection, where = {}, select = {} } = options
   const _connection = connection ? connection : await mysqlPool.connect();
@@ -57,7 +58,7 @@ async function queryArticlesMain(options) {
   }
   // 查询
   const articles = await mysqlPool.query({
-    sql: selectSql + whereSql + paginationSql,
+    sql: selectSql + whereSql + orderSql + paginationSql,
     connection: _connection,
   });
   // 总数

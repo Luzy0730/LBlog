@@ -12,6 +12,13 @@ const instance = getCurrentInstance();
 const timeFormat = computed(
   () => (time: string) => instance?.proxy?.$dayjs(time).format("YYYY-MM-DD")
 );
+const colorStyle = computed(() => (color: string) => {
+  return {
+    "background-color": color,
+    "border-color": color,
+    "color": "#ffffff"
+  }
+})
 
 const router = useRouter()
 const onReadBlog = (id: number) => {
@@ -59,8 +66,8 @@ watch(() => blogItem.value, newVal => {
           </div>
         </div>
         <!--分类-->
-        <router-link :to="`/category/${blogItem.category.name}`" :class="blogItem.category.color"
-          class="ui large ribbon label">
+        <router-link :to="`/category/${blogItem.category.name}`" :style="colorStyle(blogItem.category.color)"
+          class="ui large ribbon label m-hover-dark">
           <icon :name="blogItem.category.icon" /><span class="m-text-500 m-margin-lr">{{ blogItem.category.name
           }}</span>
         </router-link>
@@ -79,8 +86,8 @@ watch(() => blogItem.value, newVal => {
         <!--标签-->
         <div class="row m-padded-tb-no">
           <div class="column m-padding-left-no">
-            <router-link :to="`/tag/${tag.name}`" class="ui tag label m-text-500 m-margin-small" :class="tag.color"
-              v-for="tag in blogItem.tags" :key="tag.id">{{ tag.name }}</router-link>
+            <router-link :to="`/tag/${tag.name}`" class="ui tag label m-text-500 m-margin-small m-hover-dark"
+              :style="colorStyle(tag.color)" v-for="tag in blogItem.tags" :key="tag.id">{{ tag.name }}</router-link>
           </div>
         </div>
       </div>
