@@ -10,10 +10,11 @@ export function useFormDialog<T extends object>(option: {
   const useFormResult = useForm({ formData, formRule })
   const useDialogResult = useDialog<T>({
     closed: () => useFormResult.ruleFormRef.value.resetFields(),
-    updated: (data: T) => nextTick(() => {
+    afterUpdated: (data: T) => {
       Object.assign((useFormResult.ruleForm as any), data)
-    }),
-    afterCreated, afterUpdated
+      afterUpdated && afterUpdated(data)
+    },
+    afterCreated
   })
   return { ...useFormResult, ...useDialogResult }
 }
@@ -29,10 +30,10 @@ type useDialogResult<T> = {
   update: (data: T, title?: string) => void;
 }
 export function useDialog<T = object>(option: {
-  created?: Function, updated?: Function, closed?: Function,
+  beforeCreated?: Function, beforeUpdated?: Function, closed?: Function,
   afterCreated?: Function, afterUpdated?: Function
 }): useDialogResult<T> {
-  const { created, updated, closed, afterCreated, afterUpdated } = option
+  const { beforeCreated, beforeUpdated, closed, afterCreated, afterUpdated } = option
   const dialogVisible = ref(false);
   const title = ref("新增");
   const isEdit = ref(false)
@@ -50,7 +51,7 @@ export function useDialog<T = object>(option: {
   const create = (_title: string = "新增") => {
     title.value = _title;
     isEdit.value = false
-    created && created()
+    beforeCreated && beforeCreated()
     open();
     nextTick(() => {
       afterCreated && afterCreated()
@@ -60,10 +61,10 @@ export function useDialog<T = object>(option: {
   const update = (data: T, _title: string = "编辑") => {
     title.value = _title;
     isEdit.value = true
+    beforeUpdated && beforeUpdated(data)
     open();
-    updated && updated(data)
     nextTick(() => {
-      afterUpdated && afterUpdated()
+      afterUpdated && afterUpdated(data)
     })
   }
   return { dialogVisible, title, isEdit, open, close, create, update }
