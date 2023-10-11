@@ -20,8 +20,8 @@ const params = ref<IQueryArticlesParams>({
   categoryName: undefined,
 })
 
-const onQueryArticles = () => {
-  queryArticles({
+const onQueryArticles = async () => {
+  return queryArticles({
     ...params.value,
     pageNum: pagination.value.pageNum,
     pageSize: pagination.value.pageSize,
@@ -33,7 +33,12 @@ const onQueryArticles = () => {
 
 const onCurrentChange = (pageNum: number) => {
   pagination.value.pageNum = pageNum
-  onQueryArticles()
+  onQueryArticles().then(() => {
+    window.scrollTo({
+      top: route.name === 'home' ? window.innerHeight : 0,
+      behavior: 'smooth',
+    });
+  })
 }
 
 watch(() => route.params, newVal => {
