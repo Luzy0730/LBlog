@@ -25,7 +25,7 @@ const handleNavLinkTo = (event: Event, item: TocItem) => {
 
 </script>
 <template>
-  <div class="ui segments m-box" v-if="isShowBlogMenu">
+  <div class="ui segments m-box m-overflow-y-auto" v-if="isShowBlogMenu" style="maxHeight: 400px;">
     <div class="ui secondary segment">
       <icon name="menu-2-fill" /><span class="m-text-500 m-margin-lr">文章目录</span>
     </div>
