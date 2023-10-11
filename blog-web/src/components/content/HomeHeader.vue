@@ -58,7 +58,7 @@ const scrollToMain = () => {
 </script>
 
 <template>
-  <header ref="headerRef" v-show="banner.list.length">
+  <header ref="headerRef">
     <div class="view">
       <div v-for="(b, index) in banner.list" :class="`bg${index + 1}`" :style="{ backgroundImage: 'url(' + b.url + ')' }">
       </div>
