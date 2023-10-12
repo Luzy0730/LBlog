@@ -3,10 +3,10 @@ const { queryArticlesMain } = require('../main/article')
 
 module.exports = {
   queryArticles: async (req, res) => {
-    const { pageNum = 1, pageSize = 10, tagId, tagName, categoryName } = req.query
+    const { pageNum = 1, pageSize = 10, tagId, tagName, categoryName, keyword } = req.query
     const connection = await mysqlPool.connect();
     const param = { pagination: { pageNum, pageSize }, connection }
-    if (tagId || tagName || categoryName) {
+    if (tagId || tagName || categoryName || keyword) {
       param.where = {}
     }
     if (tagId) {
@@ -27,6 +27,9 @@ module.exports = {
         connection
       }))[0]?.['id'] || -1
       param.where.categoryId = categoryId
+    }
+    if (keyword) {
+      param.where.keyword = keyword
     }
     queryArticlesMain(param).then(data => {
       mysqlPool.release(connection);

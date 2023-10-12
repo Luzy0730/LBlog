@@ -16,13 +16,14 @@ module.exports = {
 async function queryArticlesMain(options) {
   let selectSql = "SELECT a.`id`, a.`is_enable`, a.`tag_ids` as `tags`, `title`, `views`,`words`,c.`id` AS `categoryId`,c.`name` AS `categoryName`,c.`color` AS `categoryColor`,c.`icon` AS `categoryIcon`, a.`create_time` AS `createTime`, a.`update_time` AS `updateTime` "
   let whereSql = "FROM `article` AS a LEFT JOIN category AS c ON a.category_id = c.id AND c.is_delete=0"
-  let orderSql = " ORDER BY a.`create_time` DESC "
+  let haveSql = ""
+  let orderSql = ""
   let paginationSql = ''
   const { pagination = false, connection, where = {}, select = {} } = options
   const _connection = connection ? connection : await mysqlPool.connect();
-  const _where = { isEnable: 1, isDelete: 0, id: null, tagId: null }
+  const _where = { isEnable: 1, isDelete: 0, id: null, tagId: null, keyword: null }
   Object.assign(_where, where)
-  const { isEnable = 1, isDelete = 0, id = null, tagId = null, categoryId } = _where
+  const { isEnable = 1, isDelete = 0, id = null, tagId = null, categoryId, keyword } = _where
   const _select = { description: true, content: false }
   Object.assign(_select, select)
   const { description = true, content = false } = _select
@@ -51,6 +52,14 @@ async function queryArticlesMain(options) {
   if (categoryId) {
     whereSql += ` AND a.category_id = ${categoryId}`
   }
+  // 关键字查询
+  if (keyword) {
+    selectSql += `, (100 * (LENGTH(title) - LENGTH(REPLACE(title, '${keyword}', ''))) / LENGTH('${keyword}') +50 * (LENGTH(description) - LENGTH(REPLACE(description, '${keyword}', ''))) / LENGTH('${keyword}') + 5 * (LENGTH(content) - LENGTH(REPLACE(content, '${keyword}', ''))) / LENGTH('${keyword}')) AS total_score `
+    whereSql += ` AND (title LIKE '%${keyword}%' OR description LIKE '%${keyword}%' OR content LIKE '%${keyword}%')`
+    haveSql += " HAVING total_score > 50"
+    orderSql += " ORDER BY total_score DESC "
+  }
+  orderSql += orderSql ? ",a.`create_time` DESC " : " ORDER BY a.`create_time` DESC "
   // 分页
   if (pagination) {
     const { pageNum = 1, pageSize = 10 } = pagination
@@ -58,7 +67,7 @@ async function queryArticlesMain(options) {
   }
   // 查询
   const articles = await mysqlPool.query({
-    sql: selectSql + whereSql + orderSql + paginationSql,
+    sql: selectSql + whereSql + haveSql + orderSql + paginationSql,
     connection: _connection,
   });
   // 总数
