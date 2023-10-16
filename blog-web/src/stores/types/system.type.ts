@@ -4,6 +4,7 @@ export interface ClientSize {
 }
 
 export interface SiteInfo {
+  ico: string;
   blogName: string;
   copyright: {
     title: string;

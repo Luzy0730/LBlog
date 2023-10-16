@@ -6,6 +6,7 @@ const state: State = () => {
   return {
     // 站点信息
     siteInfo: {
+      ico: "",
       blogName: "",
       copyright: {
         title: "",
@@ -36,6 +37,11 @@ export const useSystemStore = defineStore("system", {
       const { data } = await queryConfigSiteInfo()
       const siteInfo = data ? JSON.parse(data.site_info) : {}
       Object.assign(this.siteInfo, siteInfo)
+      // 动态生成ico
+      const link = document.createElement('link');
+      link.rel = 'icon';
+      link.href = this.siteInfo.ico;
+      document.head.appendChild(link);
     }
   },
 });
