@@ -4,11 +4,15 @@ import BlogList from "@/components/content/blog/BlogList.vue";
 import { useRoute, useRouter } from 'vue-router'
 import useTitle from '@/hooks/useTitle'
 
+const props = defineProps<{
+  keyword?: string;
+}>();
+
 const blogList = ref<Array<BlogItem>>([]);
 
 const route = useRoute()
 const router = useRouter()
-const typeList: string[] = ['tag', 'category']
+const typeList: string[] = ['tag', 'category', 'search']
 
 const pagination = ref<IPagination>({
   pageNum: 1,
@@ -16,6 +20,7 @@ const pagination = ref<IPagination>({
   total: 0
 })
 const params = ref<IQueryArticlesParams>({
+  keyword: undefined,
   tagName: undefined,
   categoryName: undefined,
 })
@@ -46,6 +51,7 @@ watch(() => route.params, newVal => {
   pagination.value.pageNum = 1
   pagination.value.total = 0
   params.value = {
+    keyword: undefined,
     tagName: undefined,
     categoryName: undefined,
   }
@@ -60,15 +66,25 @@ watch(() => route.params, newVal => {
     if (!typeList.includes(type as string)) {
       router.replace('/404')
     } else {
-      if (type === 'tag') {
-        params.value.tagName = (name as string)
-        useTitle("标签")
-      }
-      if (type === 'category') {
-        params.value.categoryName = (name as string)
-        useTitle("分类")
-      }
-      onQueryArticles()
+      nextTick(() => {
+        switch (type) {
+          case 'search':
+            params.value.keyword = props.keyword
+            useTitle("搜索")
+            break;
+          case 'tag':
+            params.value.tagName = (name as string)
+            useTitle("标签")
+            break;
+          case 'category':
+            params.value.categoryName = (name as string)
+            useTitle("分类")
+            break;
+          default:
+            break;
+        }
+        onQueryArticles()
+      })
     }
   }
 }, {

@@ -1,7 +1,7 @@
 import request from "../request";
 
 export interface IQueryArticlesParams {
-  pageNum?: number; pageSize?: number; tagId?: number; tagName?: string; categoryName?: string
+  pageNum?: number; pageSize?: number; tagId?: number; keyword?: string; tagName?: string; categoryName?: string
 }
 export function queryArticles(params: IQueryArticlesParams) {
   return request.get<{ list: BlogItem[]; total: number }>("/article", { params });

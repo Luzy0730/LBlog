@@ -41,8 +41,9 @@ const router = createRouter({
           meta: { title: "未找到页面" }
         },
         {
-          path: '/:type/:name',
+          path: '/:type/:name?',
           name: 'type',
+          props: (route) => ({ keyword: route.query.keyword }),
           component: () => import('@/views/home/Home.vue'),
         },
         {

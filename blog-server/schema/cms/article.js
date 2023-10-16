@@ -8,8 +8,8 @@ const tagIds = Joi.string().allow('')
 const words = Joi.number().required()
 const title = Joi.string().required()
 const is_enable = Joi.number().required().valid(0, 1)
-const pageNum = Joi.number().required()
-const pageSize = Joi.number().required()
+const pageNum = Joi.number()
+const pageSize = Joi.number()
 
 module.exports = {
   queryArticles: (req, res, next) => {

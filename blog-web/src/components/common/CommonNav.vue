@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { useSystemStore } from "@/stores";
-import { useRoute } from "vue-router";
+import { useRoute, useRouter } from "vue-router";
 import { storeToRefs } from "pinia";
 
 const { blogName } = defineProps<{
@@ -42,42 +42,37 @@ onMounted(() => {
     }
   });
 });
+
+const router = useRouter()
+const onSearch = (e: KeyboardEvent) => {
+  const value = (e.target as HTMLInputElement).value
+  router.push({ path: '/search', query: { keyword: value } })
+}
 </script>
 
 <template>
-  <div
-    ref="navRef"
-    class="ui fixed inverted menu stackable"
-    :class="{
-      'm-transparent': $route.name === 'home' && clientSize.clientWidth > 768,
-    }"
-  >
+  <div ref="navRef" class="ui fixed inverted menu stackable" :class="{
+    'm-transparent': $route.name === 'home' && clientSize.clientWidth > 768,
+  }">
     <div class="ui container">
       <router-link to="/">
         <h3 class="ui header item m-blue">{{ blogName }}</h3>
       </router-link>
-      <router-link
-        to="/home"
-        class="item"
-        :class="{ 'm-mobile-hide': mobileHide, active: $route.name === 'home' }"
-      >
+      <router-link to="/home" class="item" :class="{ 'm-mobile-hide': mobileHide, active: $route.name === 'home' }">
         <i class="home icon"></i>首页
       </router-link>
-      <router-link
-        to="/about"
-        class="item"
-        :class="{
-          'm-mobile-hide': mobileHide,
-          active: $route.name === 'about',
-        }"
-      >
+      <router-link to="/about" class="item" :class="{
+        'm-mobile-hide': mobileHide,
+        active: $route.name === 'about',
+      }">
         <i class="info icon"></i>关于我
       </router-link>
-      <button
-        class="ui black button icon m-mobile-show menu m-hide m-ab-tr"
-        @click="systemStore.save_mobileHide(!mobileHide)"
-        style="transform: translateY(5px)"
-      >
+      <div class="ui inverted transparent icon input right item">
+        <input type="text" placeholder="Search..." @keydown.enter="onSearch">
+        <i class="search icon"></i>
+      </div>
+      <button class="ui black button icon m-mobile-show menu m-hide m-ab-tr"
+        @click="systemStore.save_mobileHide(!mobileHide)" style="transform: translateY(5px)">
         <i class="icon sidebar"></i>
       </button>
     </div>

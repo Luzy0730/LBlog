@@ -19,7 +19,7 @@ async function queryArticlesMain(options) {
   let haveSql = ""
   let orderSql = ""
   let paginationSql = ''
-  const { pagination = false, connection, where = {}, select = {} } = options
+  const { pagination = { pageNum: 1, pageSize: 10 }, connection, where = {}, select = {} } = options
   const _connection = connection ? connection : await mysqlPool.connect();
   const _where = { isEnable: 1, isDelete: 0, id: null, tagId: null, keyword: null }
   Object.assign(_where, where)
