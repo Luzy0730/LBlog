@@ -1,1 +1,1 @@
-*.css linguist-language=Vue
+blog-web/**/*.css linguist-language=Vue
