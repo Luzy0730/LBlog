@@ -54,8 +54,8 @@ async function queryArticlesMain(options) {
   }
   // 关键字查询
   if (keyword) {
-    selectSql += `, (100 * (LENGTH(title) - LENGTH(REPLACE(title, '${keyword}', ''))) / LENGTH('${keyword}') +50 * (LENGTH(description) - LENGTH(REPLACE(description, '${keyword}', ''))) / LENGTH('${keyword}') + 5 * (LENGTH(content) - LENGTH(REPLACE(content, '${keyword}', ''))) / LENGTH('${keyword}')) AS total_score `
-    whereSql += ` AND (title LIKE '%${keyword}%' OR description LIKE '%${keyword}%' OR content LIKE '%${keyword}%')`
+    selectSql += `, (100 * (LENGTH(title) - LENGTH(REPLACE(LOWER(title), LOWER('${keyword}'), ''))) / LENGTH('${keyword}') +50 * (LENGTH(description) - LENGTH(REPLACE(LOWER(description), LOWER('${keyword}'), ''))) / LENGTH('${keyword}') + 5 * (LENGTH(content) - LENGTH(REPLACE(LOWER(content), LOWER('${keyword}'), ''))) / LENGTH('${keyword}')) AS total_score `
+    whereSql += ` AND (LOWER(title) LIKE CONCAT('%', LOWER('${keyword}'), '%') OR description LIKE CONCAT('%', LOWER('${keyword}'), '%') OR content LIKE CONCAT('%', LOWER('${keyword}'), '%'))`
     haveSql += " HAVING total_score > 50"
     orderSql += " ORDER BY total_score DESC "
   }
