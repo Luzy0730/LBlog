@@ -18,7 +18,7 @@ const props = withDefaults(defineProps<{
   searchList: Array<SearchItem>,
   searchForm?: { [key: string]: any },
 }>(), {
-  searchList: () => [],
+  searchList: () => [] as SearchItem[],
 })
 
 const innerForm = computed({
