@@ -34,14 +34,13 @@ module.exports = {
   },
   queryArticleDetail: (req, res) => {
     const { id } = req.query;
-    mysqlPool
-      .query({
-        sql: "SELECT `id`,`description`,`content` FROM article WHERE `id` = ? ",
-        params: [id],
-      })
-      .then((data) => {
-        res.customSend(...data);
-      });
+    queryArticlesMain({
+      pagination: false,
+      where: { id },
+      select: { description: true, content: true },
+    }).then(({ articles }) => {
+      res.customSend(...articles);
+    })
   },
   updateArticle: (req, res) => {
     const { id, title, description, content, categoryId, tagIds, words } = req.body;

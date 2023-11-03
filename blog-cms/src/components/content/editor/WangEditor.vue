@@ -5,7 +5,11 @@ import { type IEditorConfig } from '@wangeditor/editor'
 import { type ShallowRef } from "vue";
 import { uploadOSS } from '@/api/services/oss'
 
-const instance = getCurrentInstance()
+const props = withDefaults(defineProps<{
+  height: number,
+  placeholder: string
+}>(), { height: 500, placeholder: '请输入内容...' })
+
 const editorRef = shallowRef();
 const toolbarConfig = {};
 const valueHtml = ref("");
@@ -24,7 +28,7 @@ const editorConfig: Partial<IEditorConfig> = {
       }
     },
   },
-  placeholder: "请输入内容..."
+  placeholder: props.placeholder
 }
 
 const handleCreated = (editor: ShallowRef<any>) => {
@@ -33,9 +37,6 @@ const handleCreated = (editor: ShallowRef<any>) => {
 
 watch(() => valueHtml.value, function (val) {
   valueHtmlPreview.value = val
-  nextTick(() => {
-    instance?.proxy?.$prism.highlightAll()
-  })
 })
 
 const getContent = () => {
@@ -59,20 +60,12 @@ defineExpose({
 
 </script>
 <template>
-  <el-row :gutter="20">
-    <el-col :span="12">
-      <el-card>
-        <Toolbar class="border-b-[1px] border-solid border-gray-400" :editor="editorRef" :defaultConfig="toolbarConfig"
-          mode="default" />
-        <Editor class="typo overflow-y-hidden h-[500px]" v-model="valueHtml" :defaultConfig="editorConfig" mode="default"
-          @onCreated="handleCreated" />
-      </el-card>
-    </el-col>
-    <el-col :span="12">
-      <el-card class="overflow-y-auto">
-        <div class="typo h-[500px] line-numbers" v-html="valueHtmlPreview"></div>
-      </el-card></el-col>
-  </el-row>
+  <el-scrollbar :height="height">
+    <Toolbar class="border-b-[1px] border-solid border-gray-400" :editor="editorRef" :defaultConfig="toolbarConfig"
+      mode="default" />
+    <Editor class="typo overflow-y-hidden " v-model="valueHtml" :defaultConfig="editorConfig" mode="default"
+      @onCreated="handleCreated" />
+  </el-scrollbar>
 </template>
 
 <style scoped>

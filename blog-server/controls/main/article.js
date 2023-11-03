@@ -24,9 +24,9 @@ async function queryArticlesMain(options) {
   const _where = { isEnable: 1, isDelete: 0, id: null, tagId: null, keyword: null }
   Object.assign(_where, where)
   const { isEnable = 1, isDelete = 0, id = null, tagId = null, categoryId, keyword } = _where
-  const _select = { description: true, content: false }
+  const _select = { description: false, content: false }
   Object.assign(_select, select)
-  const { description = true, content = false } = _select
+  const { description, content } = _select
   // SELECT 条件
   if (description) {
     selectSql += ", a.`description`"

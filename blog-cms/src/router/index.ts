@@ -108,6 +108,15 @@ const router = createRouter({
           },
         },
         {
+          path: "/platform/:id?",
+          name: "platform",
+          component: () => import("@/views/platform/index.vue"),
+          meta: {
+            title: "创作中心",
+            notMenu: true,
+          },
+        },
+        {
           path: "/test",
           name: "test",
           component: () => import("@/views/test/index.vue"),
@@ -131,6 +140,15 @@ const router = createRouter({
           component: () => import("@/views/login/index.vue"),
           meta: {
             title: "登录",
+            notMenu: true,
+          },
+        },
+        {
+          path: "/platform/preview/:id?",
+          name: "platform-preview",
+          component: () => import("@/views/platform/preview/index.vue"),
+          meta: {
+            title: "文章预览",
             notMenu: true,
           },
         },

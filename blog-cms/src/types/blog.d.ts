@@ -15,7 +15,8 @@ declare interface ICategory {
 declare interface IArticle {
   id: number;
   title: string;
-  description: string;
+  description?: string;
+  content?: string;
   words: number;
   views: number;
   is_enable: number;

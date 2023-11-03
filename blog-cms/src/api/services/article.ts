@@ -9,7 +9,7 @@ export function createArticle(data: IUpdateArticleData) {
 }
 
 export function queryArticleDetail(params: { id: number }) {
-  return request.get("/article/detail", { params });
+  return request.get<IArticle>("/article/detail", { params });
 }
 
 export function enableArticle(data: Pick<IArticle, "id" | "is_enable">) {
@@ -23,8 +23,8 @@ export function deleteArticle(data: { id: number }) {
 export interface IUpdateArticleData {
   id: number;
   title: string;
-  description: string;
-  content: string;
+  description?: string;
+  content?: string;
   categoryId?: number;
   tagIds: string | number[];
   words: number;

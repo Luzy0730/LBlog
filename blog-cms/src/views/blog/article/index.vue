@@ -1,8 +1,8 @@
 <script setup lang="ts">
+import { useRouter } from 'vue-router'
 import TableLimit from '@/components/content/element/TableLimit.vue'
-import ArticleDialog from "@/components/content/article/ArticleDialog.vue";
 import { queryArticle, enableArticle, deleteArticle } from "@/api/services/article";
-
+const router = useRouter()
 const tableData = ref<IArticle[]>([]);
 const tableField = [
   { label: 'id', prop: 'id', args: { width: '100', align: 'center' } },
@@ -56,21 +56,6 @@ async function onEnableArticle(article: IArticle) {
   }
 };
 
-const articleDialogRef = ref();
-// 修改文章
-function onUpdateArticle(article: IArticle) {
-  articleDialogRef.value.update({
-    ...article,
-    tagIds: article.tags.map((tag) => tag.id),
-    categoryId: article.category.id,
-  });
-};
-
-// 新增文章
-function onCreateArticle() {
-  articleDialogRef.value.create();
-};
-
 // 删除文章
 async function onDeleteArticle(article: IArticle) {
   const { id } = article;
@@ -90,6 +75,12 @@ async function onDeleteArticle(article: IArticle) {
   }
 }
 
+// 预览文章
+const previewArticle = (id: number) => {
+  const { href } = router.resolve(`/platform/preview/${id}`, router.currentRoute.value);
+  window.open(href, '_blank');
+}
+
 </script>
 <template>
   <TableLimit :tableField="tableField" :tableData="tableData" v-model:pagination="pagination"
@@ -98,7 +89,6 @@ async function onDeleteArticle(article: IArticle) {
       <el-row justify="space-between">
         <el-col :span="8"></el-col>
         <el-col :span="8">
-          <el-button type="primary" class="float-right" @click="onCreateArticle">新增</el-button>
           <el-button type="primary" class="float-right mr-3" @click="onQueryArticle">刷新</el-button>
         </el-col>
       </el-row>
@@ -132,7 +122,9 @@ async function onDeleteArticle(article: IArticle) {
       </div>
     </template>
     <template #action="{ row }">
-      <el-button type="primary" link @click="onUpdateArticle(row)">修改</el-button>
+      <el-button type="primary" link @click="previewArticle(row.id)">预览</el-button>
+      <el-button type="primary" link
+        @click="() => router.push({ name: 'platform', params: { id: row.id } })">修改</el-button>
       <el-button type="primary" link @click="onEnableArticle(row)">{{ row.is_enable === 1 ? "下架" : "发布" }}</el-button>
       <el-popconfirm title="确定删除吗?" @confirm="onDeleteArticle(row)">
         <template #reference>
@@ -141,5 +133,4 @@ async function onDeleteArticle(article: IArticle) {
       </el-popconfirm>
     </template>
   </TableLimit>
-  <ArticleDialog ref="articleDialogRef" @confirm="onQueryArticle" />
 </template>

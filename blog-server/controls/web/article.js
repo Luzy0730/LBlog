@@ -5,7 +5,7 @@ module.exports = {
   queryArticles: async (req, res) => {
     const { pageNum = 1, pageSize = 10, tagId, tagName, categoryName, keyword } = req.query
     const connection = await mysqlPool.connect();
-    const param = { pagination: { pageNum, pageSize }, connection }
+    const param = { pagination: { pageNum, pageSize }, connection, select: { description: true } }
     if (tagId || tagName || categoryName || keyword) {
       param.where = {}
     }
@@ -38,13 +38,11 @@ module.exports = {
   },
   queryArticleDetail: async (req, res) => {
     const { id } = req.query;
-    const connection = await mysqlPool.connect();
     queryArticlesMain({
+      pagination: false,
       where: { id },
-      select: { description: false, content: true },
-      connection
+      select: { content: true },
     }).then(({ articles }) => {
-      mysqlPool.release(connection);
       res.customSend(...articles)
     })
   },
