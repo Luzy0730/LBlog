@@ -116,15 +116,6 @@ const router = createRouter({
             notMenu: true,
           },
         },
-        {
-          path: "/test",
-          name: "test",
-          component: () => import("@/views/test/index.vue"),
-          meta: {
-            title: "测试页",
-            icon: "HomeFilled",
-          },
-        },
       ],
     },
     {
