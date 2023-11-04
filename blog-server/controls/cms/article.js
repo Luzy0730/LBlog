@@ -36,7 +36,7 @@ module.exports = {
     const { id } = req.query;
     queryArticlesMain({
       pagination: false,
-      where: { id },
+      where: { id, isEnable: [0, 1], isDelete: [0, 1] },
       select: { description: true, content: true },
     }).then(({ articles }) => {
       res.customSend(...articles);
