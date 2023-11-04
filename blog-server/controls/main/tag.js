@@ -5,7 +5,7 @@ module.exports = {
 
 async function queryTagsMain(options = {}) {
   const { pagination, connection, where = {}, simple = true } = options
-  let selectSql = "SELECT id,name"
+  let selectSql = "SELECT id,name,color"
   let whereSql = " FROM `tag`"
   let paginationSql = ''
   const _where = {}

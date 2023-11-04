@@ -5,7 +5,7 @@ module.exports = {
 
 async function queryCategoriesMain(options = {}) {
   const { pagination, connection, where = {}, simple = true } = options
-  let selectSql = "SELECT id,name"
+  let selectSql = "SELECT id,name,color"
   let whereSql = " FROM `category`"
   let paginationSql = ''
   const _where = {}

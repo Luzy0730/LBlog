@@ -4,7 +4,9 @@ import { queryCategoriesSimple } from "@/api/services/category";
 import { queryTagsSimple } from "@/api/services/tag";
 import { queryArticleDetail, createArticle, updateArticle, type IUpdateArticleData } from "@/api/services/article";
 import WangEditor from "@/components/content/editor/WangEditor.vue";
+import { usePlatformStore } from "@/stores/index";
 
+const platformStore = usePlatformStore()
 const route = useRoute()
 const router = useRouter()
 const instance = getCurrentInstance();
@@ -60,12 +62,17 @@ watch(() => route, val => {
   immediate: true
 })
 
-const submit = async () => {
+// 更新文章信息表单
+const updateArticleInfo = () => {
   const contentRet = contentRef.value.getContent()
   const descriptionRet = descriptionRef.value.getContent()
   articleInfo.value.content = contentRet.html
   articleInfo.value.words = contentRet.length
   articleInfo.value.description = descriptionRet.html
+}
+
+const submit = async () => {
+  updateArticleInfo()
   const api = articleInfo.value.id === -1 ? createArticle : updateArticle
   try {
     await api({
@@ -86,8 +93,15 @@ const submit = async () => {
 }
 
 // 预览文章
-const previewArticle = (id: number) => {
-  const { href } = router.resolve(`/platform/preview/${id}`, router.currentRoute.value);
+const previewArticle = () => {
+  updateArticleInfo()
+  platformStore.save_article({
+    ...articleInfo.value,
+    views: 0,
+    tags: (articleInfo.value.tagIds as number[]).map(tagId => tagOptions.value.find(tag => tag.id === tagId)) as IArticle['tags'],
+    category: categoryOptions.value.find(category => category.id === articleInfo.value.categoryId) as IArticle['category']
+  })
+  const { href } = router.resolve(`/platform/preview`, router.currentRoute.value);
   window.open(href, '_blank');
 }
 </script>

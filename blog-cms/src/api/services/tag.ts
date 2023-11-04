@@ -5,7 +5,7 @@ export function queryTags(pagination: IPagination) {
 }
 
 export function queryTagsSimple() {
-  return request.get<Pick<ITag, "id" | "name">[]>("/tag/simple");
+  return request.get<Pick<ITag, "id" | "name" | "color">[]>("/tag/simple");
 }
 
 export function updateTag(data: Pick<ITag, "id" | "name" | "color">) {

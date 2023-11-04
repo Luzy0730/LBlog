@@ -5,7 +5,7 @@ export function queryCategories(pagination: IPagination) {
 }
 
 export function queryCategoriesSimple() {
-  return request.get<Pick<ICategory, "id" | "name">[]>("/category/simple");
+  return request.get<Pick<ICategory, "id" | "name" | "color">[]>("/category/simple");
 }
 
 export function updateCategory(
