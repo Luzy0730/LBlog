@@ -1,7 +1,7 @@
 import axios, { type AxiosRequestConfig } from "axios";
 
 const instance = axios.create({
-  baseURL: "http://127.0.0.1:10200/api/v1",
+  baseURL: "http://127.0.0.1:20080/api/v1",
   timeout: 60000,
   headers: {
     "Content-Type": "application/x-www-form-urlencoded; charset=UTF-8"

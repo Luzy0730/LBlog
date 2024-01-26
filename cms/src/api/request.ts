@@ -3,8 +3,7 @@ import { useUserStore } from '@/stores/index'
 import { ElNotification } from "element-plus";
 
 const instance = axios.create({
-  baseURL: "http://127.0.0.1:10200/cms/v1",
-  // baseURL: "http://api.blog-cms.guaiguaizhanhao.cn",
+  baseURL: "http://127.0.0.1:20080/cms/v1",
   timeout: 60000,
   headers: {
     "Content-Type": "application/x-www-form-urlencoded; charset=UTF-8"
@@ -75,7 +74,7 @@ type ResponseData<T> = { code: number, message: string, data: T }
 
 const request = {
   frontGet<T>(url: string, config?: AxiosRequestConfig): Promise<ResponseData<T>> {
-    return instance.get(url, { ...config, baseURL: 'http://localhost:10200/api/v1' }) as Promise<ResponseData<T>>
+    return instance.get(url, { ...config, baseURL: 'http://api.blog.guaiguaizhanhao.cn/api/v1' }) as Promise<ResponseData<T>>
   },
   get<T>(url: string, config?: AxiosRequestConfig): Promise<ResponseData<T>> {
     return instance.get(url, config) as Promise<ResponseData<T>>

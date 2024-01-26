@@ -13,7 +13,6 @@ const onCurrentChange = (pageNum: number) => {
 </script>
 <template>
   <div class="ui bottom" style="display: flex;justify-content: center;">
-    <el-pagination background layout="prev, pager, next" :current-page="pagination.pageNum"
-      :page-size="pagination.pageSize" :total="pagination.total" @current-change="onCurrentChange" />
+    <el-pagination background layout="prev, pager, next" :current-page="pagination.pageSize" :page-size="pagination.pageSize" :total="pagination.total" @current-change="onCurrentChange" />
   </div>
 </template>

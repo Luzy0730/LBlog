@@ -1,7 +1,7 @@
 const { DataTypes } = require('sequelize');
 const seq = require('../db/db_sequ');
 const Custom = seq.define(
-  'Custom',
+  'custom',
   {
     aboutAudio: {
       field: 'about_audio',

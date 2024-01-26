@@ -37,4 +37,16 @@ seq
     console.log('数据库连接失败', err);
   });
 
+
+seq.sync({ force: true }).then(() => {
+  CustomModel.create({
+    about_audio: '',
+    about_content: '',
+    banner: '',
+    site_info: '',
+    introduction: '',
+    oss: '',
+  });
+})
+
 module.exports = seq;

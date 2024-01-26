@@ -10,7 +10,7 @@ export function queryConfigBanner() {
 }
 
 export function queryConfigSiteInfo() {
-  return request.get<{ site_info: string; }>("/config/site/get");
+  return request.get<{ siteInfo: string; }>("/config/site/get");
 }
 
 export function queryConfigIntroduction() {
