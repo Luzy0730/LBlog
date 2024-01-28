@@ -1,4 +1,5 @@
 const CustomModel = require('../model/custom.model');
+const seq = require('../db/db_sequ');
 
 const cmsUser = require('./modules/cms.user.router');
 const cmsCategory = require('./modules/cms.category.router');
@@ -14,6 +15,17 @@ const cmsRoutesFns = [cmsCategory, cmsUser, cmsArticle, cmsTag, cmsCustom, cmsOS
 
 
 module.exports = function createRouter(app) {
+
+  seq.sync({ force: true }).then(() => {
+    CustomModel.create({
+      about_audio: '',
+      about_content: '',
+      banner: '',
+      site_info: '',
+      introduction: '',
+      oss: '',
+    });
+  })
 
   frontRoutesFns.forEach(({ router, prefix = '', v = '1' }) =>
     app.use(`/api/v${v}${prefix}`, router)
