@@ -54,8 +54,8 @@ const Article = seq.define(
 
 Article.belongsTo(CategoryModel, { foreignKey: 'categoryId', as: 'category' })
 
-Article.belongsToMany(TagModel, { through: 'articleTag' });
-TagModel.belongsToMany(Article, { through: 'articleTag' });
+Article.belongsToMany(TagModel, { through: 'article_tag' });
+TagModel.belongsToMany(Article, { through: 'article_tag' });
 // Article.sync({ force: true });
 
 module.exports = Article;
