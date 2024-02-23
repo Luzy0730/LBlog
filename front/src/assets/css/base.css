@@ -36,9 +36,9 @@ body::-webkit-scrollbar-track-piece {
 }
 
 footer {
-  font-family: "Varela Round", "Microsoft YaHei", "Source Sans Pro",
-    "Helvetica Neue", Menlo, Monaco, monospace, "Lucida Console", sans-serif,
-    Helvetica, "Hiragino Sans GB", "Hiragino Sans GB W3",
+  font-family: 'Varela Round', 'Microsoft YaHei', 'Source Sans Pro',
+    'Helvetica Neue', Menlo, Monaco, monospace, 'Lucida Console', sans-serif,
+    Helvetica, 'Hiragino Sans GB', 'Hiragino Sans GB W3',
     Source Han Sans CN Regular, WenQuanYi Micro Hei, Arial, sans-serif;
 }
 
@@ -70,13 +70,12 @@ footer {
 
 /* transform */
 .m-scaleup {
-  transition: .3s ease !important;
+  transition: 0.3s ease !important;
 }
 
 .m-scaleup:hover {
   transform: scale(1.1) !important;
 }
-
 
 /* box */
 .m-box {
@@ -84,16 +83,19 @@ footer {
 }
 
 .m-box:hover {
-  box-shadow: 0 1px 2px 0px rgba(0, 0, 0, 0.2), 0 2px 4px 0px rgba(0, 0, 0, 0.2), 0 4px 8px 0px rgba(0, 0, 0, 0.2), 0 8px 16px 0px rgba(0, 0, 0, 0.2) !important;
+  box-shadow: 0 1px 2px 0px rgba(0, 0, 0, 0.2), 0 2px 4px 0px rgba(0, 0, 0, 0.2),
+    0 4px 8px 0px rgba(0, 0, 0, 0.2), 0 8px 16px 0px rgba(0, 0, 0, 0.2) !important;
 }
 
 .m-box:active {
-  box-shadow: 0 1px 2px 0px rgba(72, 219, 251, 0.3), 0 2px 4px 0px rgba(72, 219, 251, 0.3), 0 4px 8px 0px rgba(72, 219, 251, 0.3), 0 8px 16px 0px rgba(72, 219, 251, 0.3) !important;
+  box-shadow: 0 1px 2px 0px rgba(72, 219, 251, 0.3),
+    0 2px 4px 0px rgba(72, 219, 251, 0.3), 0 4px 8px 0px rgba(72, 219, 251, 0.3),
+    0 8px 16px 0px rgba(72, 219, 251, 0.3) !important;
 }
 
 @media (max-width: 768px) {
   .m-box {
-      border-radius: 0 !important;
+    border-radius: 0 !important;
   }
 }
 
@@ -185,7 +187,6 @@ footer {
   margin: auto !important;
 }
 
-
 /* display */
 .m-hide {
   display: none !important;
@@ -250,6 +251,9 @@ footer {
 @media screen and (max-width: 767px) {
   .m-mobile-hide {
     display: none !important;
+  }
+  .m-padded-tb-big {
+    padding-top: 6em !important;
   }
 
   .m-mobile-show {

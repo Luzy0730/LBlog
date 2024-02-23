@@ -74,7 +74,7 @@ type ResponseData<T> = { code: number, message: string, data: T }
 
 const request = {
   frontGet<T>(url: string, config?: AxiosRequestConfig): Promise<ResponseData<T>> {
-    return instance.get(url, { ...config, baseURL: 'http://api.blog.guaiguaizhanhao.cn/api/v1' }) as Promise<ResponseData<T>>
+    return instance.get(url, { ...config, baseURL: 'http://127.0.0.1:20080/api/v1' }) as Promise<ResponseData<T>>
   },
   get<T>(url: string, config?: AxiosRequestConfig): Promise<ResponseData<T>> {
     return instance.get(url, config) as Promise<ResponseData<T>>
